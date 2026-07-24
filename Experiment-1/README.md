@@ -26,6 +26,7 @@ To understand and implement the core building blocks of HTML — including basic
 | Exercise 9  | Inline CSS — background colors on headings | [Lab-Excercise9.html](./Lab-Excercise9.html) |
 | Exercise 10 | Inline CSS — background color, text color, text alignment | [Lab-Excercise10.html](./Lab-Excercise10.html) |
 | Exercise 11 | Inline CSS — border color styling | [Lab-Excercise11.html](./Lab-Excercise11.html) |
+| Exercise 12 | Real-world webpage — Infosys Employee Training Portal (inline styles, images, links) | [1st-Excercise.html](./1st-Excercise.html) |
 
 ---
 
@@ -45,7 +46,10 @@ Experiment-1/
 ├── Lab-Excercise8.html    ← Quotations: <blockquote> & <abbr>
 ├── Lab-Excercise9.html    ← Inline CSS — background colors
 ├── Lab-Excercise10.html   ← Inline CSS — color, bg, alignment
-└── Lab-Excercise11.html   ← Inline CSS — border color
+├── Lab-Excercise11.html   ← Inline CSS — border color
+├── 1st-Excercise.html     ← Real-world page: Infosys Employee Training Portal
+├── infosys-logo-757566918.png  ← Infosys logo image asset
+└── training-image.png     ← Training session image asset
 ```
 
 ---
