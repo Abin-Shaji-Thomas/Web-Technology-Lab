@@ -49,7 +49,9 @@ Experiment-1/
 ├── Lab-Excercise11.html   ← Inline CSS — border color
 ├── 1st-Excercise.html     ← Real-world page: Infosys Employee Training Portal
 ├── infosys-logo-757566918.png  ← Infosys logo image asset
-└── training-image.png     ← Training session image asset
+├── training-image.png     ← Training session image asset
+├── EXP1 WEBTECH URK24CS6007.docx ← E-record document (Word)
+└── Experiment-1-ERecord.pdf      ← E-record document (PDF)
 ```
 
 ---
