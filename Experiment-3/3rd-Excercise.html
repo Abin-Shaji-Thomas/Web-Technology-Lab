@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Webpage - HTML5 & CSS3</title>
+    <style>
+        /* Base Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Header */
+        header {
+            background-color: #8A2BE2; /* Purple */
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px 0 0;
+            flex-wrap: wrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-right: 3px solid #6A1CB2;
+        }
+
+        .header-title {
+            text-align: center;
+            flex-grow: 1;
+            font-size: 24px;
+            font-weight: normal;
+        }
+
+        .header-social {
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            display: flex;
+            gap: 5px;
+            margin-right: 20px;
+        }
+
+        .header-social span {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background-color: #3b5998; /* Facebook color */
+            color: white;
+            text-align: center;
+            line-height: 25px;
+            font-weight: bold;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+        .header-social span:nth-child(2) { background-color: #1da1f2; } /* Twitter */
+        .header-social span:nth-child(3) { background-color: #db4437; } /* Google+ */
+
+        /* Navigation */
+        nav {
+            background-color: #A4E2DF;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Banner Section */
+        .banner {
+            background-color: #2F9599;
+            display: flex;
+            padding: 30px;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .banner-text {
+            background: rgba(255,255,255,0.7);
+            border: 2px dashed #005f6b;
+            padding: 20px;
+            width: 45%;
+            min-width: 300px;
+            line-height: 1.6;
+        }
+
+        .banner-image {
+            width: 50%;
+            min-width: 300px;
+            text-align: center;
+            color: white;
+            font-size: 100px;
+            opacity: 0.8;
+            /* Placeholder for the silhouette */
+        }
+
+        /* Skills Section */
+        .skills {
+            display: flex;
+            justify-content: space-around;
+            padding: 30px 10px;
+            background-color: #e6e6e6;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .skill-box {
+            width: 150px;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            padding-top: 20px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .skill-box.html5 { background-color: #2c3e50; }
+        .skill-box.css3 { background-color: #0082c8; }
+        .skill-box.js { background-color: #005c97; }
+        .skill-box.php { background-color: #726b95; }
+        
+        .skill-box .title-bar {
+            background-color: rgba(0,0,0,0.5);
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 16px;
+        }
+
+        .skill-icon {
+            font-size: 60px;
+        }
+
+        /* Family Section */
+        .family {
+            background-color: #005b96;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            color: white;
+            text-align: center;
+            gap: 30px;
+        }
+
+        .family-item {
+            width: 30%;
+            min-width: 250px;
+        }
+
+        .circle-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #8cc63f;
+            border: 4px solid #111;
+            margin: 0 auto 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: #333;
+            overflow: hidden;
+        }
+        
+        /* Middle circle is white */
+        .family-item:nth-child(2) .circle-img {
+            background-color: #fff;
+            border: 4px solid transparent;
+        }
+
+        .family-item h3 {
+            color: #a4e2df; /* light green/blue */
+            margin-bottom: 10px;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        .family-item p {
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #fde3a7;
+            padding: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Responsive Media Queries */
+        @media (max-width: 768px) {
+            .banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            .banner-text, .banner-image {
+                width: 100%;
+            }
+            .header-title {
+                margin: 15px 0;
+            }
+            nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <img src="../Experiment-2/profile.png" alt="Profile Picture" onerror="this.src='https://via.placeholder.com/120'">
+        </div>
+        <h1 class="header-title">Abin Shaji Thomas</h1>
+        <div class="header-social">
+            <span>f</span>
+            <span>t</span>
+            <span>g+</span>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="#">Personal</a>
+        <a href="#">Academic</a>
+        <a href="#">Activity</a>
+        <a href="#">Others</a>
+    </nav>
+
+    <!-- Banner -->
+    <section class="banner">
+        <div class="banner-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent a volutpat ex, at blandit neque. Cras malesuada consectetur leo, porta malesuada purus volutpat in.
+        </div>
+        <div class="banner-image">
+            👥 <!-- Placeholder for friends silhouette -->
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="skills">
+        <div class="skill-box html5">
+            <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5" width="70" height="70"></div>
+            <div class="title-bar">HTML5</div>
+        </div>
+        <div class="skill-box css3">
+            <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3" width="70" height="70"></div>
+            <div class="title-bar">CSS3</div>
+        </div>
+        <div class="skill-box js">
+            <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="JavaScript" width="70" height="70" style="border-radius: 10px;"></div>
+            <div class="title-bar">Javascript</div>
+        </div>
+        <div class="skill-box php">
+            <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/php/php-original.svg" alt="PHP" width="100" height="70"></div>
+            <div class="title-bar">PHP</div>
+        </div>
+    </section>
+
+    <!-- Family -->
+    <section class="family">
+        <div class="family-item">
+            <div class="circle-img">👨‍👧</div>
+            <h3>MR. FATHER'S NAME</h3>
+            <p>It was my father who taught me to value myself. He told me that I was uncommonly beautiful and that I was the most precious thing in his life.</p>
+        </div>
+        <div class="family-item">
+            <div class="circle-img">👩‍👧</div>
+            <h3>MRS. MOTHER'S NAME</h3>
+            <p>My mother taught me that we all have the power to achieve our dreams.</p>
+        </div>
+        <div class="family-item">
+            <div class="circle-img">👫</div>
+            <h3>SIS / BRO NAME</h3>
+            <p>A sister is both your mirror - and your opposite.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Your address</p>
+        <p><strong>&copy; 2020-2021. (URK24CS6007) - Web Technology Lab Batch 1. All Rights Reserved.</strong></p>
+    </footer>
+
+</div>
+
+</body>
+</html>

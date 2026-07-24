@@ -1,4 +1,4 @@
-# 🧪 Experiment 3 — *(Title Coming Soon)*
+# 🧪 Experiment 3 — Responsive Webpage Using HTML5 and CSS3
 
 > **Course:** Web Technology Lab  
 > **Experiment No.:** 3  
@@ -7,7 +7,7 @@
 
 ## 📌 Objective
 
-*(Add the objective for Experiment 3 here once assigned)*
+To build a responsive webpage using HTML5 and CSS3 that adapts to different screen sizes, utilizing CSS Flexbox, Grid, and Media Queries for a flexible layout.
 
 ---
 
@@ -15,9 +15,7 @@
 
 | Question | Topic | File |
 |----------|-------|------|
-| 3a | — | — |
-| 3b | — | — |
-| ...| — | — |
+| Exercise 1 | Responsive Webpage using HTML5 and CSS3 | [3rd-Excercise.html](./3rd-Excercise.html) |
 
 ---
 
@@ -26,7 +24,9 @@
 ```
 Experiment-3/
 │
-└── README.md       ← This file
+├── README.md                      ← This file
+├── 3rd-Excercise.html             ← Main responsive HTML page
+└── Web-Tech-3rd-exercise.pdf      ← PDF asset with description
 ```
 
 ---
