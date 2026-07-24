@@ -1,4 +1,4 @@
-# 🧪 Experiment 2 — *(Title Coming Soon)*
+# 🧪 Experiment 2 — HTML5 Form and Media Elements
 
 > **Course:** Web Technology Lab  
 > **Experiment No.:** 2  
@@ -7,7 +7,7 @@
 
 ## 📌 Objective
 
-*(Add the objective for Experiment 2 here once assigned)*
+To build a website that conforms to HTML5 standards and uses modern HTML5 elements including forms, input types, media elements (video), progress tags, and iframes for embedding external content like PDFs and Google Maps.
 
 ---
 
@@ -15,9 +15,7 @@
 
 | Question | Topic | File |
 |----------|-------|------|
-| 2a | — | — |
-| 2b | — | — |
-| ...| — | — |
+| Exercise 1 | HTML5 Form and Media Elements Profile Page | [2nd-Excercise.html](./2nd-Excercise.html) |
 
 ---
 
@@ -26,7 +24,10 @@
 ```
 Experiment-2/
 │
-└── README.md       ← This file
+├── README.md                      ← This file
+├── 2nd-Excercise.html             ← Main HTML page for the experiment
+├── profile.png                    ← Image asset for header
+└── Web-Tech-2nd- exercise.pdf     ← PDF asset used in the embedded frame
 ```
 
 ---

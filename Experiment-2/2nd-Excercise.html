@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>HTML5 Form and Media Elements</title>
+</head>
+
+<body style="font-family: Arial, sans-serif; margin: 20px auto; max-width: 1100px; color: #333;">
+
+    <!-- Header Section -->
+    <header
+        style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ccc; padding-bottom: 15px;">
+        <div>
+            <!-- Added inline styles to constraint the image size as it might be large -->
+            <img src="profile.png" alt="Profile Picture"
+                style="width: 130px; height: 130px; object-fit: cover; border: 1px solid #ddd;">
+        </div>
+        <div>
+            <h1 style="margin: 0; font-size: 28px; font-weight: normal;">Ms.Mariah Caraiban</h1>
+        </div>
+    </header>
+
+    <!-- Navigation Section -->
+    <nav
+        style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #ccc;">
+        <div style="display: flex; gap: 80px; padding-left: 10px;">
+            <a href="#" style="color: purple; text-decoration: underline;">Academics</a>
+            <a href="#" style="color: purple; text-decoration: underline;">Achievements</a>
+            <a href="#" style="color: purple; text-decoration: underline;">Friends</a>
+        </div>
+        <div>
+            <input type="search" placeholder="search..."
+                style="padding: 2px 5px; border: 1px solid #ccc; width: 200px;">
+        </div>
+    </nav>
+
+    <!-- Content Section: Progress & Video -->
+    <section style="display: flex; margin-top: 25px; justify-content: space-between;">
+
+        <!-- Left: Skills Progress -->
+        <div style="width: 45%;">
+            <p style="margin: 5px 0; font-size: 14px;">Photoshop:</p>
+            <progress value="30" max="100" style="width: 150px; height: 15px;"></progress>
+
+            <p style="margin: 5px 0; font-size: 14px;">Java:</p>
+            <progress value="80" max="100" style="width: 150px; height: 15px;"></progress>
+
+            <p style="margin: 5px 0; font-size: 14px;">C++:</p>
+            <progress value="40" max="100" style="width: 150px; height: 15px;"></progress>
+
+            <p style="margin: 5px 0; font-size: 14px;">PHP:</p>
+            <progress value="20" max="100" style="width: 150px; height: 15px;"></progress>
+
+            <p style="margin: 5px 0; font-size: 14px;">Javascript:</p>
+            <progress value="70" max="100" style="width: 150px; height: 15px;"></progress>
+        </div>
+
+        <!-- Right: Video -->
+        <div style="width: 50%;">
+            <iframe width="100%" height="280" src="https://www.youtube.com/embed/aqz-KE-bpKQ"
+                title="Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </section>
+
+    <hr style="margin: 30px 0; border: 0; border-top: 1px solid #ccc;">
+
+    <!-- Forms Section -->
+    <section style="display: flex; justify-content: space-between;">
+
+        <!-- Personal Information Form -->
+        <fieldset style="width: 46%; padding: 15px; border: 1px solid #999;">
+            <legend style="padding: 0 5px;">Personal Information</legend>
+            <table style="width: 100%; border-spacing: 0; font-size: 14px;">
+                <tr>
+                    <td style="padding: 8px 0;"><label>User name:</label></td>
+                    <td style="padding: 8px 0;"><input type="text" placeholder="Enter the user name"
+                            style="width: 180px;"> *</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><label>Password:</label></td>
+                    <td style="padding: 8px 0;"><input type="password" maxlength="10" placeholder="Maxlength-10"
+                            style="width: 180px;"> *</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><label>Reg. No :</label></td>
+                    <td style="padding: 8px 0;"><input type="text" value="URK24CS6007" style="width: 180px;"> *</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><label>Age:</label></td>
+                    <td style="padding: 8px 0;"><input type="text" value="19-24" style="width: 80px;"> *</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><label>Gender:</label></td>
+                    <td style="padding: 8px 0;">
+                        <input type="radio" name="gender" value="male"> Male &nbsp;
+                        <input type="radio" name="gender" value="female"> Female
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><label>DOB:</label></td>
+                    <td style="padding: 8px 0;"><input type="text" placeholder="mm/dd/yyyy" style="width: 120px;"> *
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><label>Favorite Color:</label></td>
+                    <td style="padding: 8px 0;"><input type="color"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-top: 20px;">
+                        Change Profile Photo: <input type="file" style="margin-left: 10px;">
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+
+        <!-- Contact Information Form -->
+        <fieldset style="width: 46%; padding: 15px; border: 1px solid #999;">
+            <legend style="padding: 0 5px;">Contact Information</legend>
+            <table style="width: 100%; border-spacing: 0; font-size: 14px;">
+                <tr>
+                    <td style="padding: 8px 0; vertical-align: top;"><label>Address:</label></td>
+                    <td style="padding: 8px 0;"><textarea rows="3" style="width: 250px;"></textarea></td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><label>State:</label></td>
+                    <td style="padding: 8px 0;">
+                        <select style="width: 120px;">
+                            <option>Select</option>
+                            <option>Tamil Nadu</option>
+                        </select> *
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><label>Zipcode:</label></td>
+                    <td style="padding: 8px 0;"><input type="text" placeholder="only 6 numbers" style="width: 180px;"> *
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><label>Mobile:</label></td>
+                    <td style="padding: 8px 0;"><input type="tel" value="(+91)99999-99999" style="width: 180px;"> *</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><label>Email:</label></td>
+                    <td style="padding: 8px 0;"><input type="email" placeholder="valid email" style="width: 180px;"> *
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><label>URL:</label></td>
+                    <td style="padding: 8px 0;"><input type="url" placeholder="valid url" style="width: 180px;"> *</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding: 8px 0;">
+                        <input type="checkbox"> I verified
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding: 10px 0 0 0;">
+                        <button type="submit" style="padding: 3px 10px;">Submit</button>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </section>
+
+    <hr style="margin: 30px 0; border: 0; border-top: 1px solid #ccc;">
+
+    <!-- Embedded Media Section (PDF & Maps) -->
+    <section style="display: flex; justify-content: space-between;">
+
+        <!-- Left: PDF Embed -->
+        <div style="width: 48%;">
+            <iframe src="Web-Tech-2nd- exercise.pdf" width="100%" height="350px"
+                style="border: 1px solid #999;"></iframe>
+        </div>
+
+        <!-- Right: Google Map -->
+        <div style="width: 48%;">
+            <iframe src="https://maps.google.com/maps?q=Karunya%20University&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                width="100%" height="350px" frameborder="0" style="border: 1px solid #999;" allowfullscreen></iframe>
+        </div>
+
+    </section>
+
+</body>
+
+</html>

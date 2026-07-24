@@ -15,7 +15,7 @@ This repository contains all the lab experiments and practice programs for the *
 | # | Experiment | Topics Covered | Status |
 |---|------------|----------------|--------|
 | 1 | [Experiment 1](./Experiment-1/README.md) | HTML structure, Headings, Text Formatting, Semantic Tags, Inline CSS | ✅ Completed |
-| 2 | [Experiment 2](./Experiment-2/README.md) | — | 🔜 Upcoming |
+| 2 | [Experiment 2](./Experiment-2/README.md) | HTML5 Forms, Media Elements (Video, iframes, Progress Bars) | ✅ Completed |
 | 3 | [Experiment 3](./Experiment-3/README.md) | — | 🔜 Upcoming |
 | 4 | [Experiment 4](./Experiment-4/README.md) | — | 🔜 Upcoming |
 
@@ -48,7 +48,10 @@ Web-Technology-Lab/
 │   └── Experiment-1-ERecord.pdf   ← E-record document (PDF)
 │
 ├── Experiment-2/
-│   └── README.md
+│   ├── README.md                  ← Experiment overview & question index
+│   ├── 2nd-Excercise.html         ← Main HTML5 Form and Media page
+│   ├── profile.png                ← Image asset for profile
+│   └── Web-Tech-2nd- exercise.pdf ← Embedded PDF asset
 │
 ├── Experiment-3/
 │   └── README.md
