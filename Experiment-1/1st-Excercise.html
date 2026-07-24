@@ -3,256 +3,80 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infosys Employee Training Portal</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        body {
-            background: #f4f6f9;
-        }
-
-        .container {
-            width: 900px;
-            margin: 20px auto;
-        }
-
-        /* ── Header ── */
-
-        .header {
-            background: #0057a8;
-            color: white;
-            display: flex;
-            align-items: center;
-            padding: 18px 24px;
-            border-radius: 5px;
-        }
-
-        .logo {
-            width: 130px;
-            flex-shrink: 0;
-            background: white;
-            padding: 10px;
-            border-radius: 5px;
-            margin-right: 24px;
-        }
-
-        .logo img {
-            width: 100%;
-            display: block;
-        }
-
-        .header h1 {
-            font-size: 30px;
-            font-weight: bold;
-        }
-
-        .header p {
-            margin-top: 6px;
-            font-size: 16px;
-            opacity: 0.9;
-        }
-
-        /* ── Cards ── */
-
-        .card {
-            background: white;
-            margin-top: 20px;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, .12);
-        }
-
-        .card h2 {
-            color: #0057a8;
-            font-size: 22px;
-            margin-bottom: 12px;
-        }
-
-        .card p {
-            line-height: 1.7;
-            color: #333;
-            margin-bottom: 18px;
-            font-size: 15px;
-        }
-
-        .card img {
-            width: 100%;
-            border-radius: 6px;
-            display: block;
-        }
-
-        /* ── Course List ── */
-
-        ul {
-            list-style: none;
-        }
-
-        li {
-            display: flex;
-            align-items: center;
-            padding: 10px 0;
-            font-size: 18px;
-            color: #222;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        li:last-child {
-            border-bottom: none;
-        }
-
-        .icon {
-            font-size: 28px;
-            width: 48px;
-            text-align: center;
-            flex-shrink: 0;
-            margin-right: 14px;
-        }
-
-        /* ── Explore card (center) ── */
-
-        .card-center {
-            text-align: center;
-        }
-
-        .card-center h2 {
-            color: #0057a8;
-            font-size: 22px;
-            margin-bottom: 10px;
-        }
-
-        .card-center p {
-            color: #555;
-            font-size: 15px;
-            margin-bottom: 0;
-        }
-
-        /* ── Buttons ── */
-
-        .buttons {
-            margin-top: 22px;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: white;
-            padding: 14px 28px;
-            border-radius: 6px;
-            margin: 6px 10px;
-            font-size: 17px;
-            font-weight: bold;
-        }
-
-        .btn-icon {
-            font-size: 22px;
-        }
-
-        .blue {
-            background: #0057a8;
-        }
-
-        .green {
-            background: #2ca84d;
-        }
-
-        /* ── Footer ── */
-
-        footer {
-            background: #1f2630;
-            color: #ccc;
-            text-align: center;
-            padding: 18px;
-            margin-top: 25px;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-    </style>
-
 </head>
 
-<body>
+<body style="background-color:#f4f6f9; font-family:Arial, sans-serif; margin:0; padding:0;">
 
-    <div class="container">
+    <!-- Container -->
+    <div style="width:900px; margin:20px auto;">
 
         <!-- Header -->
-        <div class="header">
-            <div class="logo">
-                <img src="infosys-logo-757566918.png" alt="Infosys Logo">
+        <div style="background-color:#0057a8; color:white; display:flex; align-items:center; padding:18px; border-radius:5px;">
+            <div style="background-color:white; padding:10px; border-radius:5px; margin-right:20px; width:130px;">
+                <img src="infosys-logo-757566918.png" alt="Infosys Logo" style="width:100%; display:block;">
             </div>
             <div>
-                <h1>Infosys Employee Training Portal</h1>
-                <p>Learn, improve and build skills for the digital future.</p>
+                <h1 style="margin:0; font-size:30px;">Infosys Employee Training Portal</h1>
+                <p style="margin:6px 0 0 0; font-size:16px;">Learn, improve and build skills for the digital future.</p>
             </div>
         </div>
 
-        <!-- Card 1: Digital Skills -->
-        <div class="card">
-            <h2>Digital Skills Development Program</h2>
-            <p>
+        <!-- Card 1: Digital Skills Development Program -->
+        <div style="background-color:white; margin-top:20px; padding:25px; border-radius:8px; box-shadow:0 0 8px rgba(0,0,0,0.15);">
+            <h2 style="color:#0057a8; margin-top:0;">Digital Skills Development Program</h2>
+            <p style="line-height:1.7; color:#333;">
                 Infosys provides technical training programs to help employees
                 develop skills in artificial intelligence, cloud computing,
                 cybersecurity, data science and software development.
             </p>
-            <img src="training-image.png" alt="Infosys Training Session">
+            <img src="training-image.png" alt="Infosys Training Session" style="width:100%; border-radius:5px; display:block;">
         </div>
 
-        <!-- Card 2: Course List -->
-        <div class="card">
-            <h2>Available Training Courses</h2>
-            <ul>
-                <li>
-                    <span class="icon">🧠</span>
-                    Artificial Intelligence and Machine Learning
+        <!-- Card 2: Available Training Courses -->
+        <div style="background-color:white; margin-top:20px; padding:25px; border-radius:8px; box-shadow:0 0 8px rgba(0,0,0,0.15);">
+            <h2 style="color:#0057a8; margin-top:0;">Available Training Courses</h2>
+            <ul style="list-style:none; padding:0; margin:0;">
+                <li style="padding:10px 0; font-size:18px; border-bottom:1px solid #f0f0f0;">
+                    <span style="font-size:24px; margin-right:14px;">&#129504;</span>Artificial Intelligence and Machine Learning
                 </li>
-                <li>
-                    <span class="icon">☁️</span>
-                    Cloud Computing
+                <li style="padding:10px 0; font-size:18px; border-bottom:1px solid #f0f0f0;">
+                    <span style="font-size:24px; margin-right:14px;">&#9729;</span>Cloud Computing
                 </li>
-                <li>
-                    <span class="icon">🔒</span>
-                    Cybersecurity
+                <li style="padding:10px 0; font-size:18px; border-bottom:1px solid #f0f0f0;">
+                    <span style="font-size:24px; margin-right:14px;">&#128274;</span>Cybersecurity
                 </li>
-                <li>
-                    <span class="icon">&lt;/&gt;</span>
-                    Full-Stack Web Development
+                <li style="padding:10px 0; font-size:18px; border-bottom:1px solid #f0f0f0;">
+                    <span style="font-size:18px; font-weight:bold; margin-right:14px; color:#444;">&lt;/&gt;</span>Full-Stack Web Development
                 </li>
-                <li>
-                    <span class="icon">📊</span>
-                    Data Science
+                <li style="padding:10px 0; font-size:18px;">
+                    <span style="font-size:24px; margin-right:14px;">&#128202;</span>Data Science
                 </li>
             </ul>
         </div>
 
-        <!-- Card 3: Explore -->
-        <div class="card card-center">
-            <h2>Explore Infosys</h2>
-            <p>
+        <!-- Card 3: Explore Infosys -->
+        <div style="background-color:white; margin-top:20px; padding:25px; border-radius:8px; box-shadow:0 0 8px rgba(0,0,0,0.15); text-align:center;">
+            <h2 style="color:#0057a8; margin-top:0;">Explore Infosys</h2>
+            <p style="color:#555; font-size:15px;">
                 Visit the official Infosys website to learn more about the company and its services.
             </p>
-            <div class="buttons">
-                <a href="https://www.infosys.com" class="btn blue" target="_blank">
-                    <span class="btn-icon">🌐</span>
-                    Visit Infosys Website
+            <div style="margin-top:20px;">
+                <a href="https://www.infosys.com" target="_blank"
+                   style="display:inline-block; background-color:#0057a8; color:white; text-decoration:none; padding:14px 28px; border-radius:6px; font-size:17px; margin:6px;">
+                    &#127760; Visit Infosys Website
                 </a>
-                <a href="https://www.infosys.com/careers" class="btn green" target="_blank">
-                    <span class="btn-icon">💼</span>
-                    Explore Infosys Careers
+                <a href="https://www.infosys.com/careers" target="_blank"
+                   style="display:inline-block; background-color:#2ca84d; color:white; text-decoration:none; padding:14px 28px; border-radius:6px; font-size:17px; margin:6px;">
+                    &#128188; Explore Infosys Careers
                 </a>
             </div>
         </div>
 
-        <footer>
+        <!-- Footer -->
+        <div style="background-color:#1f2630; color:#ccc; text-align:center; padding:18px; margin-top:25px; border-radius:5px; font-size:14px;">
             &copy; 2026 Infosys Training Portal &mdash; HTML Practice Program
-        </footer>
+        </div>
 
     </div>
 
