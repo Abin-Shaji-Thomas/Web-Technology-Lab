@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiment 4 - Web Technology Lab</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ── HEADER ── */
+        header {
+            background: linear-gradient(135deg, #1565c0 0%, #1976d2 40%, #42a5f5 70%, #90caf9 100%);
+            height: 140px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative wave/swirl overlay */
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 60'%3E%3Cpath d='M0,30 Q225,60 450,30 Q675,0 900,30 L900,60 L0,60 Z' fill='rgba(255,255,255,0.15)'/%3E%3C/svg%3E") no-repeat center bottom;
+            background-size: cover;
+        }
+
+        .header-images {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        /* Stacked overlapping images like in the PDF */
+        .img-stack {
+            position: relative;
+            width: 75px;
+            height: 100px;
+        }
+
+        .img-stack img {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border: 2px solid #fff;
+        }
+
+        .img-stack img:nth-child(1) {
+            top: 0;
+            left: 0;
+            transform: rotate(-5deg);
+            z-index: 1;
+        }
+
+        .img-stack img:nth-child(2) {
+            top: 28px;
+            left: 10px;
+            transform: rotate(5deg);
+            z-index: 2;
+        }
+
+        /* ── NAVIGATION ── */
+        nav {
+            background-color: #888;
+            display: flex;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 14px;
+            padding: 10px 30px;
+            display: block;
+            text-align: center;
+        }
+
+        nav a.active {
+            background-color: #cc0000;
+            color: #fff;
+        }
+
+        nav a:hover:not(.active) {
+            background-color: #777;
+        }
+
+        /* ── PINK / FLOWERS SECTION ── */
+        .pink-section {
+            background-color: #f4a7b9;
+            padding: 25px 30px;
+            min-height: 200px;
+        }
+
+        .flower-table-wrapper {
+            background-color: #2e7d32;
+            border-radius: 8px;
+            padding: 8px;
+            width: 220px;
+        }
+
+        .flower-table-wrapper h4 {
+            color: #fff;
+            text-align: center;
+            font-size: 13px;
+            margin-bottom: 6px;
+            background-color: #1b5e20;
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .flower-row {
+            background-color: #388e3c;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 10px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            color: #fff;
+            font-size: 13px;
+        }
+
+        .flower-row img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+
+        /* ── DARK / LOGIN SECTION ── */
+        .login-section {
+            background-color: #2a2a2a;
+            padding: 40px 30px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .form-card {
+            background-color: #fff;
+            border-radius: 6px;
+            padding: 25px 25px 30px;
+            width: 240px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-card h2 {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 18px;
+            color: #111;
+        }
+
+        .form-card label {
+            font-size: 12px;
+            color: #333;
+            display: block;
+            margin-bottom: 4px;
+            margin-top: 10px;
+        }
+
+        .form-card input[type="text"],
+        .form-card input[type="email"],
+        .form-card input[type="password"] {
+            width: 100%;
+            padding: 7px 10px;
+            font-size: 11px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            color: #888;
+            outline: none;
+        }
+
+        .form-card input::placeholder {
+            color: #bbb;
+            font-size: 11px;
+        }
+
+        .form-card button {
+            width: 100%;
+            padding: 9px;
+            background-color: #1976d2;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 18px;
+        }
+
+        .form-card button:hover {
+            background-color: #1565c0;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background-color: #fdebd0;
+            padding: 15px 20px;
+            font-size: 13px;
+            line-height: 1.7;
+            color: #333;
+        }
+
+        footer p {
+            margin: 2px 0;
+        }
+
+        footer p:nth-child(2) {
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- ── HEADER ── -->
+        <header>
+            <div class="header-images">
+                <div class="img-stack">`
+                    <img src="flower.png" alt="Flower">
+                    <img src="tulip.png" alt="Tulip">
+                </div>
+            </div>
+        </header>
+
+        <!-- ── NAVIGATION ── -->
+        <nav>
+            <a href="#" class="active" id="nav-home">Home</a>
+            <a href="#" id="nav-about">About</a>
+            <a href="#" id="nav-myself">Myself</a>
+            <a href="#" id="nav-others">Others</a>
+        </nav>
+
+        <!-- ── PINK / FLOWERS SECTION ── -->
+        <section class="pink-section">
+            <div class="flower-table-wrapper">
+                <h4>Flowers</h4>
+                <div class="flower-row">
+                    <span>Flower</span>
+                    <img src="flower.png" alt="Gerbera Flower">
+                </div>
+                <div class="flower-row">
+                    <span>Chilli</span>
+                    <img src="chilli.png" alt="Red Chilli">
+                </div>
+                <div class="flower-row">
+                    <span>Coconut</span>
+                    <img src="coconut.png" alt="Green Coconut">
+                </div>
+                <div class="flower-row">
+                    <span>Apple</span>
+                    <img src="apple.png" alt="Red Apple">
+                </div>
+            </div>
+        </section>
+
+        <!-- ── DARK / LOGIN SECTION ── -->
+        <section class="login-section">
+
+            <!-- Sign In Card -->
+            <div class="form-card">
+                <h2>Sign In</h2>
+
+                <label for="signin-username">Username</label>
+                <input type="text" id="signin-username" placeholder="Enter Username / Email / Phone Number">
+
+                <label for="signin-password">Password</label>
+                <input type="password" id="signin-password" placeholder="Enter Password">
+
+                <button type="button" id="btn-signin">Sign In</button>
+            </div>
+
+            <!-- Sign Up Card -->
+            <div class="form-card">
+                <h2>Sign Up</h2>
+
+                <label for="signup-name">Name</label>
+                <input type="text" id="signup-name" placeholder="Enter Name">
+
+                <label for="signup-email">Email</label>
+                <input type="email" id="signup-email" placeholder="Enter Email">
+
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" placeholder="Enter Password">
+
+                <button type="button" id="btn-signup">Sign Up</button>
+            </div>
+
+        </section>
+
+        <!-- ── FOOTER ── -->
+        <footer>
+            <p>Your address</p>
+            <p><strong>© 2020-2021. (URK24CS6007) - Web Technology Lab Batch 1. All Rights Reserved.</strong></p>
+            <p>&nbsp;</p>
+        </footer>
+
+    </div>
+
+</body>
+
+</html>

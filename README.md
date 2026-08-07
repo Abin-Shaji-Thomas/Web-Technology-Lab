@@ -17,7 +17,7 @@ This repository contains all the lab experiments and practice programs for the *
 | 1 | [Experiment 1](./Experiment-1/README.md) | HTML structure, Headings, Text Formatting, Semantic Tags, Inline CSS | ✅ Completed |
 | 2 | [Experiment 2](./Experiment-2/README.md) | HTML5 Forms, Media Elements (Video, iframes, Progress Bars) | ✅ Completed |
 | 3 | [Experiment 3](./Experiment-3/README.md) | Responsive Webpage, HTML5, CSS3, Media Queries | ✅ Completed |
-| 4 | [Experiment 4](./Experiment-4/README.md) | — | 🔜 Upcoming |
+| 4 | [Experiment 4](./Experiment-4/README.md) | HTML Forms, Multi-Section Layout, CSS Positioning, Flexbox, Sign In/Sign Up | ✅ Completed |
 
 ---
 
@@ -59,7 +59,14 @@ Web-Technology-Lab/
 │   └── Web-Tech-3rd-exercise.pdf  ← Embedded PDF asset
 │
 └── Experiment-4/
-    └── README.md
+    ├── README.md              ← Experiment overview & question index
+    ├── index.html             ← Main HTML page (header, nav, forms, footer)
+    ├── flower.png             ← Gerbera daisy image asset
+    ├── tulip.png              ← Red tulip image asset
+    ├── chilli.png             ← Red chilli image asset
+    ├── coconut.png            ← Green coconut image asset
+    ├── apple.png              ← Red apple image asset
+    └── Exp 4.pdf              ← Original experiment PDF
 ```
 
 ---
