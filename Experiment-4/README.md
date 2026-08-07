@@ -15,7 +15,7 @@ To design a multi-section webpage using HTML and CSS that includes a styled head
 
 | Question | Topic | File |
 |----------|-------|------|
-| Exercise 1 | Multi-Section Webpage with Forms and CSS Styling | [index.html](./index.html) |
+| Exercise 1 | Multi-Section Webpage with Forms and CSS Styling | [4th-Excercise.html](./4th-Excercise.html) |
 
 ---
 
@@ -25,7 +25,7 @@ To design a multi-section webpage using HTML and CSS that includes a styled head
 Experiment-4/
 │
 ├── README.md              ← This file
-├── index.html             ← Main HTML page with all sections
+├── 4th-Excercise.html     ← Main HTML page with all sections
 ├── flower.png             ← Gerbera daisy image asset
 ├── tulip.png              ← Red tulip image asset
 ├── chilli.png             ← Red chilli image asset

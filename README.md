@@ -60,7 +60,7 @@ Web-Technology-Lab/
 │
 └── Experiment-4/
     ├── README.md              ← Experiment overview & question index
-    ├── index.html             ← Main HTML page (header, nav, forms, footer)
+    ├── 4th-Excercise.html     ← Main HTML page (header, nav, forms, footer)
     ├── flower.png             ← Gerbera daisy image asset
     ├── tulip.png              ← Red tulip image asset
     ├── chilli.png             ← Red chilli image asset
