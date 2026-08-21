@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ex 5.4 — Currency Converter | Experiment 5</title>
+  <style>
+    :root{--bg:#f9f5f0;--card:#fff;--bd:#ddd4c0;--tx:#1e1208;--sub:#5c3c22;--mu:#9a7a5a;--ac:#a0521a;--sk:#2a6a90;--r:10px}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;min-height:100vh;display:flex;flex-direction:column}
+    h1{font-family:Georgia,serif}
+    .wrap{max-width:720px;margin:0 auto;padding:0 24px}
+
+    .topbar{background:var(--card);border-bottom:1px solid var(--bd)}
+    .tb{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;max-width:720px;margin:0 auto}
+    .tb a{font-size:13px;font-weight:600;color:var(--sub);text-decoration:none}
+    .tb a:hover{color:var(--ac)}
+    .tb span{font-size:12px;color:var(--mu)}
+
+    .ex-head{background:var(--card);border-bottom:1px solid var(--bd);padding:30px 0 26px}
+    .ex-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ac);margin-bottom:8px}
+    .ex-head h1{font-size:24px;color:var(--tx);margin-bottom:6px}
+    .ex-obj{font-size:13px;color:var(--sub);max-width:540px}
+
+    main{flex:1;padding:32px 0 48px}
+    label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--sub);margin-bottom:5px}
+    input[type="text"],select{padding:8px 12px;border:1.5px solid var(--bd);border-radius:8px;font-size:14px;font-family:inherit;background:#fff;color:var(--tx);width:100%;outline:none}
+    input[type="text"]{max-width:140px}
+    select{max-width:160px}
+    input:focus,select:focus{border-color:var(--sk)}
+    .field{display:flex;flex-direction:column;gap:5px}
+    .cur-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+    .sep{font-size:18px;color:var(--mu);padding-bottom:10px}
+    .btn{display:inline-block;padding:9px 20px;border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;border:none;cursor:pointer;background:var(--sk);color:#fff;transition:background .15s}
+    .btn:hover{background:#3880a8}
+
+    .result-out{display:none;margin-top:20px;padding:18px 22px;background:#fff;border:1.5px solid var(--bd);border-radius:var(--r)}
+    .res-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin-bottom:6px}
+    .res-val{font-size:26px;font-weight:700;color:var(--tx)}
+
+    .bot-nav{background:var(--card);border-top:1px solid var(--bd);padding:14px 0}
+    .bn{display:flex;justify-content:space-between;align-items:center;padding:0 24px;max-width:720px;margin:0 auto}
+    .bn a{font-size:13px;font-weight:600;color:var(--sub);text-decoration:none;padding:6px 12px;border:1px solid var(--bd);border-radius:6px;background:#fff}
+    .bn a:hover{color:var(--ac);border-color:var(--ac)}
+    .bn .center{border-color:transparent;color:var(--mu);font-size:12px;background:none}
+    .bn .center:hover{color:var(--ac)}
+  </style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="tb">
+    <a href="5th-Exercise.html">← All Exercises</a>
+    <span>Exercise 4 of 6</span>
+  </div>
+</nav>
+
+<header class="ex-head">
+  <div class="wrap">
+    <p class="ex-tag">Exercise 04</p>
+    <h1>Currency Converter</h1>
+    <p class="ex-obj">Convert between Indian Rupee (₹) and US Dollar ($). Uses dropdown selectedIndex to determine conversion direction.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <fieldset style="border:none;padding:0;">
+      <div class="cur-row">
+        <div class="field">
+          <label for="data">Amount</label>
+          <input type="text" id="data" placeholder="Enter amount">
+        </div>
+        <div class="field">
+          <label for="from">From</label>
+          <select id="from">
+            <option>Indian Rupee</option>
+            <option>US Dollar</option>
+          </select>
+        </div>
+        <span class="sep">→</span>
+        <div class="field">
+          <label for="to">To</label>
+          <select id="to">
+            <option>US Dollar</option>
+            <option>Indian Rupee</option>
+          </select>
+        </div>
+        <button class="btn" onclick="convert()">Calculate</button>
+      </div>
+    </fieldset>
+    <div class="result-out" id="result-out">
+      <div class="res-lbl">Result</div>
+      <div class="res-val"><span id="answer">—</span></div>
+    </div>
+  </div>
+</main>
+
+<nav class="bot-nav">
+  <div class="bn">
+    <a href="Ex-5-3.html">← Fruit Farm</a>
+    <a href="5th-Exercise.html" class="center">All Exercises</a>
+    <a href="Ex-5-5.html">Coin Flip →</a>
+  </div>
+</nav>
+
+<script>
+  function convert() {
+    var amount = parseFloat(document.getElementById("data").value);
+    if (isNaN(amount)) { alert("Enter a valid number."); return; }
+
+    // Extract value from drop down list using selectedIndex
+    var fromIndex = document.getElementById("from").selectedIndex;
+    var fromValue = document.getElementById("from")[fromIndex].value;
+
+    var toIndex = document.getElementById("to").selectedIndex;
+    var toValue = document.getElementById("to")[toIndex].value;
+
+    var result, symbol;
+
+    if (fromValue === "Indian Rupee" && toValue === "US Dollar") {
+      result = (amount * 0.015).toFixed(4);
+      symbol = "$ ";
+    } else if (fromValue === "US Dollar" && toValue === "Indian Rupee") {
+      result = (amount * 67.12).toFixed(2);
+      symbol = "₹ ";
+    } else {
+      result = amount.toFixed(2);
+      symbol = fromValue === "Indian Rupee" ? "₹ " : "$ ";
+    }
+
+    document.getElementById("answer").innerHTML = symbol + result;
+    document.getElementById("result-out").style.display = "block";
+  }
+</script>
+</body>
+</html>

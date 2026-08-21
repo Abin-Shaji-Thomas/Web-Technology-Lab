@@ -1,977 +1,411 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Experiment 5 — JavaScript DOM Elements & Events | Web Technology Lab</title>
-  <meta name="description" content="Experiment 5: JavaScript DOM manipulation and event handling — BMI Calculator, Fruit Farm, Currency Converter, Coin Flip, Birthday Cake Order Form.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
-
+  <title>Experiment 5 — JavaScript DOM Elements &amp; Events</title>
+  <meta name="description" content="Experiment 5: JavaScript DOM manipulation and event handling exercises.">
   <style>
-    /* ══════════════════════════════════════════
-       DESIGN TOKENS — warm, human palette
-    ══════════════════════════════════════════ */
-    :root {
-      --cream:     #fdf8f2;
-      --warm-bg:   #f5ede0;
-      --card-bg:   #ffffff;
-      --border:    #e8d9c5;
-      --border-dk: #d4c0a5;
+    :root{--bg:#f9f5f0;--card:#fff;--bd:#ddd4c0;--tx:#1e1208;--sub:#5c3c22;--mu:#9a7a5a;--ac:#a0521a;--gr:#2d7a50;--sk:#2a6a90;--rs:#b83a1a;--r:10px}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;min-height:100vh}
+    h1,h2,h3{font-family:Georgia,serif}
+    .wrap{max-width:780px;margin:0 auto;padding:0 24px}
 
-      --brown:     #5c3d1e;
-      --brown-lt:  #7a5230;
-      --orange:    #d4721a;
-      --orange-lt: #e8892f;
-      --rust:      #c0421c;
-      --teal:      #2a7a6b;
-      --teal-lt:   #3d9985;
-      --sky:       #3a7ca5;
-      --sky-lt:    #4e94be;
-      --amber:     #c68d1a;
-      --red:       #c0351c;
-      --green:     #3a7852;
-      --green-lt:  #4e9a6a;
+    /* PAGE HEADER */
+    .page-head{background:var(--card);border-bottom:1px solid var(--bd)}
+    .ph{padding:30px 24px;max-width:780px;margin:0 auto}
+    .ph-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--mu);margin-bottom:7px}
+    .ph h1{font-size:26px;color:var(--tx);margin-bottom:5px}
+    .ph p{font-size:14px;color:var(--sub)}
+    .back-top{display:inline-block;font-size:12px;font-weight:600;color:var(--mu);text-decoration:none;margin-top:12px}
+    .back-top:hover{color:var(--ac)}
 
-      --text:      #2c1f0e;
-      --text-sub:  #5a4030;
-      --muted:     #9a7d62;
-      --radius:    12px;
-    }
+    /* STICKY TABS */
+    .ex-tabs{position:sticky;top:0;z-index:100;background:var(--card);border-bottom:1px solid var(--bd);overflow-x:auto}
+    .et{display:flex;padding:0 24px;max-width:780px;margin:0 auto;gap:0}
+    .ex-tabs a{padding:11px 14px;text-decoration:none;font-size:13px;font-weight:600;color:var(--mu);white-space:nowrap;border-bottom:2px solid transparent;transition:all .15s;display:block}
+    .ex-tabs a:hover{color:var(--ac);border-bottom-color:var(--ac)}
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    /* EXERCISE SECTION */
+    .ex-section{border-top:1px solid var(--bd);padding:36px 0;scroll-margin-top:46px}
+    .esh{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+    .es-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ac);margin-bottom:6px}
+    .esh h2{font-size:19px;color:var(--tx);margin-bottom:5px}
+    .es-desc{font-size:13px;color:var(--sub)}
+    .fp-link{font-size:12px;font-weight:700;color:var(--ac);text-decoration:none;white-space:nowrap;border-bottom:1px solid transparent;flex-shrink:0;padding-top:4px}
+    .fp-link:hover{border-bottom-color:var(--ac)}
 
-    body {
-      font-family: 'Lato', sans-serif;
-      background: var(--warm-bg);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.65;
-    }
+    /* FORMS */
+    label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--sub);margin-bottom:5px}
+    input[type="text"],select{padding:8px 12px;border:1.5px solid var(--bd);border-radius:8px;font-size:14px;font-family:inherit;background:#fff;color:var(--tx);width:100%;max-width:220px;outline:none}
+    input:focus,select:focus{border-color:var(--ac)}
+    input[type="radio"]{accent-color:var(--ac)}
+    .field{display:flex;flex-direction:column;gap:5px}
+    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+    .radio-row{display:flex;gap:16px;flex-wrap:wrap;margin-top:6px}
+    label.ro{text-transform:none;letter-spacing:0;font-weight:normal;font-size:14px;color:var(--tx);display:flex;align-items:center;gap:6px;cursor:pointer}
+    .mt14{margin-top:14px}
 
-    /* ── HERO ── */
-    .hero {
-      background: linear-gradient(160deg, #5c3d1e 0%, #7a5230 45%, #9b6a3c 100%);
-      padding: 52px 24px 44px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      pointer-events: none;
-    }
-    .hero-eyebrow {
-      display: inline-block;
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.25);
-      color: #f5d9b0;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 5px 16px;
-      border-radius: 999px;
-      margin-bottom: 18px;
-    }
-    .hero h1 {
-      font-family: 'Merriweather', serif;
-      font-size: clamp(24px, 5vw, 40px);
-      font-weight: 700;
-      color: #fdf0e0;
-      margin-bottom: 8px;
-      letter-spacing: -0.01em;
-    }
-    .hero-sub {
-      font-size: 15px;
-      color: #d4b48c;
-      margin-bottom: 26px;
-    }
-    .hero-chips {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .chip {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 999px;
-      padding: 6px 14px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #f0dcc0;
-    }
-    .chip .dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: #86efac;
-      box-shadow: 0 0 5px #86efac;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+    /* BUTTONS */
+    .btn{display:inline-block;padding:9px 20px;border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;border:none;cursor:pointer;background:var(--ac);color:#fff;transition:background .15s}
+    .btn:hover{background:#b06020}
+    .btn-green{background:var(--gr)}.btn-green:hover{background:#3a9060}
+    .btn-sky{background:var(--sk)}.btn-sky:hover{background:#3880a8}
+    .btn-rust{background:var(--rs)}.btn-rust:hover{background:#c84828}
 
-    /* ── BACK BAR ── */
-    .back-bar {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 18px 24px 0;
-    }
-    .back-link {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 13px;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      transition: color 0.2s;
-    }
-    .back-link:hover { color: var(--brown); }
+    /* RESULT */
+    .res-box{margin-top:16px;padding:16px 20px;background:#fff;border:1.5px solid var(--bd);border-radius:var(--r);display:none}
+    .res-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin-bottom:5px}
+    .res-val{font-size:22px;font-weight:700;color:var(--tx)}
 
-    /* ── MAIN WRAPPER ── */
-    .main {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 28px 24px 80px;
-    }
-    .section-tag {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 18px;
-    }
+    /* Q1 */
+    .word-pair{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;display:none}
+    .word-chip{flex:1;min-width:120px;padding:12px 16px;background:#fff;border:1.5px solid var(--bd);border-radius:var(--r)}
+    .wc-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mu)}
+    .wc-val{font-size:20px;font-weight:700;margin-top:4px;color:var(--sub)}
 
-    /* ── EXERCISE CARD ── */
-    .ex-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      margin-bottom: 24px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(92,61,30,0.06);
-      transition: box-shadow 0.2s, border-color 0.2s;
-    }
-    .ex-card:hover {
-      box-shadow: 0 6px 22px rgba(92,61,30,0.1);
-      border-color: var(--border-dk);
-    }
+    /* Q2 BMI */
+    .bmi-out{margin-top:16px;padding:16px 20px;background:#fff;border:1.5px solid var(--bd);border-radius:var(--r);display:none}
+    .bmi-line{font-size:16px;color:var(--tx);margin-bottom:4px}
+    .bmi-line strong{font-weight:700}
 
-    /* Card header strip */
-    .ex-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border);
-      background: linear-gradient(90deg, #faf3ea 0%, #fdf8f2 100%);
-    }
-    .ex-num {
-      width: 34px; height: 34px;
-      border-radius: 9px;
-      background: var(--brown);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 15px;
-      color: #fff;
-      flex-shrink: 0;
-      letter-spacing: -0.02em;
-    }
-    .ex-title {
-      font-family: 'Merriweather', serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--brown);
-    }
-    .ex-desc {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
+    /* Q3 Farm */
+    #farm-garden{margin-top:16px;display:grid;gap:5px}
+    .fruit-cell{width:44px;height:44px;border-radius:8px;background:#fff;border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:24px}
 
-    /* Card body */
-    .ex-body { padding: 22px 20px; }
+    /* Q4 Currency */
+    .cur-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+    .sep{font-size:18px;color:var(--mu);padding-bottom:10px}
 
-    /* ── FORM ELEMENTS ── */
-    .field { display: flex; flex-direction: column; gap: 5px; }
-    .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
+    /* Q5 Coin */
+    .coin-area{display:flex;flex-direction:column;gap:14px}
+    .coin-face{width:80px;height:80px;border-radius:50%;background:#f5d060;border:3px solid #c8a020;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;color:#5c3c00;font-family:Georgia,serif;user-select:none}
+    .coin-face.tails{background:#d4d4d4;border-color:#999;color:#444}
+    .coin-counters{display:flex;gap:12px}
+    .cc-box{text-align:center;padding:10px 18px;background:#fff;border:1.5px solid var(--bd);border-radius:var(--r)}
+    .cc-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mu)}
+    .cc-val{font-size:28px;font-weight:900;color:var(--tx);margin-top:2px}
 
-    label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-sub);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
+    /* Q6 Cake */
+    .grp-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--sub);border-bottom:1px solid var(--bd);padding-bottom:7px;margin-bottom:12px;margin-top:18px}
+    .price-out{display:none;margin-top:16px;padding:16px 20px;background:#fff7ed;border:1.5px solid #e8c080;border-radius:var(--r)}
+    .price-lbl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin-bottom:4px}
+    .price-val{font-size:28px;font-weight:900;color:var(--sub)}
 
-    input[type="text"],
-    input[type="number"],
-    select {
-      background: var(--cream);
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      color: var(--text);
-      font-family: 'Lato', sans-serif;
-      font-size: 14px;
-      padding: 8px 12px;
-      width: 100%;
-      max-width: 240px;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    input[type="text"]:focus,
-    input[type="number"]:focus,
-    select:focus {
-      border-color: var(--orange);
-      box-shadow: 0 0 0 3px rgba(212,114,26,0.12);
-    }
-    select option { background: #fff; }
-
-    /* ── BUTTONS ── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 9px 20px;
-      border-radius: 8px;
-      font-family: 'Lato', sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      transition: all 0.18s;
-      background: var(--brown);
-      color: #fff;
-      letter-spacing: 0.02em;
-    }
-    .btn:hover {
-      background: var(--brown-lt);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(92,61,30,0.25);
-    }
-    .btn:active { transform: translateY(0); }
-
-    .btn-teal  { background: var(--teal); }
-    .btn-teal:hover  { background: var(--teal-lt); box-shadow: 0 4px 14px rgba(42,122,107,0.25); }
-
-    .btn-orange { background: var(--orange); }
-    .btn-orange:hover { background: var(--orange-lt); box-shadow: 0 4px 14px rgba(212,114,26,0.25); }
-
-    .btn-sky  { background: var(--sky); }
-    .btn-sky:hover  { background: var(--sky-lt); box-shadow: 0 4px 14px rgba(58,124,165,0.25); }
-
-    .btn-rust  { background: var(--rust); }
-    .btn-rust:hover  { background: #d04a26; box-shadow: 0 4px 14px rgba(192,66,28,0.25); }
-
-    .btn-green { background: var(--green); }
-    .btn-green:hover { background: var(--green-lt); box-shadow: 0 4px 14px rgba(58,120,82,0.25); }
-
-    /* ── RESULT STRIP ── */
-    .result-strip {
-      margin-top: 16px;
-      padding: 14px 16px;
-      background: var(--cream);
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-    }
-    .result-strip .rl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 4px; }
-    .result-strip .rv { font-size: 20px; font-weight: 900; color: var(--brown); }
-
-    /* ══════════════
-       Q1 — WORDS
-    ══════════════ */
-    #q1-input { max-width: 380px; }
-    .word-pair { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
-    .word-tile {
-      flex: 1; min-width: 130px;
-      padding: 14px 18px;
-      border-radius: 10px;
-      border: 1.5px solid var(--border);
-    }
-    .word-tile.short-tile { background: #fff7ed; border-color: #fcd9a8; }
-    .word-tile.long-tile  { background: #f0fdf4; border-color: #a7f3c8; }
-    .wt-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
-    .wt-value { font-size: 22px; font-weight: 900; margin-top: 5px; }
-    .short-tile .wt-value { color: var(--orange); }
-    .long-tile  .wt-value { color: var(--teal); }
-
-    /* ══════════════
-       Q2 — BMI
-    ══════════════ */
-    .bmi-result {
-      margin-top: 18px;
-      background: var(--cream);
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      padding: 18px 20px;
-    }
-    .bmi-numbers { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 16px; }
-    .bmi-score-val { font-size: 48px; font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
-    .bmi-score-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); font-weight: 700; margin-bottom: 4px; }
-    .bmi-type-val  { font-size: 18px; font-weight: 700; }
-    .bmi-type-lbl  { font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); font-weight: 700; margin-bottom: 4px; }
-
-    .bmi-track {
-      height: 10px;
-      border-radius: 99px;
-      background: linear-gradient(to right, #60a5fa, #34d399, #fbbf24, #f87171);
-      position: relative;
-      margin-bottom: 6px;
-    }
-    .bmi-needle {
-      position: absolute;
-      top: -5px;
-      width: 4px; height: 20px;
-      background: var(--brown);
-      border-radius: 2px;
-      transform: translateX(-50%);
-      transition: left 0.5s ease;
-      box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--brown);
-    }
-    .bmi-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 10px;
-      color: var(--muted);
-      font-weight: 600;
-    }
-
-    /* ══════════════
-       Q3 — FRUIT FARM
-    ══════════════ */
-    #garden {
-      margin-top: 16px;
-      display: grid;
-      gap: 5px;
-    }
-    .fruit-cell {
-      width: 48px; height: 48px;
-      border-radius: 8px;
-      border: 1.5px solid var(--border);
-      background: var(--cream);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 26px;
-      transition: transform 0.15s;
-      cursor: default;
-    }
-    .fruit-cell:hover { transform: scale(1.15); }
-
-    /* ══════════════
-       Q4 — CURRENCY
-    ══════════════ */
-    .currency-row { display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap; }
-    .arrow-sep { font-size: 20px; color: var(--muted); padding-bottom: 9px; }
-
-    /* ══════════════
-       Q5 — COIN
-    ══════════════ */
-    .coin-wrap { display: flex; flex-direction: column; gap: 16px; }
-    .coin-circle {
-      width: 88px; height: 88px;
-      border-radius: 50%;
-      border: 3px solid var(--border-dk);
-      background: radial-gradient(circle at 35% 35%, #f9e8b0, #d4a820);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 36px;
-      font-weight: 900;
-      color: var(--brown);
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.12);
-      transition: transform 0.25s;
-      user-select: none;
-    }
-    .coin-circle.heads { background: radial-gradient(circle at 35% 35%, #fde68a, #d97706); }
-    .coin-circle.tails { background: radial-gradient(circle at 35% 35%, #d1d5db, #9ca3af); color: #374151; }
-    .coin-circle.flipping { animation: flipCoin 0.4s ease; }
-    @keyframes flipCoin {
-      0%   { transform: scaleX(1); }
-      40%  { transform: scaleX(0); }
-      60%  { transform: scaleX(0); }
-      100% { transform: scaleX(1); }
-    }
-    .coin-counters {
-      display: flex; gap: 12px; flex-wrap: wrap;
-    }
-    .counter-box {
-      flex: 1; min-width: 80px;
-      text-align: center;
-      background: var(--cream);
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 16px;
-    }
-    .cb-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--muted); }
-    .cb-value { font-size: 32px; font-weight: 900; margin-top: 2px; }
-    .counter-box.heads-box .cb-value { color: var(--amber); }
-    .counter-box.tails-box .cb-value { color: var(--sky); }
-
-    /* ══════════════
-       Q6 — CAKE ORDER
-    ══════════════ */
-    .cake-section { margin-bottom: 16px; }
-    .cake-section-title {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--brown);
-      margin-bottom: 10px;
-      padding-bottom: 6px;
-      border-bottom: 1.5px solid var(--border);
-    }
-    .radio-group { display: flex; gap: 16px; flex-wrap: wrap; }
-    .radio-opt {
-      display: flex; align-items: center; gap: 7px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text);
-    }
-    input[type="radio"] { accent-color: var(--orange); width: 16px; height: 16px; cursor: pointer; }
-
-    .price-out {
-      margin-top: 16px;
-      padding: 16px 20px;
-      background: #fff7ed;
-      border: 1.5px solid #fcd9a8;
-      border-radius: 10px;
-    }
-    .price-out .po-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--orange); }
-    .price-out .po-value { font-size: 36px; font-weight: 900; color: var(--brown); margin-top: 4px; }
-
-    /* ── FOOTER ── */
-    .site-footer {
-      text-align: center;
-      padding: 28px 24px;
-      font-size: 12px;
-      color: var(--muted);
-      border-top: 1px solid var(--border);
-      background: var(--card-bg);
-    }
-    .site-footer a { color: var(--orange); text-decoration: none; }
-    .site-footer a:hover { text-decoration: underline; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 560px) {
-      .currency-row { flex-direction: column; align-items: flex-start; }
-      .arrow-sep { display: none; }
-      .word-pair, .coin-counters { flex-direction: column; }
-    }
+    /* FOOTER */
+    footer{text-align:center;padding:24px;font-size:12px;color:var(--mu);border-top:1px solid var(--bd);background:var(--card)}
+    footer a{color:var(--ac);text-decoration:none}
   </style>
 </head>
-
 <body>
 
-  <!-- ── HERO ── -->
-  <div class="hero">
-    <div class="hero-eyebrow">Web Technology Laboratory</div>
-    <h1>Experiment 5</h1>
-    <p class="hero-sub">JavaScript — DOM Elements &amp; Events</p>
-    <div class="hero-chips">
-      <div class="chip"><span class="dot"></span> URK24CS6007</div>
-      <div class="chip">📌 Ex.No: 05</div>
-      <div class="chip">🧩 6 Exercises</div>
-    </div>
+<header class="page-head">
+  <div class="ph">
+    <p class="ph-label">Web Technology Lab · Experiment 5</p>
+    <h1>JavaScript — DOM Elements &amp; Events</h1>
+    <p>To create web pages demonstrating document object model and events in JavaScript.</p>
+    <a href="../index.html" class="back-top">← Back to all experiments</a>
   </div>
+</header>
 
-  <!-- ── BACK ── -->
-  <div class="back-bar">
-    <a class="back-link" href="../index.html">← Back to All Experiments</a>
+<nav class="ex-tabs">
+  <div class="et">
+    <a href="#ex1">01 · Shortest Word</a>
+    <a href="#ex2">02 · BMI</a>
+    <a href="#ex3">03 · Fruit Farm</a>
+    <a href="#ex4">04 · Currency</a>
+    <a href="#ex5">05 · Coin Flip</a>
+    <a href="#ex6">06 · Cake Order</a>
   </div>
+</nav>
 
-  <!-- ── MAIN ── -->
-  <main class="main">
-    <p class="section-tag">Sample Questions — DOM &amp; Events</p>
+<main>
+  <div class="wrap">
 
-    <!-- ════════════════════════════════════════
-         Q1 — Shortest & Longest Word
-    ════════════════════════════════════════ -->
-    <div class="ex-card">
-      <div class="ex-header">
-        <div class="ex-num">1</div>
+    <!-- ── EXERCISE 1 ── -->
+    <section class="ex-section" id="ex1">
+      <div class="esh">
         <div>
-          <div class="ex-title">Shortest &amp; Longest Word Finder</div>
-          <div class="ex-desc">Find the shortest and longest word in a string using split() and .length</div>
+          <p class="es-tag">Exercise 01</p>
+          <h2>Shortest &amp; Longest Word Finder</h2>
+          <p class="es-desc">Find the shortest and longest word in a string using split() and .length</p>
         </div>
+        <a href="Ex-5-1.html" class="fp-link">Open full page →</a>
       </div>
-      <div class="ex-body">
-        <div class="field">
-          <label for="q1-input">Enter a String</label>
-          <input type="text" id="q1-input" value="Web Development Tutorial" placeholder="e.g. Web Development Tutorial">
-        </div>
-        <div style="margin-top:14px;">
-          <button class="btn btn-orange" id="btn-q1" onclick="findWords()">🔍 Find Words</button>
-        </div>
-        <div class="word-pair" id="word-result" style="display:none;">
-          <div class="word-tile short-tile">
-            <div class="wt-label">Shortest</div>
-            <div class="wt-value" id="shortest-word">—</div>
-          </div>
-          <div class="word-tile long-tile">
-            <div class="wt-label">Longest</div>
-            <div class="wt-value" id="longest-word">—</div>
-          </div>
-        </div>
+      <div class="field">
+        <label for="q1-str">Enter a String</label>
+        <input type="text" id="q1-str" value="Web Development Tutorial" style="max-width:380px;">
       </div>
-    </div>
+      <div class="mt14">
+        <button class="btn" id="q1-btn">Find Words</button>
+      </div>
+      <div class="word-pair" id="q1-result">
+        <div class="word-chip"><div class="wc-lbl">Shortest</div><div class="wc-val" id="q1-short">—</div></div>
+        <div class="word-chip"><div class="wc-lbl">Longest</div><div class="wc-val" id="q1-long">—</div></div>
+      </div>
+    </section>
 
-    <!-- ════════════════════════════════════════
-         Q2 — BMI Calculator
-    ════════════════════════════════════════ -->
-    <div class="ex-card">
-      <div class="ex-header">
-        <div class="ex-num">2</div>
+    <!-- ── EXERCISE 2 ── -->
+    <section class="ex-section" id="ex2">
+      <div class="esh">
         <div>
-          <div class="ex-title">BMI Calculator</div>
-          <div class="ex-desc">Calculate Body Mass Index — Underweight (&lt;18) / Normal (18–25) / Overweight (25–30) / Obese (&gt;30)</div>
+          <p class="es-tag">Exercise 02</p>
+          <h2>BMI Calculator</h2>
+          <p class="es-desc">BMI = weight / (height × height). Underweight &lt;18 · Normal 18–25 · Overweight 25–30 · Obese &gt;30</p>
         </div>
+        <a href="Ex-5-2.html" class="fp-link">Open full page →</a>
       </div>
-      <div class="ex-body">
-        <fieldset style="border:none;padding:0;">
-          <div class="row">
-            <div class="field">
-              <label for="weight">Weight (kg)</label>
-              <input type="text" id="weight" placeholder="e.g. 70" style="max-width:150px;">
-            </div>
-            <div class="field">
-              <label for="height">Height (m)</label>
-              <input type="text" id="height" placeholder="e.g. 1.75" style="max-width:150px;">
-            </div>
-            <button class="btn btn-teal" id="btn-bmi" onclick="calculate()">Get BMI!</button>
-          </div>
-        </fieldset>
-
-        <!-- *** FIX: using div not p, so nested divs are valid *** -->
-        <div id="bmi-result-section" style="display:none;">
-          <div class="bmi-result">
-            <div class="bmi-numbers">
-              <div>
-                <div class="bmi-score-lbl">Your BMI is</div>
-                <div class="bmi-score-val" id="score" style="color:var(--brown);">—</div>
-              </div>
-              <div>
-                <div class="bmi-type-lbl">Body Type</div>
-                <div class="bmi-type-val" id="type">—</div>
-              </div>
-            </div>
-            <div class="bmi-track">
-              <div class="bmi-needle" id="bmi-needle" style="left:0%;"></div>
-            </div>
-            <div class="bmi-labels">
-              <span>Underweight</span>
-              <span>Normal</span>
-              <span>Overweight</span>
-              <span>Obese</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ════════════════════════════════════════
-         Q3 — Fruit Farm
-    ════════════════════════════════════════ -->
-    <div class="ex-card">
-      <div class="ex-header">
-        <div class="ex-num">3</div>
-        <div>
-          <div class="ex-title">Fruit Farm</div>
-          <div class="ex-desc">Generate a rectangular grid of 🍎 apple or 🍊 orange with equal probability using Math.random()</div>
-        </div>
-      </div>
-      <div class="ex-body">
+      <fieldset style="border:none;padding:0;">
         <div class="row">
           <div class="field">
-            <label for="rows">Rows</label>
-            <input type="text" id="rows" placeholder="e.g. 3" style="max-width:100px;">
+            <label for="bmi-w">Weight (kg)</label>
+            <input type="text" id="bmi-w" placeholder="e.g. 70" style="max-width:140px;">
           </div>
           <div class="field">
-            <label for="columns">Columns</label>
-            <input type="text" id="columns" placeholder="e.g. 5" style="max-width:100px;">
+            <label for="bmi-h">Height (m)</label>
+            <input type="text" id="bmi-h" placeholder="e.g. 1.75" style="max-width:140px;">
           </div>
-          <button class="btn btn-green" id="btn-garden" onclick="grow()">🌱 Plant Garden</button>
+          <button class="btn btn-green" onclick="calcBMI()">Get BMI!</button>
         </div>
-        <div id="garden"></div>
+      </fieldset>
+      <div class="bmi-out" id="bmi-result">
+        <p class="bmi-line">Your BMI is <strong id="bmi-score">—</strong>.</p>
+        <p class="bmi-line">Your body type is <strong id="bmi-type">—</strong>.</p>
       </div>
-    </div>
+    </section>
 
-    <!-- ════════════════════════════════════════
-         Q4 — Currency Converter
-    ════════════════════════════════════════ -->
-    <div class="ex-card">
-      <div class="ex-header">
-        <div class="ex-num">4</div>
+    <!-- ── EXERCISE 3 ── -->
+    <section class="ex-section" id="ex3">
+      <div class="esh">
         <div>
-          <div class="ex-title">Currency Converter</div>
-          <div class="ex-desc">Rupee ↔ Dollar converter (₹→$ factor: 0.015 &nbsp;|&nbsp; $→₹ factor: 67.12)</div>
+          <p class="es-tag">Exercise 03</p>
+          <h2>Fruit Farm</h2>
+          <p class="es-desc">Generate a grid of 🍎 apple or 🍊 orange with equal probability using Math.random()</p>
         </div>
+        <a href="Ex-5-3.html" class="fp-link">Open full page →</a>
       </div>
-      <div class="ex-body">
-        <fieldset style="border:none;padding:0;">
-          <div class="currency-row">
-            <div class="field">
-              <label for="data">Amount</label>
-              <input type="text" id="data" placeholder="Enter amount" style="max-width:130px;">
-            </div>
-            <div class="field">
-              <label for="from">From</label>
-              <select id="from" style="max-width:155px;">
-                <option>Indian Rupee</option>
-                <option>US Dollar</option>
-              </select>
-            </div>
-            <div class="arrow-sep">→</div>
-            <div class="field">
-              <label for="to">To</label>
-              <select id="to" style="max-width:155px;">
-                <option>US Dollar</option>
-                <option>Indian Rupee</option>
-              </select>
-            </div>
-            <button class="btn btn-sky" id="btn-convert" onclick="convert()">Calculate</button>
-          </div>
-        </fieldset>
-        <div class="result-strip" id="currency-result" style="display:none;">
-          <div class="rl">Result</div>
-          <div class="rv"><span id="answer">—</span></div>
+      <div class="row">
+        <div class="field">
+          <label for="farm-r">Rows</label>
+          <input type="text" id="farm-r" placeholder="3" style="max-width:90px;">
         </div>
+        <div class="field">
+          <label for="farm-c">Columns</label>
+          <input type="text" id="farm-c" placeholder="5" style="max-width:90px;">
+        </div>
+        <button class="btn btn-green" onclick="growGarden()">Plant Garden</button>
       </div>
-    </div>
+      <div id="farm-garden"></div>
+    </section>
 
-    <!-- ════════════════════════════════════════
-         Q5 — Coin Flip
-    ════════════════════════════════════════ -->
-    <div class="ex-card">
-      <div class="ex-header">
-        <div class="ex-num">5</div>
+    <!-- ── EXERCISE 4 ── -->
+    <section class="ex-section" id="ex4">
+      <div class="esh">
         <div>
-          <div class="ex-title">Coin Flip</div>
-          <div class="ex-desc">Randomly flip heads or tails with equal probability. Track results with addEventListener.</div>
+          <p class="es-tag">Exercise 04</p>
+          <h2>Currency Converter</h2>
+          <p class="es-desc">Convert between Indian Rupee and US Dollar. ₹→$ factor: 0.015 &nbsp;·&nbsp; $→₹ factor: 67.12</p>
         </div>
+        <a href="Ex-5-4.html" class="fp-link">Open full page →</a>
       </div>
-      <div class="ex-body">
-        <div class="coin-wrap">
-          <div class="coin-circle" id="coin">H</div>
-          <div>
-            <button class="btn btn-rust" id="flip">🪙 Flip!</button>
+      <fieldset style="border:none;padding:0;">
+        <div class="cur-row">
+          <div class="field">
+            <label for="cur-amt">Amount</label>
+            <input type="text" id="cur-amt" placeholder="Enter amount" style="max-width:130px;">
           </div>
-          <p style="font-size:13px; color:var(--muted);">
-            Heads Total: <span id="num_heads" style="font-weight:900; color:var(--amber);">0</span>
-            &nbsp;|&nbsp;
-            Tails Total: <span id="num_tails" style="font-weight:900; color:var(--sky);">0</span>
-          </p>
-          <div class="coin-counters">
-            <div class="counter-box heads-box">
-              <div class="cb-label">Heads</div>
-              <div class="cb-value" id="heads-count">0</div>
-            </div>
-            <div class="counter-box tails-box">
-              <div class="cb-label">Tails</div>
-              <div class="cb-value" id="tails-count">0</div>
-            </div>
+          <div class="field">
+            <label for="cur-from">From</label>
+            <select id="cur-from" style="max-width:150px;">
+              <option>Indian Rupee</option>
+              <option>US Dollar</option>
+            </select>
           </div>
+          <span class="sep">→</span>
+          <div class="field">
+            <label for="cur-to">To</label>
+            <select id="cur-to" style="max-width:150px;">
+              <option>US Dollar</option>
+              <option>Indian Rupee</option>
+            </select>
+          </div>
+          <button class="btn btn-sky" onclick="convertCur()">Calculate</button>
         </div>
+      </fieldset>
+      <div class="res-box" id="cur-result">
+        <div class="res-lbl">Result</div>
+        <div class="res-val"><span id="cur-answer">—</span></div>
       </div>
-    </div>
+    </section>
 
-    <!-- ════════════════════════════════════════
-         Q6 — Birthday Cake Order Form
-    ════════════════════════════════════════ -->
-    <div class="ex-card">
-      <div class="ex-header">
-        <div class="ex-num">6</div>
+    <!-- ── EXERCISE 5 ── -->
+    <section class="ex-section" id="ex5">
+      <div class="esh">
         <div>
-          <div class="ex-title">Birthday Cake Order Form</div>
-          <div class="ex-desc">½kg=₹100, 1kg=₹200, 2kg=₹400 + 9% tax + tip (10/15/20%). Uses querySelector for radio.</div>
+          <p class="es-tag">Exercise 05</p>
+          <h2>Coin Flip</h2>
+          <p class="es-desc">Randomly flip heads or tails with equal probability. Event handler attached via addEventListener.</p>
+        </div>
+        <a href="Ex-5-5.html" class="fp-link">Open full page →</a>
+      </div>
+      <div class="coin-area">
+        <div class="coin-face" id="coin-el">H</div>
+        <button class="btn btn-rust" id="coin-btn">Flip!</button>
+        <p style="font-size:13px;color:var(--mu);">
+          Heads Total: <strong id="coin-h">0</strong> &nbsp;|&nbsp; Tails Total: <strong id="coin-t">0</strong>
+        </p>
+        <div class="coin-counters">
+          <div class="cc-box"><div class="cc-lbl">Heads</div><div class="cc-val" id="coin-h2">0</div></div>
+          <div class="cc-box"><div class="cc-lbl">Tails</div><div class="cc-val" id="coin-t2">0</div></div>
         </div>
       </div>
-      <div class="ex-body">
-        <fieldset style="border:none;padding:0;">
+    </section>
 
-          <div class="cake-section">
-            <div class="cake-section-title">🎂 Select Cakes</div>
-            <div class="row" style="gap:12px;">
-              <div class="field">
-                <label for="small"># of ½kg Cakes</label>
-                <input type="text" id="small" placeholder="0" style="max-width:110px;">
-              </div>
-              <div class="field">
-                <label for="medium"># of 1kg Cakes</label>
-                <input type="text" id="medium" placeholder="0" style="max-width:110px;">
-              </div>
-              <div class="field">
-                <label for="large"># of 2kg Cakes</label>
-                <input type="text" id="large" placeholder="0" style="max-width:110px;">
-              </div>
-            </div>
-          </div>
-
-          <div class="cake-section" style="margin-top:16px;">
-            <div class="cake-section-title">💰 Select Tip</div>
-            <div class="radio-group">
-              <label class="radio-opt">
-                <input type="radio" value="10" name="tip"> 10%
-              </label>
-              <label class="radio-opt">
-                <input type="radio" value="15" name="tip" checked="checked"> 15%
-              </label>
-              <label class="radio-opt">
-                <input type="radio" value="20" name="tip"> 20%
-              </label>
-            </div>
-          </div>
-
-          <button class="btn btn-orange" id="submit" style="margin-top:6px;">Calculate Order</button>
-
-        </fieldset>
-
-        <div class="price-out" id="price-display" style="display:none;">
-          <div class="po-label">Cost of Order</div>
-          <div class="po-value">₹ <span id="price">—</span></div>
+    <!-- ── EXERCISE 6 ── -->
+    <section class="ex-section" id="ex6">
+      <div class="esh">
+        <div>
+          <p class="es-tag">Exercise 06</p>
+          <h2>Birthday Cake Order Form</h2>
+          <p class="es-desc">½kg=₹100, 1kg=₹200, 2kg=₹400. Add 9% tax, then chosen tip (10/15/20%) using querySelector on radio buttons.</p>
         </div>
+        <a href="Ex-5-6.html" class="fp-link">Open full page →</a>
       </div>
-    </div>
+      <fieldset style="border:none;padding:0;">
+        <p class="grp-title" style="margin-top:0;">Select Cakes</p>
+        <div class="row">
+          <div class="field">
+            <label for="ck-s"># of ½kg Cakes</label>
+            <input type="text" id="ck-s" placeholder="0" style="max-width:100px;">
+          </div>
+          <div class="field">
+            <label for="ck-m"># of 1kg Cakes</label>
+            <input type="text" id="ck-m" placeholder="0" style="max-width:100px;">
+          </div>
+          <div class="field">
+            <label for="ck-l"># of 2kg Cakes</label>
+            <input type="text" id="ck-l" placeholder="0" style="max-width:100px;">
+          </div>
+        </div>
+        <p class="grp-title">Select Tip</p>
+        <div class="radio-row">
+          <label class="ro"><input type="radio" value="10" name="ctip"> 10%</label>
+          <label class="ro"><input type="radio" value="15" name="ctip" checked> 15%</label>
+          <label class="ro"><input type="radio" value="20" name="ctip"> 20%</label>
+        </div>
+        <div class="mt14">
+          <button class="btn" id="cake-btn">Calculate Order</button>
+        </div>
+      </fieldset>
+      <div class="price-out" id="cake-result">
+        <div class="price-lbl">Cost of Order</div>
+        <div class="price-val">₹ <span id="cake-price">—</span></div>
+      </div>
+    </section>
 
-  </main>
+  </div>
+</main>
 
-  <!-- ── FOOTER ── -->
-  <footer class="site-footer">
-    <p>© 2024–2025 Abin Shaji Thomas (URK24CS6007) — Web Technology Lab Batch 1</p>
-    <p style="margin-top:5px;">
-      <a href="https://github.com/Abin-Shaji-Thomas/Web-Technology-Lab" target="_blank" rel="noopener">View on GitHub ↗</a>
-    </p>
-  </footer>
+<footer>
+  <p>Abin Shaji Thomas &nbsp;·&nbsp; Web Technology Lab &nbsp;·&nbsp; <a href="../index.html">All Experiments</a></p>
+</footer>
 
-  <!-- ══════════════════════════════════════
-       JAVASCRIPT — DOM & EVENTS
-  ══════════════════════════════════════ -->
-  <script>
-
-    /* ──────────────────────────────────────
-       Q1 — Shortest & Longest Word
-    ────────────────────────────────────── */
-    function findWords() {
-      var str = document.getElementById("q1-input").value.trim();
-      if (!str) return;
-
-      // Split a string into an array — split()
-      var words = str.split(" ").filter(function(w) { return w.length > 0; });
-      if (words.length === 0) return;
-
-      var shortest = words[0];
-      var longest  = words[0];
-
-      for (var i = 1; i < words.length; i++) {
-        // Find the length of a string — stringname.length
-        if (words[i].length < shortest.length) shortest = words[i];
-        if (words[i].length > longest.length)  longest  = words[i];
-      }
-
-      document.getElementById("shortest-word").textContent = "'" + shortest + "'";
-      document.getElementById("longest-word").textContent  = "'" + longest  + "'";
-      document.getElementById("word-result").style.display = "flex";
+<script>
+  /* Q1 — Shortest & Longest Word */
+  document.getElementById("q1-btn").addEventListener("click", function() {
+    var str = document.getElementById("q1-str").value.trim();
+    if (!str) return;
+    var words = str.split(" ").filter(function(w){ return w.length > 0; });
+    if (!words.length) return;
+    var shortest = words[0], longest = words[0];
+    for (var i = 1; i < words.length; i++) {
+      if (words[i].length < shortest.length) shortest = words[i];
+      if (words[i].length > longest.length)  longest  = words[i];
     }
+    document.getElementById("q1-short").textContent = "'" + shortest + "'";
+    document.getElementById("q1-long").textContent  = "'" + longest  + "'";
+    document.getElementById("q1-result").style.display = "flex";
+  });
 
-    /* ──────────────────────────────────────
-       Q2 — BMI Calculator
-    ────────────────────────────────────── */
-    function calculate() {
-      // Extract data from input boxes
-      var weight = parseFloat(document.getElementById("weight").value);
-      var height = parseFloat(document.getElementById("height").value);
+  /* Q2 — BMI Calculator */
+  function calcBMI() {
+    var weight = parseFloat(document.getElementById("bmi-w").value);
+    var height = parseFloat(document.getElementById("bmi-h").value);
+    if (isNaN(weight) || isNaN(height) || height === 0) { alert("Enter valid weight and height."); return; }
+    var bmi = weight / (height * height);
+    var bodyType;
+    if (bmi < 18)       bodyType = "Underweight";
+    else if (bmi <= 25) bodyType = "Normal";
+    else if (bmi <= 30) bodyType = "Overweight";
+    else                bodyType = "Obese";
+    document.getElementById("bmi-score").innerHTML = bmi.toFixed(2);
+    document.getElementById("bmi-type").innerHTML  = bodyType;
+    document.getElementById("bmi-result").style.display = "block";
+  }
 
-      if (isNaN(weight) || isNaN(height) || height === 0) {
-        alert("Please enter valid weight and height values.");
-        return;
-      }
-
-      var bmi = weight / (height * height);
-      var bmiRounded = bmi.toFixed(2);
-
-      // Determine body type from criteria
-      var bodyType, typeColor;
-      if (bmi < 18) {
-        bodyType  = "Underweight";
-        typeColor = "#3a7ca5";   // sky blue
-      } else if (bmi <= 25) {
-        bodyType  = "Normal";
-        typeColor = "#3a7852";   // green
-      } else if (bmi <= 30) {
-        bodyType  = "Overweight";
-        typeColor = "#c68d1a";   // amber
-      } else {
-        bodyType  = "Obese";
-        typeColor = "#c0351c";   // rust red
-      }
-
-      // Change the content of html elements using getElementById + innerHTML
-      document.getElementById("score").innerHTML = bmiRounded;
-      document.getElementById("type").innerHTML  = bodyType;
-      document.getElementById("type").style.color = typeColor;
-
-      // Move needle — BMI range 10 to 40 mapped to 0–100%
-      var pct = Math.min(Math.max(((bmi - 10) / 30) * 100, 2), 98);
-      document.getElementById("bmi-needle").style.left = pct + "%";
-
-      // Show result section (it's a div, not p — valid HTML)
-      document.getElementById("bmi-result-section").style.display = "block";
-    }
-
-    /* ──────────────────────────────────────
-       Q3 — Fruit Farm — grow() function
-    ────────────────────────────────────── */
-    function grow() {
-      var rows    = parseInt(document.getElementById("rows").value);
-      var columns = parseInt(document.getElementById("columns").value);
-
-      if (isNaN(rows) || isNaN(columns) || rows < 1 || columns < 1) {
-        alert("Please enter valid row and column numbers.");
-        return;
-      }
-      if (rows > 15 || columns > 15) {
-        alert("Maximum 15 rows and 15 columns.");
-        return;
-      }
-
-      // Create an array of strings (fruit options)
-      var arr = ["🍎", "🍊"];
-
-      var garden = document.getElementById("garden");
-      garden.innerHTML = "";
-      garden.style.gridTemplateColumns = "repeat(" + columns + ", 48px)";
-
-      for (var r = 0; r < rows; r++) {
-        for (var c = 0; c < columns; c++) {
-          // Generate random number in range 0–1 — Math.floor(Math.random() * upperBound)
-          var number = Math.floor(Math.random() * arr.length);
-
-          var cell = document.createElement("div");
-          cell.className = "fruit-cell";
-          // Add image / emoji — innerHTML +=
-          cell.innerHTML = arr[number];
-          garden.appendChild(cell);
-        }
+  /* Q3 — Fruit Farm */
+  function growGarden() {
+    var rows = parseInt(document.getElementById("farm-r").value);
+    var cols = parseInt(document.getElementById("farm-c").value);
+    if (isNaN(rows) || isNaN(cols) || rows < 1 || cols < 1) { alert("Enter valid rows and columns."); return; }
+    if (rows > 15 || cols > 15) { alert("Max 15 each."); return; }
+    var arr = ["🍎", "🍊"];
+    var g = document.getElementById("farm-garden");
+    g.innerHTML = "";
+    g.style.gridTemplateColumns = "repeat(" + cols + ", 44px)";
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        var cell = document.createElement("div");
+        cell.className = "fruit-cell";
+        cell.innerHTML = arr[Math.floor(Math.random() * arr.length)];
+        g.appendChild(cell);
       }
     }
+  }
 
-    /* ──────────────────────────────────────
-       Q4 — Currency Converter — convert()
-    ────────────────────────────────────── */
-    function convert() {
-      var amount = parseFloat(document.getElementById("data").value);
-      if (isNaN(amount)) {
-        alert("Please enter a valid number.");
-        return;
-      }
+  /* Q4 — Currency Converter */
+  function convertCur() {
+    var amount = parseFloat(document.getElementById("cur-amt").value);
+    if (isNaN(amount)) { alert("Enter a valid number."); return; }
+    var fromIdx = document.getElementById("cur-from").selectedIndex;
+    var fromVal = document.getElementById("cur-from")[fromIdx].value;
+    var toIdx   = document.getElementById("cur-to").selectedIndex;
+    var toVal   = document.getElementById("cur-to")[toIdx].value;
+    var result, sym;
+    if (fromVal === "Indian Rupee" && toVal === "US Dollar") { result = (amount * 0.015).toFixed(4); sym = "$ "; }
+    else if (fromVal === "US Dollar" && toVal === "Indian Rupee") { result = (amount * 67.12).toFixed(2); sym = "₹ "; }
+    else { result = amount.toFixed(2); sym = fromVal === "Indian Rupee" ? "₹ " : "$ "; }
+    document.getElementById("cur-answer").innerHTML = sym + result;
+    document.getElementById("cur-result").style.display = "block";
+  }
 
-      // Extract value from drop-down list — selectedIndex
-      var fromIndex = document.getElementById("from").selectedIndex;
-      var fromValue = document.getElementById("from")[fromIndex].value;
+  /* Q5 — Coin Flip (addEventListener) */
+  var _h = 0, _t = 0;
+  function flipCoin() {
+    var n = Math.floor(Math.random() * 2);
+    var el = document.getElementById("coin-el");
+    if (n === 0) { el.textContent = "H"; el.className = "coin-face"; _h++; }
+    else         { el.textContent = "T"; el.className = "coin-face tails"; _t++; }
+    document.getElementById("coin-h").textContent  = _h;
+    document.getElementById("coin-t").textContent  = _t;
+    document.getElementById("coin-h2").textContent = _h;
+    document.getElementById("coin-t2").textContent = _t;
+  }
+  document.getElementById("coin-btn").addEventListener("click", flipCoin);
 
-      var toIndex = document.getElementById("to").selectedIndex;
-      var toValue = document.getElementById("to")[toIndex].value;
-
-      var result, symbol;
-
-      if (fromValue === "Indian Rupee" && toValue === "US Dollar") {
-        result = (amount * 0.015).toFixed(4);
-        symbol = "$ ";
-      } else if (fromValue === "US Dollar" && toValue === "Indian Rupee") {
-        result = (amount * 67.12).toFixed(2);
-        symbol = "₹ ";
-      } else {
-        // Same currency
-        result = amount.toFixed(2);
-        symbol = (fromValue === "Indian Rupee") ? "₹ " : "$ ";
-      }
-
-      document.getElementById("answer").innerHTML = symbol + result;
-      document.getElementById("currency-result").style.display = "block";
-    }
-
-    /* ──────────────────────────────────────
-       Q5 — Coin Flip
-       Attach event handler using addEventListener (unobtrusive JS)
-    ────────────────────────────────────── */
-    var headsCount = 0;
-    var tailsCount = 0;
-
-    function flipFunction() {
-      var coinEl = document.getElementById("coin");
-
-      // Remove and re-add class to re-trigger animation
-      coinEl.classList.remove("flipping");
-      void coinEl.offsetWidth; // force reflow
-      coinEl.classList.add("flipping");
-
-      // Generate random result — equal probability
-      var number = Math.floor(Math.random() * 2);
-
-      setTimeout(function() {
-        coinEl.classList.remove("flipping");
-        if (number === 0) {
-          // Change the src / display of coin element
-          coinEl.textContent = "H";
-          coinEl.className = "coin-circle heads";
-          headsCount++;
-        } else {
-          coinEl.textContent = "T";
-          coinEl.className = "coin-circle tails";
-          tailsCount++;
-        }
-
-        // Update all span displays
-        document.getElementById("num_heads").textContent   = headsCount;
-        document.getElementById("num_tails").textContent   = tailsCount;
-        document.getElementById("heads-count").textContent = headsCount;
-        document.getElementById("tails-count").textContent = tailsCount;
-      }, 200);
-    }
-
-    // Attach event handler to button — unobtrusive JavaScript
-    document.getElementById("flip").addEventListener("click", flipFunction);
-
-    /* ──────────────────────────────────────
-       Q6 — Birthday Cake Order Form
-       Unobtrusive JS, querySelector for radio button
-    ────────────────────────────────────── */
-    function calcOrder() {
-      var small  = parseInt(document.getElementById("small").value)  || 0;
-      var medium = parseInt(document.getElementById("medium").value) || 0;
-      var large  = parseInt(document.getElementById("large").value)  || 0;
-
-      // Extract value from radio buttons — querySelector with :checked
-      var tipPct = parseFloat(document.querySelector('input[name="tip"]:checked').value);
-
-      // Base price: ½kg=100, 1kg=200, 2kg=400
-      var base = (small * 100) + (medium * 200) + (large * 400);
-
-      // Add 9% tax
-      var afterTax = base * 1.09;
-
-      // Add selected tip percentage
-      var total = afterTax * (1 + tipPct / 100);
-
-      // Display result — change content of html element
-      document.getElementById("price").innerHTML = total.toFixed(2);
-      document.getElementById("price-display").style.display = "block";
-    }
-
-    // Unobtrusive event handler — attach to submit button
-    document.getElementById("submit").addEventListener("click", calcOrder);
-
-  </script>
-
+  /* Q6 — Birthday Cake Order (addEventListener + querySelector) */
+  document.getElementById("cake-btn").addEventListener("click", function() {
+    var s   = parseInt(document.getElementById("ck-s").value) || 0;
+    var m   = parseInt(document.getElementById("ck-m").value) || 0;
+    var l   = parseInt(document.getElementById("ck-l").value) || 0;
+    var tip = parseFloat(document.querySelector('input[name="ctip"]:checked').value);
+    var base = (s * 100) + (m * 200) + (l * 400);
+    var total = base * 1.09 * (1 + tip / 100);
+    document.getElementById("cake-price").innerHTML = total.toFixed(2);
+    document.getElementById("cake-result").style.display = "block";
+  });
+</script>
 </body>
 </html>

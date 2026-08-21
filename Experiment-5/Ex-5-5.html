@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ex 5.5 — Coin Flip | Experiment 5</title>
+  <style>
+    :root{--bg:#f9f5f0;--card:#fff;--bd:#ddd4c0;--tx:#1e1208;--sub:#5c3c22;--mu:#9a7a5a;--ac:#a0521a;--rs:#b83a1a;--r:10px}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;min-height:100vh;display:flex;flex-direction:column}
+    h1{font-family:Georgia,serif}
+    .wrap{max-width:720px;margin:0 auto;padding:0 24px}
+
+    .topbar{background:var(--card);border-bottom:1px solid var(--bd)}
+    .tb{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;max-width:720px;margin:0 auto}
+    .tb a{font-size:13px;font-weight:600;color:var(--sub);text-decoration:none}
+    .tb a:hover{color:var(--ac)}
+    .tb span{font-size:12px;color:var(--mu)}
+
+    .ex-head{background:var(--card);border-bottom:1px solid var(--bd);padding:30px 0 26px}
+    .ex-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ac);margin-bottom:8px}
+    .ex-head h1{font-size:24px;color:var(--tx);margin-bottom:6px}
+    .ex-obj{font-size:13px;color:var(--sub);max-width:540px}
+
+    main{flex:1;padding:32px 0 48px}
+    .btn{display:inline-block;padding:9px 20px;border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;border:none;cursor:pointer;background:var(--rs);color:#fff;transition:background .15s}
+    .btn:hover{background:#c84828}
+
+    .coin-area{display:flex;flex-direction:column;gap:16px}
+    .coin-face{width:90px;height:90px;border-radius:50%;background:#f5d060;border:3px solid #c8a020;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:900;color:#5c3c00;font-family:Georgia,serif;user-select:none;letter-spacing:-1px}
+    .coin-face.tails{background:#d4d4d4;border-color:#999;color:#444}
+    .totals-line{font-size:14px;color:var(--mu)}
+    .totals-line strong{color:var(--tx);font-weight:700}
+    .counters{display:flex;gap:12px}
+    .cbox{text-align:center;padding:12px 20px;background:#fff;border:1.5px solid var(--bd);border-radius:var(--r);min-width:80px}
+    .cbox-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mu)}
+    .cbox-val{font-size:32px;font-weight:900;color:var(--tx);margin-top:2px}
+
+    .bot-nav{background:var(--card);border-top:1px solid var(--bd);padding:14px 0}
+    .bn{display:flex;justify-content:space-between;align-items:center;padding:0 24px;max-width:720px;margin:0 auto}
+    .bn a{font-size:13px;font-weight:600;color:var(--sub);text-decoration:none;padding:6px 12px;border:1px solid var(--bd);border-radius:6px;background:#fff}
+    .bn a:hover{color:var(--ac);border-color:var(--ac)}
+    .bn .center{border-color:transparent;color:var(--mu);font-size:12px;background:none}
+    .bn .center:hover{color:var(--ac)}
+  </style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="tb">
+    <a href="5th-Exercise.html">← All Exercises</a>
+    <span>Exercise 5 of 6</span>
+  </div>
+</nav>
+
+<header class="ex-head">
+  <div class="wrap">
+    <p class="ex-tag">Exercise 05</p>
+    <h1>Coin Flip</h1>
+    <p class="ex-obj">Randomly flip heads or tails with equal probability using Math.random(). The click event is attached unobrusively via addEventListener.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="coin-area">
+      <div class="coin-face" id="coin">H</div>
+      <div>
+        <!-- Event handler attached via addEventListener in script (unobtrusive JS) -->
+        <button class="btn" id="flip">Flip!</button>
+      </div>
+      <p class="totals-line">
+        Heads Total: <strong id="num_heads">0</strong> &nbsp;|&nbsp;
+        Tails Total: <strong id="num_tails">0</strong>
+      </p>
+      <div class="counters">
+        <div class="cbox">
+          <div class="cbox-lbl">Heads</div>
+          <div class="cbox-val" id="heads-count">0</div>
+        </div>
+        <div class="cbox">
+          <div class="cbox-lbl">Tails</div>
+          <div class="cbox-val" id="tails-count">0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<nav class="bot-nav">
+  <div class="bn">
+    <a href="Ex-5-4.html">← Currency Converter</a>
+    <a href="5th-Exercise.html" class="center">All Exercises</a>
+    <a href="Ex-5-6.html">Cake Order →</a>
+  </div>
+</nav>
+
+<script>
+  var headsCount = 0;
+  var tailsCount = 0;
+
+  function flipFunction() {
+    // Generate random result — equal probability of 0 or 1
+    var number = Math.floor(Math.random() * 2);
+
+    var coinEl = document.getElementById("coin");
+
+    if (number === 0) {
+      // Change the content of the coin element — Heads
+      coinEl.textContent = "H";
+      coinEl.className   = "coin-face";
+      headsCount++;
+    } else {
+      // Tails
+      coinEl.textContent = "T";
+      coinEl.className   = "coin-face tails";
+      tailsCount++;
+    }
+
+    // Update all displays
+    document.getElementById("num_heads").textContent   = headsCount;
+    document.getElementById("num_tails").textContent   = tailsCount;
+    document.getElementById("heads-count").textContent = headsCount;
+    document.getElementById("tails-count").textContent = tailsCount;
+  }
+
+  // Attach event handler to button using addEventListener (unobtrusive JavaScript)
+  document.getElementById("flip").addEventListener("click", flipFunction);
+</script>
+</body>
+</html>

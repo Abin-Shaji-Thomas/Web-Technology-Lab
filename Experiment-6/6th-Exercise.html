@@ -1,791 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Experiment 6 — JavaScript Timer Functions & Arrays | Web Technology Lab</title>
-  <meta name="description" content="Experiment 6: JavaScript timer functions, setInterval, setTimeout, Date object, arrays of objects — Digital Clock, Dynamic Background, Font Size Events, Moving Car, Student Array.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
-
+  <title>Experiment 6 — JavaScript Timer Functions &amp; Arrays</title>
+  <meta name="description" content="Experiment 6: JavaScript timer functions, setInterval, setTimeout, Date object, arrays of objects.">
   <style>
-    /* ══════════════════════════════════════════
-       DESIGN TOKENS — warm, human palette
-       (matches Experiment 5 theme)
-    ══════════════════════════════════════════ */
-    :root {
-      --cream:     #fdf8f2;
-      --warm-bg:   #f5ede0;
-      --card-bg:   #ffffff;
-      --border:    #e8d9c5;
-      --border-dk: #d4c0a5;
+    :root{--bg:#f9f5f0;--card:#fff;--bd:#ddd4c0;--tx:#1e1208;--sub:#5c3c22;--mu:#9a7a5a;--ac:#a0521a;--gr:#2d7a50;--sk:#2a6a90;--rs:#b83a1a;--r:10px}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;min-height:100vh}
+    h1,h2{font-family:Georgia,serif}
+    .wrap{max-width:780px;margin:0 auto;padding:0 24px}
 
-      --brown:     #5c3d1e;
-      --brown-lt:  #7a5230;
-      --orange:    #d4721a;
-      --orange-lt: #e8892f;
-      --rust:      #c0421c;
-      --teal:      #2a7a6b;
-      --teal-lt:   #3d9985;
-      --sky:       #3a7ca5;
-      --sky-lt:    #4e94be;
-      --amber:     #c68d1a;
-      --green:     #3a7852;
-      --green-lt:  #4e9a6a;
-      --purple:    #6b3fa0;
+    .page-head{background:var(--card);border-bottom:1px solid var(--bd)}
+    .ph{padding:30px 24px;max-width:780px;margin:0 auto}
+    .ph-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--mu);margin-bottom:7px}
+    .ph h1{font-size:26px;color:var(--tx);margin-bottom:5px}
+    .ph p{font-size:14px;color:var(--sub)}
+    .back-top{display:inline-block;font-size:12px;font-weight:600;color:var(--mu);text-decoration:none;margin-top:12px}
+    .back-top:hover{color:var(--ac)}
 
-      --text:      #2c1f0e;
-      --text-sub:  #5a4030;
-      --muted:     #9a7d62;
-      --radius:    12px;
-    }
+    .ex-tabs{position:sticky;top:0;z-index:100;background:var(--card);border-bottom:1px solid var(--bd);overflow-x:auto}
+    .et{display:flex;padding:0 24px;max-width:780px;margin:0 auto}
+    .ex-tabs a{padding:11px 14px;text-decoration:none;font-size:13px;font-weight:600;color:var(--mu);white-space:nowrap;border-bottom:2px solid transparent;transition:all .15s;display:block}
+    .ex-tabs a:hover{color:var(--ac);border-bottom-color:var(--ac)}
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    .ex-section{border-top:1px solid var(--bd);padding:36px 0;scroll-margin-top:46px}
+    .esh{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+    .es-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ac);margin-bottom:6px}
+    .esh h2{font-size:19px;color:var(--tx);margin-bottom:5px}
+    .es-desc{font-size:13px;color:var(--sub)}
+    .fp-link{font-size:12px;font-weight:700;color:var(--ac);text-decoration:none;white-space:nowrap;border-bottom:1px solid transparent;flex-shrink:0;padding-top:4px}
+    .fp-link:hover{border-bottom-color:var(--ac)}
 
-    body {
-      font-family: 'Lato', sans-serif;
-      background: var(--warm-bg);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.65;
-    }
+    label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--sub);margin-bottom:5px}
+    label.ro{text-transform:none;letter-spacing:0;font-weight:normal;font-size:14px;color:var(--tx);display:flex;align-items:center;gap:6px;cursor:pointer}
+    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+    .mt14{margin-top:14px}
 
-    /* ── HERO ── */
-    .hero {
-      background: linear-gradient(160deg, #3a2810 0%, #5c3d1e 50%, #7a5230 100%);
-      padding: 52px 24px 44px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      pointer-events: none;
-    }
-    .hero-eyebrow {
-      display: inline-block;
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.25);
-      color: #f5d9b0;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 5px 16px;
-      border-radius: 999px;
-      margin-bottom: 18px;
-    }
-    .hero h1 {
-      font-family: 'Merriweather', serif;
-      font-size: clamp(24px, 5vw, 40px);
-      font-weight: 700;
-      color: #fdf0e0;
-      margin-bottom: 8px;
-    }
-    .hero-sub {
-      font-size: 15px;
-      color: #d4b48c;
-      margin-bottom: 26px;
-    }
-    .hero-chips {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .chip {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 999px;
-      padding: 6px 14px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #f0dcc0;
-    }
-    .chip .dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: #86efac;
-      box-shadow: 0 0 5px #86efac;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+    .btn{display:inline-block;padding:9px 20px;border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;border:none;cursor:pointer;background:var(--ac);color:#fff;transition:background .15s}
+    .btn:hover{background:#b06020}
+    .btn-green{background:var(--gr)}.btn-green:hover{background:#3a9060}
+    .btn-sky{background:var(--sk)}.btn-sky:hover{background:#3880a8}
+    .btn-rust{background:var(--rs)}.btn-rust:hover{background:#c84828}
 
-    /* ── BACK BAR ── */
-    .back-bar {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 18px 24px 0;
-    }
-    .back-link {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 13px;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      transition: color 0.2s;
-    }
-    .back-link:hover { color: var(--brown); }
+    /* Q1 Clock */
+    .clock-box{display:inline-block;margin-top:16px;padding:18px 32px;background:#fff;border:1.5px solid var(--bd);border-radius:var(--r);font-family:Georgia,serif;font-size:48px;font-weight:700;color:var(--sub);letter-spacing:.04em;min-width:260px;text-align:center}
 
-    /* ── MAIN ── */
-    .main {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 28px 24px 80px;
-    }
-    .section-tag {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 18px;
-    }
+    /* Q2 Background */
+    .bg-demo{margin-top:16px;border-radius:var(--r);border:1.5px solid var(--bd);overflow:hidden;transition:background .8s}
+    .bg-inner{padding:28px 24px;text-align:center;transition:background .8s}
+    .bg-inner h3{font-family:Georgia,serif;font-size:18px;font-weight:700;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.3);margin-bottom:4px}
+    .bg-inner p{font-size:13px;color:rgba(255,255,255,.8)}
+    #bg-label{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;font-family:monospace;color:rgba(255,255,255,.9);background:rgba(0,0,0,.18);padding:2px 10px;border-radius:999px}
+    .btn-row{display:flex;gap:10px;margin-top:14px}
 
-    /* ── EXERCISE CARD ── */
-    .ex-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      margin-bottom: 24px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(92,61,30,0.06);
-      transition: box-shadow 0.2s, border-color 0.2s;
-    }
-    .ex-card:hover {
-      box-shadow: 0 6px 22px rgba(92,61,30,0.1);
-      border-color: var(--border-dk);
-    }
-    .ex-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border);
-      background: linear-gradient(90deg, #faf3ea 0%, #fdf8f2 100%);
-    }
-    .ex-num {
-      width: 34px; height: 34px;
-      border-radius: 9px;
-      background: var(--brown);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 15px;
-      color: #fff;
-      flex-shrink: 0;
-    }
-    .ex-title {
-      font-family: 'Merriweather', serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--brown);
-    }
-    .ex-desc {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-    .ex-body { padding: 22px 20px; }
+    /* Q3 Font size */
+    #para1{display:block;width:100%;margin-top:16px;padding:22px 24px;background:#fff;border:1.5px dashed var(--bd);border-radius:var(--r);font-size:16px;font-weight:600;color:var(--sub);text-align:center;cursor:default;user-select:none;transition:font-size .2s,background .2s}
+    #para1:hover{background:#fdf5ec;border-color:var(--ac)}
 
-    /* ── FORM ELEMENTS ── */
-    .field { display: flex; flex-direction: column; gap: 5px; }
-    .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
+    /* Q4 Car */
+    .road{margin-top:16px;background:#d1c4a8;border-radius:var(--r);border:1.5px solid var(--bd);height:76px;position:relative;overflow:hidden}
+    .road-line{position:absolute;top:50%;transform:translateY(-50%);left:0;right:0;height:3px;background:repeating-linear-gradient(90deg,#f5ede0 0,#f5ede0 28px,transparent 28px,transparent 52px);opacity:.5}
+    #imgObj{position:relative;left:0;top:0;height:100%;display:flex;align-items:center;padding-left:8px;font-size:40px;user-select:none}
 
-    label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-sub);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
+    /* Q5 Students */
+    .stu-text{margin-top:16px;background:#fff;border:1.5px solid var(--bd);border-radius:var(--r);padding:16px 20px}
+    .stu-text p{font-size:14px;color:var(--tx);padding:5px 0;border-bottom:1px solid var(--bd)}
+    .stu-text p:last-child{border-bottom:none}
+    .stu-table{margin-top:16px;background:#fff;border:1.5px solid var(--bd);border-radius:var(--r);overflow:hidden}
+    .stu-table table{width:100%;border-collapse:collapse;font-size:14px}
+    .stu-table th{background:var(--sub);color:#fff;padding:10px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left}
+    .stu-table td{padding:10px 14px;border-bottom:1px solid var(--bd);color:var(--tx)}
+    .stu-table tr:last-child td{border-bottom:none}
+    .stu-table tr:nth-child(even) td{background:#fdf5ec}
+    .badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px}
+    .b-before{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+    .b-after{background:#d1fae5;color:#064e3b;border:1px solid #6ee7b7}
 
-    /* ── BUTTONS ── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 9px 20px;
-      border-radius: 8px;
-      font-family: 'Lato', sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      transition: all 0.18s;
-      background: var(--brown);
-      color: #fff;
-      letter-spacing: 0.02em;
-    }
-    .btn:hover { background: var(--brown-lt); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(92,61,30,0.25); }
-    .btn:active { transform: translateY(0); }
-    .btn-orange { background: var(--orange); }
-    .btn-orange:hover { background: var(--orange-lt); box-shadow: 0 4px 14px rgba(212,114,26,0.25); }
-    .btn-teal  { background: var(--teal); }
-    .btn-teal:hover  { background: var(--teal-lt); box-shadow: 0 4px 14px rgba(42,122,107,0.25); }
-    .btn-sky   { background: var(--sky); }
-    .btn-sky:hover   { background: var(--sky-lt); box-shadow: 0 4px 14px rgba(58,124,165,0.25); }
-    .btn-rust  { background: var(--rust); }
-    .btn-rust:hover  { background: #d04a26; box-shadow: 0 4px 14px rgba(192,66,28,0.25); }
-    .btn-green { background: var(--green); }
-    .btn-green:hover { background: var(--green-lt); box-shadow: 0 4px 14px rgba(58,120,82,0.25); }
-    .btn-amber { background: var(--amber); }
-    .btn-amber:hover { background: #d9a020; box-shadow: 0 4px 14px rgba(198,141,26,0.25); }
-
-    /* ── RESULT STRIP ── */
-    .result-strip {
-      margin-top: 16px;
-      padding: 14px 16px;
-      background: var(--cream);
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-    }
-    .result-strip .rl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 4px; }
-    .result-strip .rv { font-size: 20px; font-weight: 900; color: var(--brown); }
-
-    /* ══════════════════════════════
-       Q1 — DIGITAL CLOCK
-    ══════════════════════════════ */
-    .clock-display {
-      font-family: 'Lato', monospace;
-      font-size: 56px;
-      font-weight: 900;
-      letter-spacing: 0.04em;
-      color: var(--brown);
-      background: var(--cream);
-      border: 2px solid var(--border);
-      border-radius: 14px;
-      padding: 22px 34px;
-      display: inline-block;
-      margin-top: 16px;
-      min-width: 280px;
-      text-align: center;
-    }
-    .clock-display span { color: var(--orange); }
-    #time { color: var(--brown); }
-
-    /* ══════════════════════════════
-       Q2 — DYNAMIC BACKGROUND
-    ══════════════════════════════ */
-    .bg-demo-box {
-      margin-top: 16px;
-      border-radius: 12px;
-      border: 2px solid var(--border);
-      overflow: hidden;
-      transition: background-color 1.2s ease;
-    }
-    .bg-demo-inner {
-      padding: 32px 24px;
-      text-align: center;
-      transition: background-color 1.2s ease;
-    }
-    .bg-demo-inner h3 {
-      font-family: 'Merriweather', serif;
-      font-size: 20px;
-      font-weight: 700;
-      color: #fff;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.3);
-      margin-bottom: 6px;
-    }
-    .bg-demo-inner p {
-      font-size: 13px;
-      color: rgba(255,255,255,0.85);
-    }
-    #bg-color-label {
-      display: inline-block;
-      margin-top: 10px;
-      font-size: 12px;
-      font-weight: 700;
-      color: rgba(255,255,255,0.9);
-      background: rgba(0,0,0,0.18);
-      padding: 3px 10px;
-      border-radius: 999px;
-      font-family: monospace;
-    }
-    .bg-btn-row { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
-
-    /* ══════════════════════════════
-       Q3 — FONT SIZE / MOUSE EVENTS
-    ══════════════════════════════ */
-    #para1 {
-      display: inline-block;
-      padding: 20px 28px;
-      margin-top: 16px;
-      background: var(--cream);
-      border: 2px dashed var(--border-dk);
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text-sub);
-      cursor: default;
-      transition: font-size 0.2s ease, background 0.2s;
-      user-select: none;
-      width: 100%;
-      text-align: center;
-    }
-    #para1:hover {
-      background: #fff7ed;
-      border-color: var(--orange);
-    }
-
-    /* ══════════════════════════════
-       Q4 — MOVING CAR
-    ══════════════════════════════ */
-    .road-track {
-      margin-top: 16px;
-      background: #d1c4a8;
-      border-radius: 10px;
-      border: 2px solid var(--border-dk);
-      height: 80px;
-      position: relative;
-      overflow: hidden;
-    }
-    .road-line {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      left: 0; right: 0;
-      height: 3px;
-      background: repeating-linear-gradient(
-        90deg,
-        #f5ede0 0px, #f5ede0 30px,
-        transparent 30px, transparent 55px
-      );
-      opacity: 0.5;
-    }
-    #car-img {
-      position: relative;
-      left: 0px;
-      top: 0;
-      font-size: 42px;
-      line-height: 1;
-      display: flex;
-      align-items: center;
-      height: 100%;
-      padding-left: 8px;
-      user-select: none;
-    }
-    .car-btn-row { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
-
-    /* ══════════════════════════════
-       Q5 — STUDENT ARRAY
-    ══════════════════════════════ */
-    .student-output {
-      margin-top: 16px;
-      background: var(--cream);
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .student-output table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
-    .student-output th {
-      background: var(--brown);
-      color: #fff;
-      padding: 10px 14px;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      text-align: left;
-    }
-    .student-output td {
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border);
-      color: var(--text);
-    }
-    .student-output tr:last-child td { border-bottom: none; }
-    .student-output tr:nth-child(even) td { background: #fdf5ec; }
-    .era-badge {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 9px;
-      border-radius: 999px;
-    }
-    .era-before { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
-    .era-after  { background: #d1fae5; color: #064e3b; border: 1px solid #6ee7b7; }
-
-    .student-text-out {
-      margin-top: 14px;
-      background: var(--cream);
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      padding: 14px 18px;
-    }
-    .student-text-out p {
-      font-size: 14px;
-      color: var(--text);
-      padding: 5px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .student-text-out p:last-child { border-bottom: none; }
-
-    /* ── FOOTER ── */
-    .site-footer {
-      text-align: center;
-      padding: 28px 24px;
-      font-size: 12px;
-      color: var(--muted);
-      border-top: 1px solid var(--border);
-      background: var(--card-bg);
-    }
-    .site-footer a { color: var(--orange); text-decoration: none; }
-    .site-footer a:hover { text-decoration: underline; }
+    footer{text-align:center;padding:24px;font-size:12px;color:var(--mu);border-top:1px solid var(--bd);background:var(--card)}
+    footer a{color:var(--ac);text-decoration:none}
   </style>
 </head>
-
 <body>
 
-  <!-- ── HERO ── -->
-  <div class="hero">
-    <div class="hero-eyebrow">Web Technology Laboratory</div>
-    <h1>Experiment 6</h1>
-    <p class="hero-sub">JavaScript — Timer Functions &amp; Arrays</p>
-    <div class="hero-chips">
-      <div class="chip"><span class="dot"></span> URK24CS6007</div>
-      <div class="chip">📌 Ex.No: 06</div>
-      <div class="chip">🧩 5 Exercises</div>
-    </div>
+<header class="page-head">
+  <div class="ph">
+    <p class="ph-label">Web Technology Lab · Experiment 6</p>
+    <h1>JavaScript — Timer Functions &amp; Arrays</h1>
+    <p>To create web pages using various timer functions, events and objects in JavaScript.</p>
+    <a href="../index.html" class="back-top">← Back to all experiments</a>
   </div>
+</header>
 
-  <!-- ── BACK ── -->
-  <div class="back-bar">
-    <a class="back-link" href="../index.html">← Back to All Experiments</a>
+<nav class="ex-tabs">
+  <div class="et">
+    <a href="#ex1">01 · Digital Clock</a>
+    <a href="#ex2">02 · Background</a>
+    <a href="#ex3">03 · Font Size</a>
+    <a href="#ex4">04 · Moving Car</a>
+    <a href="#ex5">05 · Students</a>
   </div>
+</nav>
 
-  <!-- ── MAIN ── -->
-  <main class="main">
-    <p class="section-tag">Sample Questions — Timer Functions &amp; Arrays</p>
+<main>
+  <div class="wrap">
 
-    <!-- ════════════════════════════════════════
-         Q1 — Digital Clock
-         setInterval + Date object
-    ════════════════════════════════════════ -->
-    <div class="ex-card">
-      <div class="ex-header">
-        <div class="ex-num">1</div>
+    <!-- EXERCISE 1: Digital Clock -->
+    <section class="ex-section" id="ex1">
+      <div class="esh">
         <div>
-          <div class="ex-title">Digital Clock</div>
-          <div class="ex-desc">Display a live digital clock using setInterval and the Date object (getHours, getMinutes, getSeconds)</div>
+          <p class="es-tag">Exercise 01</p>
+          <h2>Digital Clock</h2>
+          <p class="es-desc">Display a live digital clock using setInterval every 1 second and the Date object (getHours, getMinutes, getSeconds)</p>
         </div>
+        <a href="Ex-6-1.html" class="fp-link">Open full page →</a>
       </div>
-      <div class="ex-body">
-        <h2 style="font-family:'Merriweather',serif; font-size:18px; color:var(--brown); margin-bottom:4px;">Digital Clock!</h2>
-        <div class="clock-display">
-          <span id="time">--:--:--</span>
-        </div>
-      </div>
-    </div>
+      <h3 style="font-family:Georgia,serif;font-size:16px;color:var(--sub);margin-bottom:4px;">Digital Clock!</h3>
+      <div class="clock-box"><span id="time">--:--:--</span></div>
+    </section>
 
-    <!-- ════════════════════════════════════════
-         Q2 — Dynamic Background Colour
-         setInterval + Math.random RGB
-    ════════════════════════════════════════ -->
-    <div class="ex-card">
-      <div class="ex-header">
-        <div class="ex-num">2</div>
+    <!-- EXERCISE 2: Dynamic Background -->
+    <section class="ex-section" id="ex2">
+      <div class="esh">
         <div>
-          <div class="ex-title">Dynamic Background</div>
-          <div class="ex-desc">Change the background colour every 30 seconds using setInterval and Math.random() RGB values</div>
+          <p class="es-tag">Exercise 02</p>
+          <h2>Dynamic Background</h2>
+          <p class="es-desc">Change background colour every 30 seconds using setInterval and Math.random() to generate RGB values</p>
+        </div>
+        <a href="Ex-6-2.html" class="fp-link">Open full page →</a>
+      </div>
+      <h3 style="font-family:Georgia,serif;font-size:16px;color:var(--sub);margin-bottom:12px;">Dynamic Background!</h3>
+      <div class="btn-row">
+        <button class="btn btn-green" onclick="startBg()">▶ Start</button>
+        <button class="btn btn-rust"  onclick="stopBg()">⏹ Stop</button>
+      </div>
+      <div class="bg-demo" id="bg-demo" style="background:#5c3c22;margin-top:14px;">
+        <div class="bg-inner" id="bg-inner" style="background:#5c3c22;">
+          <h3>Dynamic Background!</h3>
+          <p>Colour changes every 30 seconds</p>
+          <span id="bg-label">rgb(92,60,34)</span>
         </div>
       </div>
-      <div class="ex-body">
-        <h2 style="font-family:'Merriweather',serif; font-size:18px; color:var(--brown); margin-bottom:12px;">Dynamic Background!</h2>
-        <div class="bg-btn-row">
-          <button class="btn btn-teal" id="btn-bg-start" onclick="startBackground()">▶ Start</button>
-          <button class="btn btn-rust" id="btn-bg-stop"  onclick="stopBackground()">⏹ Stop</button>
-        </div>
-        <div class="bg-demo-box" id="bg-demo-box" style="background:#5c3d1e; margin-top:14px;">
-          <div class="bg-demo-inner" id="bg-demo-inner" style="background:#5c3d1e;">
-            <h3>Dynamic Background!</h3>
-            <p>Colour changes every 30 seconds</p>
-            <span id="bg-color-label">#5c3d1e</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
 
-    <!-- ════════════════════════════════════════
-         Q3 — Font Size on Mouse Events
-         onmouseover / onmouseout
-    ════════════════════════════════════════ -->
-    <div class="ex-card">
-      <div class="ex-header">
-        <div class="ex-num">3</div>
+    <!-- EXERCISE 3: Font Size Events -->
+    <section class="ex-section" id="ex3">
+      <div class="esh">
         <div>
-          <div class="ex-title">Change Font Size!</div>
-          <div class="ex-desc">Increase font size on mouseover, decrease on mouseout using onmouseover / onmouseout event handlers</div>
+          <p class="es-tag">Exercise 03</p>
+          <h2>Change Font Size!</h2>
+          <p class="es-desc">Increase font size on onmouseover, decrease on onmouseout using event handlers</p>
         </div>
+        <a href="Ex-6-3.html" class="fp-link">Open full page →</a>
       </div>
-      <div class="ex-body">
-        <h2 style="font-family:'Merriweather',serif; font-size:18px; color:var(--brown); margin-bottom:4px;">Change font size!</h2>
-        <p id="para1" onmouseover="incSize()" onmouseout="decSize()">
-          Move cursor over me to zoom in…
-        </p>
-      </div>
-    </div>
+      <p id="para1" onmouseover="incSize()" onmouseout="decSize()">
+        Move cursor over me to zoom in…
+      </p>
+    </section>
 
-    <!-- ════════════════════════════════════════
-         Q4 — Moving Car Image
-         setTimeout / clearTimeout
-    ════════════════════════════════════════ -->
-    <div class="ex-card">
-      <div class="ex-header">
-        <div class="ex-num">4</div>
+    <!-- EXERCISE 4: Moving Car -->
+    <section class="ex-section" id="ex4">
+      <div class="esh">
         <div>
-          <div class="ex-title">Moving Car</div>
-          <div class="ex-desc">Move an absolutely-positioned car image with Move/Stop buttons using setTimeout and clearTimeout</div>
+          <p class="es-tag">Exercise 04</p>
+          <h2>Moving Car</h2>
+          <p class="es-desc">Move an absolutely-positioned car using setTimeout and stop it with clearTimeout</p>
         </div>
+        <a href="Ex-6-4.html" class="fp-link">Open full page →</a>
       </div>
-      <div class="ex-body">
-        <div class="road-track">
-          <div class="road-line"></div>
-          <div id="car-img">🚗</div>
-        </div>
-        <div class="car-btn-row">
-          <button class="btn btn-green"  onclick="startMove()">▶ Move</button>
-          <button class="btn btn-rust"   onclick="stopCar()">⏹ Stop</button>
-        </div>
+      <div class="road">
+        <div class="road-line"></div>
+        <div id="imgObj">🚗</div>
       </div>
-    </div>
+      <div class="btn-row" style="margin-top:12px;">
+        <button class="btn btn-green" onclick="startMove()">▶ Move</button>
+        <button class="btn btn-rust"  onclick="stopCar()">⏹ Stop</button>
+      </div>
+    </section>
 
-    <!-- ════════════════════════════════════════
-         Q5 — Student Array of Objects
-         Array of objects, iteration, if/else
-    ════════════════════════════════════════ -->
-    <div class="ex-card">
-      <div class="ex-header">
-        <div class="ex-num">5</div>
+    <!-- EXERCISE 5: Students -->
+    <section class="ex-section" id="ex5">
+      <div class="esh">
         <div>
-          <div class="ex-title">Student Array of Objects</div>
-          <div class="ex-desc">Create an array of student objects, iterate and display. Categorise by year of birth (before/after 2000).</div>
+          <p class="es-tag">Exercise 05</p>
+          <h2>Student Array of Objects</h2>
+          <p class="es-desc">Array of student objects; iterate and display. Use if/else to categorise by year of birth (before/after 2000).</p>
         </div>
+        <a href="Ex-6-5.html" class="fp-link">Open full page →</a>
       </div>
-      <div class="ex-body">
+      <div class="stu-text" id="stu-text"></div>
+      <div class="stu-table" id="stu-table" style="margin-top:14px;"></div>
+    </section>
 
-        <!-- Student register output — like "John's Register Number is UR13CS129" -->
-        <div class="student-text-out" id="student-text-out"></div>
+  </div>
+</main>
 
-        <!-- Student table with era categorisation -->
-        <div class="student-output" id="student-table-out" style="margin-top:16px;"></div>
+<footer>
+  <p>Abin Shaji Thomas &nbsp;·&nbsp; Web Technology Lab &nbsp;·&nbsp; <a href="../index.html">All Experiments</a></p>
+</footer>
 
-      </div>
-    </div>
+<script>
+  /* Q1 — Digital Clock */
+  function display() {
+    var d = new Date();
+    var h = d.getHours(), m = d.getMinutes(), s = d.getSeconds();
+    var hh = h < 10 ? "0"+h : h;
+    var mm = m < 10 ? "0"+m : m;
+    var ss = s < 10 ? "0"+s : s;
+    document.getElementById("time").innerHTML = hh + ":" + mm + ":" + ss;
+  }
+  display();
+  setInterval(display, 1000);
 
-  </main>
+  /* Q2 — Dynamic Background */
+  var bgTimer = null;
+  function setBackgroundColor() {
+    var red   = Math.floor(Math.random() * 255);
+    var green = Math.floor(Math.random() * 255);
+    var blue  = Math.floor(Math.random() * 255);
+    var color = "rgb(" + red + "," + green + "," + blue + ")";
+    document.getElementsByTagName("body")[0].style["background-color"] = color;
+    document.getElementById("bg-inner").style.backgroundColor = color;
+    document.getElementById("bg-label").textContent = color;
+  }
+  function startBg() {
+    if (bgTimer) return;
+    setBackgroundColor();
+    bgTimer = setInterval(setBackgroundColor, 30000);
+  }
+  function stopBg() {
+    clearInterval(bgTimer); bgTimer = null;
+    document.getElementsByTagName("body")[0].style["background-color"] = "";
+    document.getElementById("bg-inner").style.backgroundColor = "#5c3c22";
+    document.getElementById("bg-label").textContent = "stopped";
+  }
 
-  <!-- ── FOOTER ── -->
-  <footer class="site-footer">
-    <p>© 2024–2025 Abin Shaji Thomas (URK24CS6007) — Web Technology Lab Batch 1</p>
-    <p style="margin-top:5px;">
-      <a href="https://github.com/Abin-Shaji-Thomas/Web-Technology-Lab" target="_blank" rel="noopener">View on GitHub ↗</a>
-    </p>
-  </footer>
+  /* Q3 — Font Size */
+  function incSize() { document.getElementById("para1").style = "font-size:28px;"; }
+  function decSize() { document.getElementById("para1").style = "font-size:16px;"; }
 
-  <!-- ══════════════════════════════════════════
-       JAVASCRIPT — TIMER FUNCTIONS & ARRAYS
-  ══════════════════════════════════════════ -->
-  <script>
+  /* Q4 — Moving Car */
+  var carAnimate = null;
+  var carEl = null;
+  function initCar() {
+    carEl = document.getElementById("imgObj");
+    carEl.style.position = "relative";
+    carEl.style.left = "0px";
+  }
+  function moveRight() {
+    var cur = parseInt(carEl.style.left) || 0;
+    var maxW = document.querySelector(".road").offsetWidth - 60;
+    carEl.style.left = (cur > maxW ? 0 : cur + 2) + "px";
+    carAnimate = setTimeout("moveRight()", 10);
+  }
+  function startMove() { if (!carAnimate) moveRight(); }
+  function stopCar() { clearTimeout(carAnimate); carAnimate = null; carEl.style.left = "0px"; }
+  window.addEventListener("load", initCar);
 
-    /* ─────────────────────────────────────────
-       Q1 — Digital Clock
-       Define display function, call every 1 second
-    ───────────────────────────────────────── */
-    // Define function display
-    function display() {
-      // Get time using Date object
-      var d = new Date();
+  /* Q5 — Student Array */
+  var student = [
+    { name: "John",   r_num: "UR13CS129", dob: "20-apr-1995" },
+    { name: "Joseph", r_num: "UR13CS130", dob: "05-jan-1998" },
+    { name: "Alice",  r_num: "UR24CS006", dob: "12-mar-2002" },
+    { name: "Meera",  r_num: "UR24CS007", dob: "30-jun-2001" },
+    { name: "Rahul",  r_num: "UR20CS045", dob: "14-dec-1999" }
+  ];
+  function getYear(dob) { return parseInt(dob.split("-")[2]); }
 
-      // Extract hours, minutes and seconds
-      var hours   = d.getHours();
-      var minutes = d.getMinutes();
-      var seconds = d.getSeconds();
+  var txt = "";
+  for (var i = 0; i < student.length; i++) {
+    txt += "<p>" + student[i].name + "'s Register Number is " + student[i].r_num + "</p>";
+  }
+  document.getElementById("stu-text").innerHTML = txt;
 
-      // Pad single digits with leading zero
-      var hh = hours   < 10 ? "0" + hours   : hours;
-      var mm = minutes < 10 ? "0" + minutes : minutes;
-      var ss = seconds < 10 ? "0" + seconds : seconds;
-
-      // Update the span element
-      document.getElementById("time").innerHTML = hh + ":" + mm + ":" + ss;
-    }
-
-    // Call the time display function for every one second
-    setInterval(display, 1000);
-
-    // Run immediately so clock shows without 1s delay
-    display();
-
-    /* ─────────────────────────────────────────
-       Q2 — Dynamic Background Colour
-       Define setBackgroundColor, call with setInterval
-    ───────────────────────────────────────── */
-    var bgTimer = null;
-
-    // Define function setBackgroundColor
-    function setBackgroundColor() {
-      // Create random colors using rgb function
-      var red   = Math.floor(Math.random() * 255);
-      var blue  = Math.floor(Math.random() * 255);
-      var green = Math.floor(Math.random() * 255);
-
-      var color = "rgb(" + red + "," + green + "," + blue + ")";
-
-      // Change body background color using getElementsByTagName
-      document.getElementsByTagName("body")[0].style["background-color"] = color;
-
-      // Also update the demo preview box
-      document.getElementById("bg-demo-inner").style.backgroundColor = color;
-      document.getElementById("bg-color-label").textContent = color;
-    }
-
-    function startBackground() {
-      if (bgTimer) return;
-      setBackgroundColor(); // run once immediately
-      // Call the setBackgroundColor function for every 30 seconds (30000ms)
-      bgTimer = setInterval(setBackgroundColor, 30000);
-    }
-
-    function stopBackground() {
-      clearInterval(bgTimer);
-      bgTimer = null;
-      // Reset body background
-      document.getElementsByTagName("body")[0].style["background-color"] = "";
-      document.getElementById("bg-demo-inner").style.backgroundColor = "#5c3d1e";
-      document.getElementById("bg-color-label").textContent = "stopped";
-    }
-
-    /* ─────────────────────────────────────────
-       Q3 — Font Size on Mouse Events
-       incSize and decSize functions
-    ───────────────────────────────────────── */
-    // Define function incSize — increase font size on mouseover
-    function incSize() {
-      document.getElementById("para1").style = "font-size:28px;";
-    }
-
-    // Define function decSize — decrease font size on mouseout
-    function decSize() {
-      document.getElementById("para1").style = "font-size:16px;";
-    }
-
-    /* ─────────────────────────────────────────
-       Q4 — Moving Car
-       init, moveRight, stop using setTimeout
-    ───────────────────────────────────────── */
-    var imgObj  = null;
-    var animate = null;
-
-    // init — set up car position
-    function init() {
-      imgObj = document.getElementById("car-img");
-      imgObj.style.position = "relative";
-      imgObj.style.left     = "0px";
-    }
-
-    // moveRight — moves car 2px right each call, loops with setTimeout
-    function moveRight() {
-      var currentLeft = parseInt(imgObj.style.left) || 0;
-
-      // Wrap around when car goes off the right edge
-      var trackWidth = document.querySelector(".road-track").offsetWidth - 60;
-      if (currentLeft > trackWidth) {
-        imgObj.style.left = "0px";
-      } else {
-        imgObj.style.left = (currentLeft + 2) + "px";
-      }
-
-      // Recurse — call moveRight every 10ms
-      animate = setTimeout("moveRight()", 10);
-    }
-
-    function startMove() {
-      if (animate) return;  // don't double-start
-      moveRight();
-    }
-
-    // stop — clear timeout and reset position
-    function stopCar() {
-      clearTimeout(animate);
-      animate = null;
-      imgObj.style.left = "0px";
-    }
-
-    // window.onload = init
-    window.onload = init;
-
-    /* ─────────────────────────────────────────
-       Q5 — Student Array of Objects
-       Create array, iterate, display, categorise by DOB
-    ───────────────────────────────────────── */
-    // Create an array of objects — student properties
-    var student = [
-      { name: "John",    r_num: "UR13CS129", dob: "20-apr-1995" },
-      { name: "Joseph",  r_num: "UR13CS130", dob: "05-jan-1998" },
-      { name: "Alice",   r_num: "UR24CS006", dob: "12-mar-2002" },
-      { name: "Meera",   r_num: "UR24CS007", dob: "30-jun-2001" },
-      { name: "Rahul",   r_num: "UR20CS045", dob: "14-dec-1999" }
-    ];
-
-    // Helper: extract year from dob string like "20-apr-1995"
-    function getYear(dob) {
-      var parts = dob.split("-");
-      return parseInt(parts[2]);
-    }
-
-    // Build text output: "Name's Register Number is XXXX"
-    var textHTML = "";
-
-    // Iterate through the array of students
-    for (var i = 0; i < student.length; i++) {
-      // Access properties — student[i].name, student[i].r_num
-      textHTML += "<p>" + student[i].name + "'s Register Number is " + student[i].r_num + "</p>";
-    }
-    document.getElementById("student-text-out").innerHTML = textHTML;
-
-    // Build table with if/else categorisation by year of birth
-    var tableHTML = "<table><thead><tr><th>Name</th><th>Reg. No.</th><th>Date of Birth</th><th>Category</th></tr></thead><tbody>";
-
-    for (var j = 0; j < student.length; j++) {
-      var yr  = getYear(student[j].dob);
-      var era, badgeClass;
-
-      // if/else — categorise before 2000 or after 2000
-      if (yr < 2000) {
-        era       = "Born before 2000";
-        badgeClass = "era-badge era-before";
-      } else {
-        era       = "Born after 2000";
-        badgeClass = "era-badge era-after";
-      }
-
-      tableHTML += "<tr>";
-      tableHTML += "<td><strong>" + student[j].name + "</strong></td>";
-      tableHTML += "<td>" + student[j].r_num + "</td>";
-      tableHTML += "<td>" + student[j].dob + "</td>";
-      tableHTML += "<td><span class='" + badgeClass + "'>" + era + "</span></td>";
-      tableHTML += "</tr>";
-    }
-
-    tableHTML += "</tbody></table>";
-    document.getElementById("student-table-out").innerHTML = tableHTML;
-
-  </script>
-
+  var tbl = "<table><thead><tr><th>Name</th><th>Reg. No.</th><th>Date of Birth</th><th>Category</th></tr></thead><tbody>";
+  for (var j = 0; j < student.length; j++) {
+    var yr = getYear(student[j].dob);
+    var era, cls;
+    if (yr < 2000) { era = "Born before 2000"; cls = "badge b-before"; }
+    else           { era = "Born after 2000";  cls = "badge b-after";  }
+    tbl += "<tr><td><strong>"+student[j].name+"</strong></td><td>"+student[j].r_num+"</td><td>"+student[j].dob+"</td><td><span class='"+cls+"'>"+era+"</span></td></tr>";
+  }
+  tbl += "</tbody></table>";
+  document.getElementById("stu-table").innerHTML = tbl;
+</script>
 </body>
 </html>
