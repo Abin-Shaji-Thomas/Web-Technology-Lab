@@ -1,524 +1,329 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Web Technology Lab — Abin Shaji Thomas</title>
-  <meta name="description" content="Web Technology Lab experiments by Abin Shaji Thomas (URK24CS6007) — live demos and documentation." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Technology Lab | Abin Shaji Thomas</title>
   <style>
     :root {
-      --bg:        #0b0f1a;
-      --surface:   #111827;
-      --card:      #1a2235;
-      --border:    #1e2d45;
-      --accent:    #38bdf8;
-      --accent2:   #818cf8;
-      --green:     #34d399;
-      --text:      #e2e8f0;
-      --muted:     #64748b;
-      --radius:    14px;
+      --bg: #f8f6f2;
+      --card-bg: #ffffff;
+      --text-main: #2b2927;
+      --text-muted: #6e6a66;
+      --border: #e4e0d7;
+      --accent: #9e472a;
+      --accent-hover: #82381f;
+      --tag-bg: #f0ebe1;
+      --tag-text: #544f49;
     }
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
       line-height: 1.6;
+      h padding: 40px 20px;
     }
 
-    /* ── HERO ── */
-    .hero {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-      border-bottom: 1px solid var(--border);
-      padding: 60px 24px 50px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -100px; left: 50%;
-      transform: translateX(-50%);
-      width: 600px; height: 300px;
-      background: radial-gradient(ellipse, rgba(56,189,248,0.12) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .hero-badge {
-      display: inline-block;
-      background: rgba(56,189,248,0.12);
-      border: 1px solid rgba(56,189,248,0.3);
-      color: var(--accent);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 5px 14px;
-      border-radius: 999px;
-      margin-bottom: 20px;
-    }
-
-    .hero h1 {
-      font-size: clamp(28px, 5vw, 48px);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 10px;
-    }
-
-    .hero-sub {
-      font-size: 15px;
-      color: var(--muted);
-      margin-bottom: 28px;
-    }
-
-    .hero-meta {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .meta-chip {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 7px 16px;
-      font-size: 13px;
-      font-weight: 500;
-    }
-
-    .meta-chip .dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 6px var(--green);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.4; }
-    }
-
-    /* ── MAIN LAYOUT ── */
-    .main {
+    h .container {
       max-width: 860px;
       margin: 0 auto;
-      padding: 48px 24px 80px;
     }
 
-    .section-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
+    header {
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      h border-bottom: 1px solid var(--border);
+    }
+
+    .header-sub {
+      font-size: 13px;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 20px;
+      letter-spacing: 1.2px;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 6px;
     }
 
-    /* ── EXPERIMENT CARD ── */
-    .exp-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      margin-bottom: 20px;
-      overflow: hidden;
-      transition: border-color 0.2s, box-shadow 0.2s;
+    h1 {
+      font-family: Georgia, serif;
+      font-size: 32px;
+      font-weight: normal;
+      color: var(--text-main);
+      margin-bottom: 8px;
     }
 
-    .exp-card:hover {
-      border-color: rgba(56,189,248,0.35);
-      box-shadow: 0 0 24px rgba(56,189,248,0.06);
-    }
-
-    .card-header {
+    .header-meta {
+      font-size: 14px;
+      color: var(--text-muted);
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 22px;
-      border-bottom: 1px solid var(--border);
+      gap: 16px;
       flex-wrap: wrap;
-      gap: 10px;
     }
 
-    .card-title-group {
+    .header-meta span {
+      display: inline-block;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      transition: border-color 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: #c7c0b3;
+    }
+
+    .card-top {
       display: flex;
-      align-items: center;
-      gap: 12px;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
     }
 
     .exp-num {
-      width: 36px; height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 15px;
-      color: #fff;
-      flex-shrink: 0;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .status {
+      font-size: 12px;
+      padding: 3px 10px;
+      background-color: #eaf4ed;
+      color: #1e6038;
+      border-radius: 12px;
+      font-weight: 500;
     }
 
     .card-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text);
+      font-family: Georgia, serif;
+      font-size: 20px;
+      font-weight: normal;
+      color: var(--text-main);
+      margin-bottom: 8px;
     }
 
-    .card-subtitle {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
+    .card-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
     }
 
-    .status-badge {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(52, 211, 153, 0.12);
-      border: 1px solid rgba(52, 211, 153, 0.3);
-      color: var(--green);
-      white-space: nowrap;
-    }
-
-    /* ── TOPICS ── */
-    .card-topics {
-      padding: 14px 22px;
-      border-bottom: 1px solid var(--border);
+    .tags {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
+      margin-bottom: 20px;
     }
 
-    .topic-tag {
-      font-size: 11px;
-      font-weight: 500;
+    .tag {
+      font-size: 12px;
+      background-color: var(--tag-bg);
+      color: var(--tag-text);
       padding: 3px 10px;
-      border-radius: 999px;
-      background: rgba(129,140,248,0.1);
-      border: 1px solid rgba(129,140,248,0.2);
-      color: var(--accent2);
+      border-radius: 4px;
     }
 
-    /* ── ACTIONS ── */
-    .card-actions {
-      padding: 16px 22px;
+    .actions {
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+      gap: 12px;
     }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 9px 18px;
-      border-radius: 8px;
+      display: inline-block;
+      padding: 8px 16px;
       font-size: 13px;
       font-weight: 600;
       text-decoration: none;
-      border: none;
-      cursor: pointer;
-      transition: all 0.18s;
-      white-space: nowrap;
+      border-radius: 6px;
+      transition: all 0.15s ease;
     }
 
-    .btn-demo {
-      background: linear-gradient(135deg, #0ea5e9, #6366f1);
-      color: #fff;
-    }
-    .btn-demo:hover {
-      opacity: 0.88;
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(56,189,248,0.25);
+    .btn-primary {
+      background-color: var(--accent);
+      color: #ffffff;
     }
 
-    .btn-docs {
-      background: transparent;
-      color: var(--text);
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--text-main);
       border: 1px solid var(--border);
     }
-    .btn-docs:hover {
-      background: rgba(255,255,255,0.05);
-      border-color: var(--muted);
-      transform: translateY(-1px);
+
+    .btn-secondary:hover {
+      background-color: var(--tag-bg);
     }
 
-    /* ── FOOTER ── */
     footer {
+      margin-top: 50px;
       text-align: center;
-      padding: 30px 24px;
-      font-size: 12px;
-      color: var(--muted);
+      font-size: 13px;
+      color: var(--text-muted);
+      padding-top: 20px;
       border-top: 1px solid var(--border);
-    }
-
-    footer a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 520px) {
-      .card-header { flex-direction: column; align-items: flex-start; }
-      .card-actions { flex-direction: column; }
-      .btn { justify-content: center; }
     }
   </style>
 </head>
+
 <body>
+  <div class="container">
+    <header>
+      <div class="header-sub">Karunya Institute of Technology &amp; Sciences</div>
+      <h1>Web Technology Laboratory</h1>
+      <div class="header-meta">
+        <span>Student: Abin Shaji Thomas</span>
+        <span>Register No: URK24CS6007</span>
+        <span>Course Code: 24CS2004</span>
+      </div>
+    </header>
 
-  <!-- ── HERO ── -->
-  <div class="hero">
-    <div class="hero-badge">Web Technology Laboratory</div>
-    <h1>Abin Shaji Thomas</h1>
-    <p class="hero-sub">Semester Experiments Record &amp; Live Demo Portal</p>
-    <div class="hero-meta">
-      <div class="meta-chip">
-        <span class="dot"></span>
-        URK24CS6007
-      </div>
-      <div class="meta-chip">
-        📚 6 Experiments Completed
-      </div>
-      <div class="meta-chip">
-        🎓 Web Technology Lab
-      </div>
-    </div>
+    <main class="grid">
+      <!-- Exp 1 -->
+      <article class="card">
+        <div class="card-top">
+          <span class="exp-num">Experiment 01</span>
+          <span class="status">Completed</span>
+        </div>
+        <h2 class="card-title">HTML Fundamentals &amp; Infosys Training Portal</h2>
+        <p class="card-desc">Basic HTML structure, headings, text formatting tags, semantic containers, and inline
+          styling.</p>
+        <div class="tags">
+          <span class="tag">HTML5</span>
+          <span class="tag">Text Formatting</span>
+          <span class="tag">Semantic HTML</span>
+        </div>
+        <div class="actions">
+          <a href="Experiment-1/1st-Exercise.html" class="btn btn-primary">View Exercise</a>
+          <a href="Experiment-1/README.md" class="btn btn-secondary">Documentation</a>
+        </div>
+      </article>
+
+      <!-- Exp 2 -->
+      <article class="card">
+        <div class="card-top">
+          <span class="exp-num">Experiment 02</span>
+          <span class="status">Completed</span>
+        </div>
+        <h2 class="card-title">HTML5 Forms &amp; Media Elements</h2>
+        <p class="card-desc">Form controls, input types, embedded video player, inline frames, and progress meters.</p>
+        <div class="tags">
+          <span class="tag">HTML5 Forms</span>
+          <span class="tag">Media Elements</span>
+          <span class="tag">iFrames</span>
+        </div>
+        <div class="actions">
+          <a href="Experiment-2/2nd-Exercise.html" class="btn btn-primary">View Exercise</a>
+          <a href="Experiment-2/README.md" class="btn btn-secondary">Documentation</a>
+        </div>
+      </article>
+
+      <!-- Exp 3 -->
+      <article class="card">
+        <div class="card-top">
+          <span class="exp-num">Experiment 03</span>
+          <span class="status">Completed</span>
+        </div>
+        <h2 class="card-title">Responsive Webpage Layout</h2>
+        <p class="card-desc">CSS3 media queries, fluid grids, flexible images, and mobile-first responsive viewports.
+        </p>
+        <div class="tags">
+          <span class="tag">CSS3</span>
+          <span class="tag">Media Queries</span>
+          <span class="tag">Responsive</span>
+        </div>
+        <div class="actions">
+          <a href="Experiment-3/3rd-Exercise.html" class="btn btn-primary">View Exercise</a>
+          <a href="Experiment-3/README.md" class="btn btn-secondary">Documentation</a>
+        </div>
+      </article>
+
+      <!-- Exp 4 -->
+      <article class="card">
+        <div class="card-top">
+          <span class="exp-num">Experiment 04</span>
+          <span class="status">Completed</span>
+        </div>
+        <h2 class="card-title">Multi-Section Forms &amp; Positioning</h2>
+        <p class="card-desc">Advanced CSS positioning, flexbox alignments, multi-column sign-in/sign-up forms.</p>
+        <div class="tags">
+          <span class="tag">Flexbox</span>
+          <span class="tag">CSS Positioning</span>
+          <span class="tag">Form Design</span>
+        </div>
+        <div class="actions">
+          <a href="Experiment-4/4th-Exercise.html" class="btn btn-primary">View Exercise</a>
+          <a href="Experiment-4/README.md" class="btn btn-secondary">Documentation</a>
+        </div>
+      </article>
+
+      <!-- Exp 5 -->
+      <article class="card">
+        <div class="card-top">
+          <span class="exp-num">Experiment 05</span>
+          <span class="status">Completed</span>
+        </div>
+        <h2 class="card-title">JavaScript DOM Elements &amp; Events</h2>
+        <p class="card-desc">DOM manipulation using getElementById, event handling, BMI calculator, coin toss, and
+          currency conversion.</p>
+        <div class="tags">
+          <span class="tag">JavaScript DOM</span>
+          <span class="tag">Event Handling</span>
+          <span class="tag">Calculators</span>
+        </div>
+        <div class="actions">
+          <a href="Experiment-5/5th-Exercise.html" class="btn btn-primary">View All Exercises</a>
+          <a href="Experiment-5/README.md" class="btn btn-secondary">Documentation</a>
+        </div>
+      </article>
+
+      <!-- Exp 6 -->
+      <article class="card">
+        <div class="card-top">
+          <span class="exp-num">Experiment 06</span>
+          <span class="status">Completed</span>
+        </div>
+        <h2 class="card-title">JavaScript Timer Functions &amp; Arrays</h2>
+        <p class="card-desc">Timer functions (setInterval, setTimeout), Date object, digital clock, dynamic background,
+          and array of objects.</p>
+        <div class="tags">
+          <span class="tag">setInterval / setTimeout</span>
+          <span class="tag">Date Object</span>
+          <span class="tag">Arrays &amp; Objects</span>
+        </div>
+        <div class="actions">
+          <a href="Experiment-6/6th-Exercise.html" class="btn btn-primary">View All Exercises</a>
+          <a href="Experiment-6/README.md" class="btn btn-secondary">Documentation</a>
+        </div>
+      </article>
+    </main>
+
+    <footer>
+      <p>Department of Computer Science &amp; Engineering — Web Technology Lab</p>
+    </footer>
   </div>
-
-  <!-- ── MAIN ── -->
-  <main class="main">
-
-    <p class="section-label">All Experiments</p>
-
-    <!-- Experiment 1 -->
-    <div class="exp-card">
-      <div class="card-header">
-        <div class="card-title-group">
-          <div class="exp-num">1</div>
-          <div>
-            <div class="card-title">HTML Fundamentals &amp; Infosys Training Portal</div>
-            <div class="card-subtitle">Experiment No. 1</div>
-          </div>
-        </div>
-        <span class="status-badge">✓ Completed</span>
-      </div>
-      <div class="card-topics">
-        <span class="topic-tag">HTML Structure</span>
-        <span class="topic-tag">Headings &amp; Text Formatting</span>
-        <span class="topic-tag">Semantic Tags</span>
-        <span class="topic-tag">Inline CSS</span>
-        <span class="topic-tag">Real-World Scenario</span>
-      </div>
-      <div class="card-actions">
-        <a class="btn btn-demo" id="demo-exp1"
-           href="https://abin-shaji-thomas.github.io/Web-Technology-Lab/Experiment-1/1st-Excercise.html"
-           target="_blank" rel="noopener">
-          🚀 Live Demo
-        </a>
-        <a class="btn btn-docs" id="docs-exp1"
-           href="https://github.com/Abin-Shaji-Thomas/Web-Technology-Lab/tree/main/Experiment-1"
-           target="_blank" rel="noopener">
-          📄 Documentation
-        </a>
-      </div>
-    </div>
-
-    <!-- Experiment 2 -->
-    <div class="exp-card">
-      <div class="card-header">
-        <div class="card-title-group">
-          <div class="exp-num">2</div>
-          <div>
-            <div class="card-title">HTML5 Forms &amp; Media Elements</div>
-            <div class="card-subtitle">Experiment No. 2</div>
-          </div>
-        </div>
-        <span class="status-badge">✓ Completed</span>
-      </div>
-      <div class="card-topics">
-        <span class="topic-tag">HTML5 Forms</span>
-        <span class="topic-tag">Video &amp; iframes</span>
-        <span class="topic-tag">Progress Bars</span>
-        <span class="topic-tag">Media Elements</span>
-      </div>
-      <div class="card-actions">
-        <a class="btn btn-demo" id="demo-exp2"
-           href="https://abin-shaji-thomas.github.io/Web-Technology-Lab/Experiment-2/2nd-Excercise.html"
-           target="_blank" rel="noopener">
-          🚀 Live Demo
-        </a>
-        <a class="btn btn-docs" id="docs-exp2"
-           href="https://github.com/Abin-Shaji-Thomas/Web-Technology-Lab/tree/main/Experiment-2"
-           target="_blank" rel="noopener">
-          📄 Documentation
-        </a>
-      </div>
-    </div>
-
-    <!-- Experiment 3 -->
-    <div class="exp-card">
-      <div class="card-header">
-        <div class="card-title-group">
-          <div class="exp-num">3</div>
-          <div>
-            <div class="card-title">Responsive Webpage Using HTML5 &amp; CSS3</div>
-            <div class="card-subtitle">Experiment No. 3</div>
-          </div>
-        </div>
-        <span class="status-badge">✓ Completed</span>
-      </div>
-      <div class="card-topics">
-        <span class="topic-tag">Responsive Design</span>
-        <span class="topic-tag">CSS3</span>
-        <span class="topic-tag">Flexbox</span>
-        <span class="topic-tag">Media Queries</span>
-        <span class="topic-tag">CSS Grid</span>
-      </div>
-      <div class="card-actions">
-        <a class="btn btn-demo" id="demo-exp3"
-           href="https://abin-shaji-thomas.github.io/Web-Technology-Lab/Experiment-3/3rd-Excercise.html"
-           target="_blank" rel="noopener">
-          🚀 Live Demo
-        </a>
-        <a class="btn btn-docs" id="docs-exp3"
-           href="https://github.com/Abin-Shaji-Thomas/Web-Technology-Lab/tree/main/Experiment-3"
-           target="_blank" rel="noopener">
-          📄 Documentation
-        </a>
-      </div>
-    </div>
-
-    <!-- Experiment 4 -->
-    <div class="exp-card">
-      <div class="card-header">
-        <div class="card-title-group">
-          <div class="exp-num">4</div>
-          <div>
-            <div class="card-title">Multi-Section Webpage with HTML Forms &amp; CSS Styling</div>
-            <div class="card-subtitle">Experiment No. 4</div>
-          </div>
-        </div>
-        <span class="status-badge">✓ Completed</span>
-      </div>
-      <div class="card-topics">
-        <span class="topic-tag">CSS Positioning</span>
-        <span class="topic-tag">Navigation Bar</span>
-        <span class="topic-tag">Sign In / Sign Up Forms</span>
-        <span class="topic-tag">Flexbox</span>
-        <span class="topic-tag">CSS Gradients</span>
-      </div>
-      <div class="card-actions">
-        <a class="btn btn-demo" id="demo-exp4"
-           href="https://abin-shaji-thomas.github.io/Web-Technology-Lab/Experiment-4/4th-Excercise.html"
-           target="_blank" rel="noopener">
-          🚀 Live Demo
-        </a>
-        <a class="btn btn-docs" id="docs-exp4"
-           href="https://github.com/Abin-Shaji-Thomas/Web-Technology-Lab/tree/main/Experiment-4"
-           target="_blank" rel="noopener">
-          📄 Documentation
-        </a>
-      </div>
-    </div>
-
-    <!-- Experiment 5 -->
-    <div class="exp-card">
-      <div class="card-header">
-        <div class="card-title-group">
-          <div class="exp-num">5</div>
-          <div>
-            <div class="card-title">JavaScript — DOM Elements &amp; Events</div>
-            <div class="card-subtitle">Experiment No. 5</div>
-          </div>
-        </div>
-        <span class="status-badge">✓ Completed</span>
-      </div>
-      <div class="card-topics">
-        <span class="topic-tag">DOM Manipulation</span>
-        <span class="topic-tag">getElementById</span>
-        <span class="topic-tag">Event Listeners</span>
-        <span class="topic-tag">BMI Calculator</span>
-        <span class="topic-tag">Coin Flip</span>
-        <span class="topic-tag">Currency Converter</span>
-      </div>
-      <div class="card-actions">
-        <a class="btn btn-demo" id="demo-exp5"
-           href="https://abin-shaji-thomas.github.io/Web-Technology-Lab/Experiment-5/5th-Exercise.html"
-           target="_blank" rel="noopener">
-          🚀 Live Demo
-        </a>
-        <a class="btn btn-docs" id="docs-exp5"
-           href="https://github.com/Abin-Shaji-Thomas/Web-Technology-Lab/tree/main/Experiment-5"
-           target="_blank" rel="noopener">
-          📄 Documentation
-        </a>
-      </div>
-    </div>
-
-    <!-- Experiment 6 -->
-    <div class="exp-card">
-      <div class="card-header">
-        <div class="card-title-group">
-          <div class="exp-num">6</div>
-          <div>
-            <div class="card-title">JavaScript — Timer Functions &amp; Arrays</div>
-            <div class="card-subtitle">Experiment No. 6</div>
-          </div>
-        </div>
-        <span class="status-badge">✓ Completed</span>
-      </div>
-      <div class="card-topics">
-        <span class="topic-tag">setInterval / setTimeout</span>
-        <span class="topic-tag">Date Object</span>
-        <span class="topic-tag">Digital Clock</span>
-        <span class="topic-tag">Arrays &amp; Objects</span>
-        <span class="topic-tag">Class &amp; Object</span>
-      </div>
-      <div class="card-actions">
-        <a class="btn btn-demo" id="demo-exp6"
-           href="https://abin-shaji-thomas.github.io/Web-Technology-Lab/Experiment-6/6th-Exercise.html"
-           target="_blank" rel="noopener">
-          🚀 Live Demo
-        </a>
-        <a class="btn btn-docs" id="docs-exp6"
-           href="https://github.com/Abin-Shaji-Thomas/Web-Technology-Lab/tree/main/Experiment-6"
-           target="_blank" rel="noopener">
-          📄 Documentation
-        </a>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- ── FOOTER ── -->
-  <footer>
-    <p>© 2024–2025 Abin Shaji Thomas (URK24CS6007) — Web Technology Lab Batch 1</p>
-    <p style="margin-top:6px;">
-      <a href="https://github.com/Abin-Shaji-Thomas/Web-Technology-Lab" target="_blank" rel="noopener">
-        View on GitHub ↗
-      </a>
-    </p>
-  </footer>
-
 </body>
+
 </html>

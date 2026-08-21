@@ -2,110 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ex 6.4 — Moving Car | Experiment 6</title>
+  <title>Ex 6.4 - Moving Car Animation</title>
   <style>
-    :root{--bg:#f9f5f0;--card:#fff;--bd:#ddd4c0;--tx:#1e1208;--sub:#5c3c22;--mu:#9a7a5a;--ac:#a0521a;--gr:#2d7a50;--rs:#b83a1a;--r:10px}
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;min-height:100vh;display:flex;flex-direction:column}
-    h1,h2{font-family:Georgia,serif}
-    .wrap{max-width:720px;margin:0 auto;padding:0 24px}
-    .topbar{background:var(--card);border-bottom:1px solid var(--bd)}
-    .tb{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;max-width:720px;margin:0 auto}
-    .tb a{font-size:13px;font-weight:600;color:var(--sub);text-decoration:none}
-    .tb a:hover{color:var(--ac)}
-    .tb span{font-size:12px;color:var(--mu)}
-    .ex-head{background:var(--card);border-bottom:1px solid var(--bd);padding:30px 0 26px}
-    .ex-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ac);margin-bottom:8px}
-    .ex-head h1{font-size:24px;color:var(--tx);margin-bottom:6px}
-    .ex-obj{font-size:13px;color:var(--sub);max-width:540px}
-    main{flex:1;padding:32px 0 48px}
-
-    .sec-h{font-size:18px;color:var(--sub);margin-bottom:14px}
-    .btn{display:inline-block;padding:9px 20px;border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;border:none;cursor:pointer;background:var(--gr);color:#fff;transition:background .15s}
-    .btn:hover{background:#3a9060}
-    .btn-stop{background:var(--rs)}.btn-stop:hover{background:#c84828}
-    .btn-row{display:flex;gap:10px;margin-top:12px}
-
-    .road{background:#d1c4a8;border-radius:var(--r);border:1.5px solid var(--bd);height:80px;position:relative;overflow:hidden;margin-bottom:4px}
-    .road-line{position:absolute;top:50%;transform:translateY(-50%);left:0;right:0;height:3px;background:repeating-linear-gradient(90deg,#f5ede0 0,#f5ede0 28px,transparent 28px,transparent 52px);opacity:.5}
-    #img{position:relative;left:0px;top:0;height:100%;display:flex;align-items:center;padding-left:8px;font-size:42px;user-select:none}
-
-    .bot-nav{background:var(--card);border-top:1px solid var(--bd);padding:14px 0}
-    .bn{display:flex;justify-content:space-between;align-items:center;padding:0 24px;max-width:720px;margin:0 auto}
-    .bn a{font-size:13px;font-weight:600;color:var(--sub);text-decoration:none;padding:6px 12px;border:1px solid var(--bd);border-radius:6px;background:#fff}
-    .bn a:hover{color:var(--ac);border-color:var(--ac)}
-    .bn .center{border-color:transparent;color:var(--mu);font-size:12px;background:none}
-    .bn .center:hover{color:var(--ac)}
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; color: #222; }
+    .nav { margin-bottom: 20px; font-size: 14px; }
+    .nav a { color: #0066cc; text-decoration: none; margin-right: 12px; }
+    h2 { border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+    button { padding: 6px 14px; background: #333; color: #fff; border: none; cursor: pointer; margin-right: 5px; }
+    .road { width: 100%; height: 60px; background: #e0e0e0; border: 1px solid #ccc; position: relative; overflow: hidden; margin-top: 15px; }
+    .car { position: absolute; left: 0px; top: 15px; width: 40px; height: 30px; background: #333; color: #fff; text-align: center; line-height: 30px; font-size: 12px; font-weight: bold; border-radius: 4px; }
   </style>
 </head>
 <body>
-<nav class="topbar">
-  <div class="tb">
-    <a href="6th-Exercise.html">← All Exercises</a>
-    <span>Exercise 4 of 5</span>
+  <div class="nav">
+    <a href="6th-Exercise.html">&larr; All Exp 6 Exercises</a>
   </div>
-</nav>
-<header class="ex-head">
-  <div class="wrap">
-    <p class="ex-tag">Exercise 04</p>
-    <h1>Moving Car</h1>
-    <p class="ex-obj">Move an absolutely-positioned car image when the Move button is clicked, and stop it when Stop is clicked. Uses setTimeout and clearTimeout.</p>
+  <h2>Exercise 6.4: Moving Car Animation</h2>
+  
+  <button onclick="startMove()">Move</button>
+  <button onclick="stopMove()">Stop</button>
+
+  <div class="road" id="road">
+    <div class="car" id="car">CAR</div>
   </div>
-</header>
-<main>
-  <div class="wrap">
-    <div class="road" id="road">
-      <div class="road-line"></div>
-      <div id="img">🚗</div>
-    </div>
-    <div class="btn-row">
-      <button class="btn" onclick="startMove()">▶ Move</button>
-      <button class="btn btn-stop" onclick="stop()">⏹ Stop</button>
-    </div>
-  </div>
-</main>
-<nav class="bot-nav">
-  <div class="bn">
-    <a href="Ex-6-3.html">← Font Size</a>
-    <a href="6th-Exercise.html" class="center">All Exercises</a>
-    <a href="Ex-6-5.html">Students →</a>
-  </div>
-</nav>
-<script>
-  var imgObj  = null;
-  var animate = null;
 
-  // init — set initial position of car image
-  function init() {
-    imgObj = document.getElementById("img");
-    imgObj.style.position = "relative";
-    imgObj.style.left = "0px";
-  }
+  <script>
+    var carTimer = null;
+    var carPos = 0;
 
-  // moveRight — move car 2px to the right every 10ms
-  function moveRight() {
-    var cur = parseInt(imgObj.style.left) || 0;
-    var maxW = document.getElementById("road").offsetWidth - 60;
-    if (cur > maxW) { imgObj.style.left = "0px"; }
-    else            { imgObj.style.left = (cur + 2) + "px"; }
-    // Call moveRight again after 10ms using setTimeout
-    animate = setTimeout("moveRight()", 10);
-  }
+    function moveRight() {
+      var roadWidth = document.getElementById("road").offsetWidth;
+      carPos += 2;
+      if (carPos > roadWidth) carPos = 0;
+      document.getElementById("car").style.left = carPos + "px";
+      carTimer = setTimeout(moveRight, 10);
+    }
 
-  function startMove() {
-    if (!animate) moveRight();
-  }
+    function startMove() {
+      if (!carTimer) moveRight();
+    }
 
-  // stop — clear the timeout and reset position
-  function stop() {
-    clearTimeout(animate);
-    animate = null;
-    imgObj.style.left = "0px";
-  }
-
-  // window.onload to initialise car position
-  window.onload = init;
-</script>
+    function stopMove() {
+      if (carTimer) {
+        clearTimeout(carTimer);
+        carTimer = null;
+      }
+    }
+  </script>
 </body>
 </html>

@@ -2,124 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ex 6.5 — Student Array | Experiment 6</title>
+  <title>Ex 6.5 - Student Array of Objects</title>
   <style>
-    :root{--bg:#f9f5f0;--card:#fff;--bd:#ddd4c0;--tx:#1e1208;--sub:#5c3c22;--mu:#9a7a5a;--ac:#a0521a;--r:10px}
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;min-height:100vh;display:flex;flex-direction:column}
-    h1,h2{font-family:Georgia,serif}
-    .wrap{max-width:720px;margin:0 auto;padding:0 24px}
-    .topbar{background:var(--card);border-bottom:1px solid var(--bd)}
-    .tb{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;max-width:720px;margin:0 auto}
-    .tb a{font-size:13px;font-weight:600;color:var(--sub);text-decoration:none}
-    .tb a:hover{color:var(--ac)}
-    .tb span{font-size:12px;color:var(--mu)}
-    .ex-head{background:var(--card);border-bottom:1px solid var(--bd);padding:30px 0 26px}
-    .ex-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ac);margin-bottom:8px}
-    .ex-head h1{font-size:24px;color:var(--tx);margin-bottom:6px}
-    .ex-obj{font-size:13px;color:var(--sub);max-width:540px}
-    main{flex:1;padding:32px 0 48px}
-
-    .grp-h{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sub);border-bottom:1px solid var(--bd);padding-bottom:7px;margin-bottom:12px;margin-top:24px}
-    .grp-h:first-of-type{margin-top:0}
-
-    .reg-list{background:#fff;border:1.5px solid var(--bd);border-radius:var(--r);padding:16px 20px}
-    .reg-list p{font-size:14px;color:var(--tx);padding:6px 0;border-bottom:1px solid var(--bd)}
-    .reg-list p:last-child{border-bottom:none}
-
-    .stu-table{background:#fff;border:1.5px solid var(--bd);border-radius:var(--r);overflow:hidden}
-    .stu-table table{width:100%;border-collapse:collapse;font-size:14px}
-    .stu-table th{background:var(--sub);color:#fff;padding:10px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left}
-    .stu-table td{padding:10px 14px;border-bottom:1px solid var(--bd);color:var(--tx)}
-    .stu-table tr:last-child td{border-bottom:none}
-    .stu-table tr:nth-child(even) td{background:#fdf5ec}
-    .badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px}
-    .b-before{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
-    .b-after{background:#d1fae5;color:#064e3b;border:1px solid #6ee7b7}
-
-    .bot-nav{background:var(--card);border-top:1px solid var(--bd);padding:14px 0}
-    .bn{display:flex;justify-content:space-between;align-items:center;padding:0 24px;max-width:720px;margin:0 auto}
-    .bn a{font-size:13px;font-weight:600;color:var(--sub);text-decoration:none;padding:6px 12px;border:1px solid var(--bd);border-radius:6px;background:#fff}
-    .bn a:hover{color:var(--ac);border-color:var(--ac)}
-    .bn .center{border-color:transparent;color:var(--mu);font-size:12px;background:none}
-    .bn .center:hover{color:var(--ac)}
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; color: #222; }
+    .nav { margin-bottom: 20px; font-size: 14px; }
+    .nav a { color: #0066cc; text-decoration: none; margin-right: 12px; }
+    h2 { border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #f0f0f0; }
+    ul { padding-left: 20px; font-size: 14px; }
   </style>
 </head>
 <body>
-<nav class="topbar">
-  <div class="tb">
-    <a href="6th-Exercise.html">← All Exercises</a>
-    <span>Exercise 5 of 5</span>
+  <div class="nav">
+    <a href="6th-Exercise.html">&larr; All Exp 6 Exercises</a>
   </div>
-</nav>
-<header class="ex-head">
-  <div class="wrap">
-    <p class="ex-tag">Exercise 05</p>
-    <h1>Student Array of Objects</h1>
-    <p class="ex-obj">Create an array of student objects (name, r_num, dob). Iterate and display register numbers. Use if/else to categorise by year of birth (before or after 2000).</p>
-  </div>
-</header>
-<main>
-  <div class="wrap">
-    <p class="grp-h">Register Numbers</p>
-    <div class="reg-list" id="reg-list"></div>
+  <h2>Exercise 6.5: Student Array of Objects</h2>
 
-    <p class="grp-h">Student Details &amp; Category</p>
-    <div class="stu-table" id="stu-table"></div>
-  </div>
-</main>
-<nav class="bot-nav">
-  <div class="bn">
-    <a href="Ex-6-4.html">← Moving Car</a>
-    <a href="6th-Exercise.html" class="center">All Exercises</a>
-    <span style="visibility:hidden;">—</span>
-  </div>
-</nav>
-<script>
-  // Create an array of objects describing students
-  var student = [
-    { name: "John",   r_num: "UR13CS129", dob: "20-apr-1995" },
-    { name: "Joseph", r_num: "UR13CS130", dob: "05-jan-1998" },
-    { name: "Alice",  r_num: "UR24CS006", dob: "12-mar-2002" },
-    { name: "Meera",  r_num: "UR24CS007", dob: "30-jun-2001" },
-    { name: "Rahul",  r_num: "UR20CS045", dob: "14-dec-1999" }
-  ];
+  <div id="student-list"></div>
+  <div id="student-table"></div>
 
-  function getYear(dob) {
-    return parseInt(dob.split("-")[2]);
-  }
+  <script>
+    var students = [
+      { name: "John", r_num: "UR13CS129", dob: "20-apr-1995" },
+      { name: "Joseph", r_num: "UR13CS130", dob: "05-jan-1998" },
+      { name: "Alice", r_num: "UR24CS006", dob: "12-mar-2002" },
+      { name: "Meera", r_num: "UR24CS007", dob: "30-jun-2001" }
+    ];
 
-  // Iterate through array and display register numbers
-  var regHTML = "";
-  for (var i = 0; i < student.length; i++) {
-    // Access properties: student[i].name, student[i].r_num
-    regHTML += "<p>" + student[i].name + "'s Register Number is " + student[i].r_num + "</p>";
-  }
-  document.getElementById("reg-list").innerHTML = regHTML;
-
-  // Build table — use if/else to categorise by date of birth
-  var tbl = "<table><thead><tr><th>Name</th><th>Reg. No.</th><th>Date of Birth</th><th>Category</th></tr></thead><tbody>";
-  for (var j = 0; j < student.length; j++) {
-    var yr = getYear(student[j].dob);
-    var era, cls;
-    // if/else — born before 2000 or after 2000
-    if (yr < 2000) {
-      era = "Born before 2000";
-      cls = "badge b-before";
-    } else {
-      era = "Born after 2000";
-      cls = "badge b-after";
+    var listHtml = "<p><b>Student Register Numbers:</b></p><ul>";
+    for (var i = 0; i < students.length; i++) {
+      listHtml += "<li>" + students[i].name + "'s Register Number is " + students[i].r_num + "</li>";
     }
-    tbl += "<tr>";
-    tbl += "<td><strong>" + student[j].name + "</strong></td>";
-    tbl += "<td>" + student[j].r_num + "</td>";
-    tbl += "<td>" + student[j].dob + "</td>";
-    tbl += "<td><span class='" + cls + "'>" + era + "</span></td>";
-    tbl += "</tr>";
-  }
-  tbl += "</tbody></table>";
-  document.getElementById("stu-table").innerHTML = tbl;
-</script>
+    listHtml += "</ul>";
+    document.getElementById("student-list").innerHTML = listHtml;
+
+    var tableHtml = "<table><tr><th>Name</th><th>Reg No</th><th>DOB</th><th>DOB Category</th></tr>";
+    for (var j = 0; j < students.length; j++) {
+      var year = parseInt(students[j].dob.split("-")[2]);
+      var cat = "";
+      if (year < 2000) cat = "Born before 2000";
+      else cat = "Born after 2000";
+      tableHtml += "<tr><td>" + students[j].name + "</td><td>" + students[j].r_num + "</td><td>" + students[j].dob + "</td><td>" + cat + "</td></tr>";
+    }
+    tableHtml += "</table>";
+    document.getElementById("student-table").innerHTML = tableHtml;
+  </script>
 </body>
 </html>
