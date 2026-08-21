@@ -19,7 +19,7 @@ This repository contains all the lab experiments and practice programs for the *
 | 3 | [Experiment 3](./Experiment-3/README.md) | Responsive Webpage, HTML5, CSS3, Media Queries | ✅ Completed |
 | 4 | [Experiment 4](./Experiment-4/README.md) | HTML Forms, Multi-Section Layout, CSS Positioning, Flexbox, Sign In/Sign Up | ✅ Completed |
 | 5 | [Experiment 5](./Experiment-5/README.md) | JavaScript DOM, getElementById, Events, BMI Calc, Coin Flip, Currency Converter | ✅ Completed |
-| 6 | [Experiment 6](./Experiment-6/README.md) | JavaScript Timer Functions, setInterval, Date Object, Arrays, Class & Objects | 🔜 Upcoming |
+| 6 | [Experiment 6](./Experiment-6/README.md) | JavaScript Timer Functions, setInterval, Date Object, Arrays, Class & Objects | ✅ Completed |
 
 ---
 
@@ -77,6 +77,7 @@ Web-Technology-Lab/
 │
 └── Experiment-6/
     ├── README.md              ← Experiment overview & question index
+    ├── 6th-Exercise.html      ← JS Timers & Arrays (5 exercises)
     └── Exp-6-Lab-Manual.pdf   ← Lab manual pages 7–11
 ```
 
