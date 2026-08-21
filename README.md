@@ -18,6 +18,8 @@ This repository contains all the lab experiments and practice programs for the *
 | 2 | [Experiment 2](./Experiment-2/README.md) | HTML5 Forms, Media Elements (Video, iframes, Progress Bars) | ✅ Completed |
 | 3 | [Experiment 3](./Experiment-3/README.md) | Responsive Webpage, HTML5, CSS3, Media Queries | ✅ Completed |
 | 4 | [Experiment 4](./Experiment-4/README.md) | HTML Forms, Multi-Section Layout, CSS Positioning, Flexbox, Sign In/Sign Up | ✅ Completed |
+| 5 | [Experiment 5](./Experiment-5/README.md) | JavaScript DOM, getElementById, Events, BMI Calc, Coin Flip, Currency Converter | ✅ Completed |
+| 6 | [Experiment 6](./Experiment-6/README.md) | JavaScript Timer Functions, setInterval, Date Object, Arrays, Class & Objects | 🔜 Upcoming |
 
 ---
 
@@ -58,15 +60,24 @@ Web-Technology-Lab/
 │   ├── 3rd-Excercise.html         ← Main responsive HTML page
 │   └── Web-Tech-3rd-exercise.pdf  ← Embedded PDF asset
 │
-└── Experiment-4/
+├── Experiment-4/
+│   ├── README.md              ← Experiment overview & question index
+│   ├── 4th-Excercise.html     ← Main HTML page (header, nav, forms, footer)
+│   ├── flower.png             ← Gerbera daisy image asset
+│   ├── tulip.png              ← Red tulip image asset
+│   ├── chilli.png             ← Red chilli image asset
+│   ├── coconut.png            ← Green coconut image asset
+│   ├── apple.png              ← Red apple image asset
+│   └── Exp 4.pdf              ← Original experiment PDF
+│
+├── Experiment-5/
+│   ├── README.md              ← Experiment overview & question index
+│   ├── 5th-Exercise.html      ← JS DOM & Events (6 exercises)
+│   └── Exp-5-Lab-Manual.pdf   ← Lab manual pages 1–6
+│
+└── Experiment-6/
     ├── README.md              ← Experiment overview & question index
-    ├── 4th-Excercise.html     ← Main HTML page (header, nav, forms, footer)
-    ├── flower.png             ← Gerbera daisy image asset
-    ├── tulip.png              ← Red tulip image asset
-    ├── chilli.png             ← Red chilli image asset
-    ├── coconut.png            ← Green coconut image asset
-    ├── apple.png              ← Red apple image asset
-    └── Exp 4.pdf              ← Original experiment PDF
+    └── Exp-6-Lab-Manual.pdf   ← Lab manual pages 7–11
 ```
 
 ---
