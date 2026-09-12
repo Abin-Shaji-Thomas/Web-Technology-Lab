@@ -20,6 +20,7 @@ This repository contains all the lab experiments and practice programs for the *
 | 4 | [Experiment 4](./Experiment-4/README.md) | HTML Forms, Multi-Section Layout, CSS Positioning, Flexbox, Sign In/Sign Up | ✅ Completed |
 | 5 | [Experiment 5](./Experiment-5/README.md) | JavaScript DOM, getElementById, Events, BMI Calc, Coin Flip, Currency Converter | ✅ Completed |
 | 6 | [Experiment 6](./Experiment-6/README.md) | JavaScript Timer Functions, setInterval, Date Object, Arrays, Class & Objects | ✅ Completed |
+| 7 | [Experiment 7](./Experiment-7/README.md) | jQuery: DOM Manipulation, Selectors, Events, `.val()`, `.text()`, `.css()`, `.show()` | ✅ Completed |
 
 ---
 
@@ -75,10 +76,17 @@ Web-Technology-Lab/
 │   ├── 5th-Exercise.html      ← JS DOM & Events (6 exercises)
 │   └── Exp-5-Lab-Manual.pdf   ← Lab manual pages 1–6
 │
-└── Experiment-6/
+├── Experiment-6/
+│   ├── README.md              ← Experiment overview & question index
+│   ├── 6th-Exercise.html      ← JS Timers & Arrays (5 exercises)
+│   └── Exp-6-Lab-Manual.pdf   ← Lab manual pages 7–11
+│
+└── Experiment-7/
     ├── README.md              ← Experiment overview & question index
-    ├── 6th-Exercise.html      ← JS Timers & Arrays (5 exercises)
-    └── Exp-6-Lab-Manual.pdf   ← Lab manual pages 7–11
+    ├── Ex-7-index.html        ← Hub page with sidebar navigation & iframe preview
+    ├── Ex-7-1.html            ← Q1: Budget Calculator App (jQuery)
+    ├── Ex-7-2.html            ← Q2: Cake Shop Order (jQuery)
+    └── Ex-7-3.html            ← Q3: Car Workshop (jQuery CSS manipulation)
 ```
 
 ---
