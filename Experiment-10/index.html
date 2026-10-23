@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experiment 10 — User Registration Form</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f3f6fa;
+      --card-bg: #ffffff;
+      --primary: #1769aa;
+      --primary-hover: #0f4c81;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #d1d5db;
+      --focus-ring: rgba(23, 105, 170, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .node-badge {
+      background: #e6f4ea;
+      color: #137333;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid #ceead6;
+    }
+
+    .brand h1 {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .back-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+
+    .back-btn:hover {
+      color: var(--text);
+      border-color: var(--text);
+    }
+
+    .wrapper {
+      max-width: 620px;
+      margin: 32px auto 60px;
+      padding: 0 16px;
+      width: 100%;
+    }
+
+    .form-card {
+      background: var(--card-bg);
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-header {
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .form-header h2 {
+      font-size: 22px;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .form-header p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label, legend {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .required {
+      color: #dc2626;
+    }
+
+    input:not([type="radio"]):not([type="checkbox"]),
+    select {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      background-color: #f8fafc;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    input:not([type="radio"]):not([type="checkbox"]):focus,
+    select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--focus-ring);
+      background-color: #fff;
+    }
+
+    fieldset {
+      margin-bottom: 18px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 14px 18px;
+      background: #f8fafc;
+    }
+
+    .option-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 4px;
+    }
+
+    .option {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+      font-weight: 500;
+    }
+
+    .option input {
+      accent-color: var(--primary);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      margin-top: 10px;
+    }
+
+    button[type="submit"]:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Client-side preview modal */
+    .receipt-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .receipt-card {
+      background: white;
+      max-width: 500px;
+      width: 100%;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .receipt-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 12px;
+    }
+
+    .receipt-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .receipt-table th {
+      text-align: left;
+      padding: 8px 10px;
+      color: var(--text-muted);
+      width: 120px;
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .receipt-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #e2e8f0;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <span class="node-badge">NodeJS + MongoDB</span>
+      <h1>User Registration Form</h1>
+    </div>
+    <a href="../index.html" class="back-btn">← Back to Portal</a>
+  </header>
+
+  <div class="wrapper">
+    <div class="form-card">
+      <div class="form-header">
+        <h2>Register New User</h2>
+        <p>Enter required student details for server-side processing</p>
+      </div>
+
+      <form action="/server" method="POST" id="registrationForm">
+        <div class="field">
+          <label for="name">Name <span class="required">*</span></label>
+          <input type="text" id="name" name="name" placeholder="Enter your full name" minlength="2" maxlength="80" required>
+        </div>
+
+        <div class="field">
+          <label for="password">Password <span class="required">*</span></label>
+          <input type="password" id="password" name="password" minlength="8" maxlength="128" placeholder="••••••••" required>
+        </div>
+
+        <div class="field">
+          <label for="age">Age <span class="required">*</span></label>
+          <input type="number" id="age" name="age" min="1" max="120" placeholder="20" required>
+        </div>
+
+        <div class="field">
+          <label for="mobile">Mobile Number <span class="required">*</span></label>
+          <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" maxlength="10" placeholder="9923457891" title="Enter a 10-digit mobile number" required>
+        </div>
+
+        <div class="field">
+          <label for="email">Email <span class="required">*</span></label>
+          <input type="email" id="email" name="email" placeholder="name@example.com" required>
+        </div>
+
+        <fieldset>
+          <legend>Gender <span class="required">*</span></legend>
+          <div class="option-group">
+            <label class="option"><input type="radio" name="gender" value="Male" required> Male</label>
+            <label class="option"><input type="radio" name="gender" value="Female"> Female</label>
+            <label class="option"><input type="radio" name="gender" value="Other"> Other</label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="state">State <span class="required">*</span></label>
+          <select id="state" name="state" required>
+            <option value="">-- Select State --</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Maharashtra">Maharashtra</option>
+          </select>
+        </div>
+
+        <fieldset>
+          <legend>Skills <span class="required">*</span> (Select at least one)</legend>
+          <div class="option-group">
+            <label class="option"><input type="checkbox" name="skills" value="JavaScript"> JavaScript</label>
+            <label class="option"><input type="checkbox" name="skills" value="Python"> Python</label>
+            <label class="option"><input type="checkbox" name="skills" value="C++"> C++</label>
+            <label class="option"><input type="checkbox" name="skills" value="Java"> Java</label>
+          </div>
+        </fieldset>
+
+        <button type="submit" id="submitBtn">Register User</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Receipt modal when accessed statically in browser without Node server -->
+  <div class="receipt-modal" id="receiptModal">
+    <div class="receipt-card">
+      <div class="receipt-head">
+        <h3 style="color: #15803d; font-size: 16px;">✓ Registration Data Validated</h3>
+        <button onclick="closeModal()" style="border:none;background:none;font-size:16px;cursor:pointer;">✕</button>
+      </div>
+      <table class="receipt-table" id="receiptContent"></table>
+      <button onclick="closeModal()" style="width:100%;padding:10px;background:#1769aa;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600;">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("registrationForm");
+
+    form.addEventListener("submit", function (e) {
+      const skills = Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(cb => cb.value);
+
+      if (skills.length === 0) {
+        e.preventDefault();
+        alert("Please select at least one skill.");
+        return;
+      }
+
+      // If running via file:// or static server where /server POST isn't hosted:
+      if (window.location.protocol === 'file:' || !window.location.port || window.location.port === '5500' || window.location.port === '8080') {
+        e.preventDefault();
+        const data = {
+          Name: document.getElementById('name').value,
+          Age: document.getElementById('age').value,
+          Mobile: document.getElementById('mobile').value,
+          Email: document.getElementById('email').value,
+          Gender: document.querySelector('input[name="gender"]:checked').value,
+          State: document.getElementById('state').value,
+          Skills: skills.join(', ')
+        };
+
+        const table = document.getElementById('receiptContent');
+        table.innerHTML = Object.entries(data).map(([k, v]) => `
+          <tr><th>${k}</th><td>${v}</td></tr>
+        `).join('');
+
+        document.getElementById('receiptModal').style.display = 'flex';
+      }
+    });
+
+    function closeModal() {
+      document.getElementById('receiptModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

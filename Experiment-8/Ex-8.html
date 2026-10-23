@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experiment 8 — Student Dashboard (EduDashboard)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --border: #e2e8f0;
+      --header-bg: #ffffff;
+      --stat-bg: #f8fafc;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --badge-bg: #e0e7ff;
+      --badge-text: #3730a3;
+      --item-bg: #ffffff;
+      --item-border: #f1f5f9;
+    }
+
+    body.dark {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --border: #334155;
+      --header-bg: #1e293b;
+      --stat-bg: #0f172a;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+      --badge-bg: rgba(99, 102, 241, 0.2);
+      --badge-text: #a5b4fc;
+      --item-bg: #0f172a;
+      --item-border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navigation */
+    .top-nav {
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      background: linear-gradient(135deg, var(--primary) 0%, #818cf8 100%);
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .brand-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .back-btn:hover {
+      color: var(--text);
+      border-color: var(--text-muted);
+    }
+
+    .theme-toggle-btn {
+      background: var(--stat-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .profile-badge {
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 20px 60px;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* Welcome Hero */
+    .welcome-banner {
+      background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+      color: white;
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 16px -4px rgba(79, 70, 229, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome-banner::after {
+      content: "🎓";
+      position: absolute;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 72px;
+      opacity: 0.2;
+    }
+
+    .welcome-banner h1 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .welcome-banner p {
+      color: #c7d2fe;
+      font-size: 14px;
+    }
+
+    /* Stat Cards Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .stat-info h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+
+    .stat-info .value {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .stat-info .subtext {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Content Grid: Courses & Tasks */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-head h2 {
+      font-size: 17px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-badge {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      font-weight: 600;
+    }
+
+    /* Course List */
+    .course-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .course-item {
+      background: var(--stat-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .course-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .course-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .course-code {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .course-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      background: #ecfdf5;
+      color: #047857;
+    }
+
+    body.dark .course-tag {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+    }
+
+    /* Task Manager */
+    .task-input-box {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .task-input {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--stat-bg);
+      color: var(--text);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .task-input:focus {
+      border-color: var(--primary);
+    }
+
+    .add-task-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .add-task-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    .task-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+
+    .task-item {
+      background: var(--stat-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .task-item.completed span {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .task-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      flex: 1;
+    }
+
+    .task-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      accent-color: var(--primary);
+    }
+
+    .del-task-btn {
+      background: transparent;
+      border: none;
+      color: #ef4444;
+      cursor: pointer;
+      padding: 4px 8px;
+      font-size: 14px;
+      border-radius: 4px;
+      opacity: 0.7;
+    }
+
+    .del-task-btn:hover {
+      opacity: 1;
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .tasks-footer {
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+    }
+
+    .clear-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 12px;
+      text-decoration: underline;
+    }
+
+    .clear-btn:hover {
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="top-nav">
+    <div class="brand">
+      <div class="brand-icon">⚛</div>
+      <span class="brand-title">EduDashboard</span>
+    </div>
+    <div class="nav-actions">
+      <a href="../index.html" class="back-btn">← Back to Portal</a>
+      <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()">
+        <span id="themeIcon">🌙</span> <span id="themeLabel">Dark Mode</span>
+      </button>
+      <div class="profile-badge">
+        <span>👤</span> <span>Abin Shaji (URK24CS6007)</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Welcome Banner Component -->
+    <section class="welcome-banner">
+      <h1>Welcome Back, Abin Shaji!</h1>
+      <p>Here is your current academic performance, registered courses, and personal study tasks.</p>
+    </section>
+
+    <!-- Stat Cards Component Grid -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon" style="background: rgba(79, 70, 229, 0.15); color: #4f46e5;">📚</div>
+        <div class="stat-info">
+          <h3>Courses</h3>
+          <div class="value" id="courseCount">5</div>
+          <div class="subtext">Registered this semester</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">📝</div>
+        <div class="stat-info">
+          <h3>Assignments</h3>
+          <div class="value">12</div>
+          <div class="subtext">3 pending reviews</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">📊</div>
+        <div class="stat-info">
+          <h3>Attendance</h3>
+          <div class="value">92%</div>
+          <div class="subtext">Above 75% requirement</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background: rgba(236, 72, 153, 0.15); color: #ec4899;">🎯</div>
+        <div class="stat-info">
+          <h3>CGPA</h3>
+          <div class="value">8.7</div>
+          <div class="subtext">Rank: Top 5%</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content: Course List & Task Manager -->
+    <section class="content-grid">
+      <!-- Course List Component -->
+      <div class="section-card">
+        <div class="section-head">
+          <h2><span>📖</span> Registered Courses</h2>
+          <span class="section-badge">Semester 5</span>
+        </div>
+        <ul class="course-list" id="courseList">
+          <!-- Populated by JS -->
+        </ul>
+      </div>
+
+      <!-- Task Manager Component (State Demonstration) -->
+      <div class="section-card">
+        <div class="section-head">
+          <h2><span>✅</span> Tasks &amp; Deadlines</h2>
+          <span class="section-badge" id="pendingBadge">3 Pending</span>
+        </div>
+
+        <div class="task-input-box">
+          <input type="text" id="taskInput" class="task-input" placeholder="Add a new academic task..." onkeydown="if(event.key==='Enter') addTask()">
+          <button class="add-task-btn" onclick="addTask()">+ Add</button>
+        </div>
+
+        <ul class="task-list" id="taskList">
+          <!-- Populated by JS -->
+        </ul>
+
+        <div class="tasks-footer">
+          <span id="taskStatus">3 tasks remaining</span>
+          <button class="clear-btn" onclick="clearCompleted()">Clear completed</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Courses Data
+    const courses = [
+      { code: "24CS2004", name: "Web Technology", credits: "4 Credits", status: "Active" },
+      { code: "24CS2002", name: "Database Management Systems", credits: "4 Credits", status: "Active" },
+      { code: "24CS2003", name: "Computer Networks", credits: "3 Credits", status: "Active" },
+      { code: "24CS2005", name: "Operating Systems", credits: "4 Credits", status: "Active" },
+      { code: "24CS2006", name: "Software Engineering", credits: "3 Credits", status: "Active" }
+    ];
+
+    // Initial Tasks State
+    let tasks = [
+      { id: 1, text: "Complete Web Tech Experiment 8 React Dashboard", completed: true },
+      { id: 2, text: "Prepare MongoDB shell queries for Experiment 9", completed: false },
+      { id: 3, text: "Build Node.js registration server for Experiment 10", completed: false },
+      { id: 4, text: "Submit DBMS mini-project proposal", completed: false }
+    ];
+
+    // Theme Management
+    let isDark = false;
+    function toggleTheme() {
+      isDark = !isDark;
+      document.body.classList.toggle('dark', isDark);
+      document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙';
+      document.getElementById('themeLabel').textContent = isDark ? 'Light Mode' : 'Dark Mode';
+    }
+
+    // Render Courses
+    function renderCourses() {
+      const container = document.getElementById('courseList');
+      container.innerHTML = courses.map(c => `
+        <li class="course-item">
+          <div class="course-meta">
+            <span class="course-name">${c.name}</span>
+            <span class="course-code">${c.code} • ${c.credits}</span>
+          </div>
+          <span class="course-tag">${c.status}</span>
+        </li>
+      `).join('');
+      document.getElementById('courseCount').textContent = courses.length;
+    }
+
+    // Render Tasks
+    function renderTasks() {
+      const list = document.getElementById('taskList');
+      list.innerHTML = tasks.map(t => `
+        <li class="task-item ${t.completed ? 'completed' : ''}">
+          <label class="task-label">
+            <input type="checkbox" ${t.completed ? 'checked' : ''} onchange="toggleTask(${t.id})">
+            <span>${t.text}</span>
+          </label>
+          <button class="del-task-btn" onclick="deleteTask(${t.id})" title="Delete task">✕</button>
+        </li>
+      `).join('');
+
+      const remaining = tasks.filter(t => !t.completed).length;
+      document.getElementById('taskStatus').textContent = `${remaining} task${remaining === 1 ? '' : 's'} remaining`;
+      document.getElementById('pendingBadge').textContent = `${remaining} Pending`;
+    }
+
+    // Task Actions
+    function addTask() {
+      const input = document.getElementById('taskInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      tasks.push({
+        id: Date.now(),
+        text: text,
+        completed: false
+      });
+      input.value = '';
+      renderTasks();
+    }
+
+    function toggleTask(id) {
+      tasks = tasks.map(t => t.id === id ? { ...t, completed: !t.completed } : t);
+      renderTasks();
+    }
+
+    function deleteTask(id) {
+      tasks = tasks.filter(t => t.id !== id);
+      renderTasks();
+    }
+
+    function clearCompleted() {
+      tasks = tasks.filter(t => !t.completed);
+      renderTasks();
+    }
+
+    // Initialize
+    renderCourses();
+    renderTasks();
+  </script>
+</body>
+</html>

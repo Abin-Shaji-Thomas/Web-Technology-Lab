@@ -12,15 +12,20 @@ This repository contains all the lab experiments and practice programs for the *
 
 ## 🧪 Experiments
 
-| # | Experiment | Topics Covered | Status |
-|---|------------|----------------|--------|
-| 1 | [Experiment 1](./Experiment-1/README.md) | HTML structure, Headings, Text Formatting, Semantic Tags, Inline CSS | ✅ Completed |
-| 2 | [Experiment 2](./Experiment-2/README.md) | HTML5 Forms, Media Elements (Video, iframes, Progress Bars) | ✅ Completed |
-| 3 | [Experiment 3](./Experiment-3/README.md) | Responsive Webpage, HTML5, CSS3, Media Queries | ✅ Completed |
-| 4 | [Experiment 4](./Experiment-4/README.md) | HTML Forms, Multi-Section Layout, CSS Positioning, Flexbox, Sign In/Sign Up | ✅ Completed |
-| 5 | [Experiment 5](./Experiment-5/README.md) | JavaScript DOM, getElementById, Events, BMI Calc, Coin Flip, Currency Converter | ✅ Completed |
-| 6 | [Experiment 6](./Experiment-6/README.md) | JavaScript Timer Functions, setInterval, Date Object, Arrays, Class & Objects | ✅ Completed |
-| 7 | [Experiment 7](./Experiment-7/README.md) | jQuery: DOM Manipulation, Selectors, Events, `.val()`, `.text()`, `.css()`, `.show()` | ✅ Completed |
+| # | Experiment | Topics Covered | Live Demo | Status |
+|---|------------|----------------|-----------|--------|
+| 1 | [Experiment 1](./Experiment-1/README.md) | HTML structure, Headings, Text Formatting, Semantic Tags, Inline CSS | [View Page](./Experiment-1/1st-Excercise.html) | ✅ Completed |
+| 2 | [Experiment 2](./Experiment-2/README.md) | HTML5 Forms, Media Elements (Video, iframes, Progress Bars) | [View Page](./Experiment-2/2nd-Excercise.html) | ✅ Completed |
+| 3 | [Experiment 3](./Experiment-3/README.md) | Responsive Webpage, HTML5, CSS3, Media Queries | [View Page](./Experiment-3/3rd-Excercise.html) | ✅ Completed |
+| 4 | [Experiment 4](./Experiment-4/README.md) | HTML Forms, Multi-Section Layout, CSS Positioning, Flexbox, Sign In/Sign Up | [View Page](./Experiment-4/4th-Excercise.html) | ✅ Completed |
+| 5 | [Experiment 5](./Experiment-5/README.md) | JavaScript DOM, getElementById, Events, BMI Calc, Coin Flip, Currency Converter | [View Page](./Experiment-5/5th-Exercise.html) | ✅ Completed |
+| 6 | [Experiment 6](./Experiment-6/README.md) | JavaScript Timer Functions, setInterval, Date Object, Arrays, Class & Objects | [View Page](./Experiment-6/6th-Exercise.html) | ✅ Completed |
+| 7 | [Experiment 7](./Experiment-7/README.md) | jQuery: DOM Manipulation, Selectors, Events, `.val()`, `.text()`, `.css()`, `.show()` | [View Hub](./Experiment-7/Ex-7-index.html) | ✅ Completed |
+| 8 | [Experiment 8](./Experiment-8/README.md) | React + Vite: Components, JSX, Props, State, Dark Mode, List Rendering, Controlled Input | [View Dashboard](./Experiment-8/Ex-8.html) | ✅ Completed |
+| 9 | [Experiment 9](./Experiment-9/README.md) | MongoDB Shell: CRUD, Comparison Operators, Sorting, Aggregation, Indexing | [Open Console](./Experiment-9/Ex-9.html) | ✅ Completed |
+| 10 | [Experiment 10](./Experiment-10/README.md) | Node.js Server: HTTP Module, Form Processing, Validation, MongoDB Connection | [View Form](./Experiment-10/home.html) | ✅ Completed |
+| 11 | [Experiment 11](./Experiment-11/README.md) | Node.js + Express REST API, Mongoose ODM, MongoDB Integration, CRUD Endpoints | [Open CRUD Client](./Experiment-11/Ex-11.html) | ✅ Completed |
+| 12 | [Experiment 12](./Experiment-12/README.md) | Full Stack MERN App: ReactJS Frontend, Express REST API, MongoDB Database | [Launch App](./Experiment-12/Ex-12.html) | ✅ Completed |
 
 ---
 
@@ -81,12 +86,38 @@ Web-Technology-Lab/
 │   ├── 6th-Exercise.html      ← JS Timers & Arrays (5 exercises)
 │   └── Exp-6-Lab-Manual.pdf   ← Lab manual pages 7–11
 │
-└── Experiment-7/
-    ├── README.md              ← Experiment overview & question index
-    ├── Ex-7-index.html        ← Hub page with sidebar navigation & iframe preview
-    ├── Ex-7-1.html            ← Q1: Budget Calculator App (jQuery)
-    ├── Ex-7-2.html            ← Q2: Cake Shop Order (jQuery)
-    └── Ex-7-3.html            ← Q3: Car Workshop (jQuery CSS manipulation)
+├── Experiment-7/
+│   ├── README.md              ← Experiment overview & question index
+│   ├── Ex-7-index.html        ← Hub page with sidebar navigation & iframe preview
+│   ├── Ex-7-1.html            ← Q1: Budget Calculator App (jQuery)
+│   ├── Ex-7-2.html            ← Q2: Cake Shop Order (jQuery)
+│   └── Ex-7-3.html            ← Q3: Car Workshop (jQuery CSS manipulation)
+│
+├── Experiment-8/
+│   ├── README.md              ← Experiment overview & topic index
+│   ├── Ex-8.html              ← Student Dashboard application UI (EduDashboard)
+│   └── react-ui-lab/          ← Vite React project (App.jsx, StatCard.jsx, App.css)
+│
+├── Experiment-9/
+│   ├── README.md              ← Experiment overview & command index
+│   └── Ex-9.html              ← MongoDB Shell Simulator & Student Database Manager UI
+│
+├── Experiment-10/
+│   ├── README.md              ← Experiment overview & server setup instructions
+│   ├── home.html              ← User Registration Form UI
+│   ├── app.js                 ← Node.js HTTP server & MongoDB submission handler
+│   └── package.json           ← Dependencies & start scripts
+│
+├── Experiment-11/
+│   ├── README.md              ← Experiment overview & REST API reference
+│   ├── Ex-11.html             ← Interactive Student CRUD & API Client UI
+│   ├── app.js                 ← Express REST API server with Mongoose
+│   └── package.json           ← Dependencies (express, mongoose)
+│
+└── Experiment-12/
+    ├── README.md              ← Experiment overview & 3-tier architecture guide
+    ├── Ex-12.html             ← Standalone Full Stack Student Management System UI
+    └── FullStackStudentApp/   ← Source code for backend (Express) & frontend (React Vite)
 ```
 
 ---

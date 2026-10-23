@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experiment 9 — MongoDB Shell &amp; Student Database Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --panel: #111827;
+      --card: #162032;
+      --border: #1f2d40;
+      --primary: #10b981;
+      --primary-hover: #059669;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --code-bg: #0a0e17;
+      --accent: #38bdf8;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navigation Header */
+    header {
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mongo-logo {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--primary);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand h1 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .meta-tags {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .meta-tag {
+      font-family: 'Fira Code', monospace;
+      font-size: 12px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: #1f2937;
+      color: var(--accent);
+      border: 1px solid #374151;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .portal-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+
+    .portal-btn:hover {
+      color: var(--text);
+      border-color: var(--text-muted);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
+      width: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Quick Query Operations Toolbar */
+    .query-toolbar-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+
+    .toolbar-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .query-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .chip:hover {
+      border-color: var(--primary);
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--primary);
+    }
+
+    .chip.active {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: var(--primary);
+      color: #34d399;
+      font-weight: 600;
+    }
+
+    /* Layout Split */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Section Boxes */
+    .box {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .box-header {
+      background: #151e2d;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .box-header h2 {
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .box-body {
+      padding: 18px;
+      flex: 1;
+    }
+
+    /* Shell Console View */
+    .console-box {
+      background: var(--code-bg);
+      border-radius: 8px;
+      padding: 14px;
+      font-family: 'Fira Code', monospace;
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #e2e8f0;
+      overflow-x: auto;
+      max-height: 480px;
+      border: 1px solid #1a2234;
+    }
+
+    .cmd-line {
+      color: var(--warning);
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cmd-prompt {
+      color: var(--primary);
+    }
+
+    .console-output {
+      color: #94a3b8;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .console-output .key { color: #38bdf8; }
+    .console-output .str { color: #f472b6; }
+    .console-output .num { color: #fb923c; }
+    .console-output .kw  { color: #a78bfa; }
+
+    /* Custom Query Box */
+    .custom-query-form {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .custom-input {
+      flex: 1;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: var(--text);
+      font-family: 'Fira Code', monospace;
+      font-size: 12px;
+      outline: none;
+    }
+
+    .custom-input:focus {
+      border-color: var(--primary);
+    }
+
+    .run-btn {
+      background: var(--primary);
+      color: #052e16;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
+
+    .run-btn:hover {
+      background: #34d399;
+    }
+
+    /* Insert Form */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .field-group input, .field-group select {
+      width: 100%;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: var(--text);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .field-group input:focus, .field-group select:focus {
+      border-color: var(--primary);
+    }
+
+    .insert-btn {
+      background: #1e3a5f;
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .insert-btn:hover {
+      background: #0284c7;
+      color: white;
+    }
+
+    /* Documents Table */
+    .table-container {
+      overflow-x: auto;
+      max-height: 400px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    th {
+      background: #0f172a;
+      padding: 10px 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #172235;
+      color: var(--text);
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .tag-dept {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+    }
+
+    .marks-badge {
+      font-weight: 700;
+      color: #34d399;
+    }
+
+    .action-cell {
+      display: flex;
+      gap: 6px;
+    }
+
+    .tbl-btn {
+      background: #1f2937;
+      border: 1px solid #374151;
+      color: var(--text-muted);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .tbl-btn:hover {
+      color: var(--text);
+      border-color: var(--text-muted);
+    }
+
+    .tbl-btn.inc:hover {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border-color: #10b981;
+    }
+
+    .tbl-btn.del:hover {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border-color: #ef4444;
+    }
+
+    .reset-link {
+      background: none;
+      border: none;
+      color: var(--accent);
+      cursor: pointer;
+      font-size: 12px;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <div class="mongo-logo">🍃 mongosh</div>
+      <h1>MongoDB Student Database &amp; Query Console</h1>
+      <div class="meta-tags">
+        <span class="meta-tag">db: collegeDB</span>
+        <span class="meta-tag">coll: students</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="../index.html" class="portal-btn">← Back to Portal</a>
+      <a href="README.md" class="portal-btn">Docs</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Lab Query Operations Toolbar -->
+    <section class="query-toolbar-card">
+      <div class="toolbar-title">
+        <span>Lab Exercise Operations (Click to Execute Shell Query)</span>
+        <button class="reset-link" onclick="resetDefaultData()">↺ Reset Default 10 Students</button>
+      </div>
+      <div class="query-chips">
+        <button class="chip active" onclick="runFindAll(this)"><span>🔍</span> Display All Students (find)</button>
+        <button class="chip" onclick="runFilterCSE(this)"><span>💻</span> Dept = CSE</button>
+        <button class="chip" onclick="runMarksGt80(this)"><span>📈</span> Marks &gt; 80 ($gt)</button>
+        <button class="chip" onclick="runProjection(this)"><span>👁️</span> Projection (Name, Marks only)</button>
+        <button class="chip" onclick="runCseAndYear3(this)"><span>🎯</span> CSE &amp; Year 3 (AND)</button>
+        <button class="chip" onclick="runEceOrMarks85(this)"><span>🔀</span> ECE or Marks &gt; 85 ($or)</button>
+        <button class="chip" onclick="runSortMarksDesc(this)"><span>⬇️</span> Sort Marks Descending (sort)</button>
+        <button class="chip" onclick="runTop3(this)"><span>🏆</span> Top 3 Students (limit 3)</button>
+        <button class="chip" onclick="runCountCSE(this)"><span>🔢</span> Count CSE Students</button>
+        <button class="chip" onclick="runAvgMarksDept(this)"><span>📊</span> Avg Marks by Dept (aggregate)</button>
+        <button class="chip" onclick="runCountDept(this)"><span>👥</span> Student Count by Dept (aggregate)</button>
+      </div>
+    </section>
+
+    <!-- Main Grid: Data Table + Interactive Shell -->
+    <div class="main-grid">
+      <!-- Left: Interactive Insert & Documents Table -->
+      <section class="box">
+        <div class="box-header">
+          <h2><span>📋</span> Active Collection Data (<span id="docCount">10</span> docs)</h2>
+        </div>
+        <div class="box-body">
+          <!-- Insert Document Form -->
+          <form onsubmit="handleInsert(event)" style="margin-bottom: 18px;">
+            <div class="form-grid">
+              <div class="field-group">
+                <label>Roll No</label>
+                <input type="number" id="inRoll" placeholder="111" required>
+              </div>
+              <div class="field-group">
+                <label>Student Name</label>
+                <input type="text" id="inName" placeholder="Kavya" required>
+              </div>
+              <div class="field-group">
+                <label>Department</label>
+                <select id="inDept">
+                  <option value="CSE">CSE</option>
+                  <option value="ECE">ECE</option>
+                  <option value="EEE">EEE</option>
+                  <option value="IT">IT</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label>Year</label>
+                <input type="number" id="inYear" min="1" max="4" value="3" required>
+              </div>
+              <div class="field-group">
+                <label>Marks</label>
+                <input type="number" id="inMarks" min="0" max="100" value="88" required>
+              </div>
+              <div class="field-group">
+                <label>City</label>
+                <input type="text" id="inCity" placeholder="Chennai" required>
+              </div>
+            </div>
+            <button type="submit" class="insert-btn"><span>➕</span> db.students.insertOne({...})</button>
+          </form>
+
+          <!-- Documents Table -->
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Roll</th>
+                  <th>Name</th>
+                  <th>Dept</th>
+                  <th>Year</th>
+                  <th>Marks</th>
+                  <th>City</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="studentTableBody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: MongoDB Shell Console Simulator -->
+      <section class="box">
+        <div class="box-header">
+          <h2><span>🖥️</span> mongosh Terminal Simulator</h2>
+          <span class="meta-tag" style="color: #34d399;">Active Prompt</span>
+        </div>
+        <div class="box-body" style="display: flex; flex-direction: column;">
+          <div class="console-box" id="consoleBox">
+            <div class="cmd-line">
+              <span class="cmd-prompt">collegeDB&gt;</span>
+              <span id="currentCommand">db.students.find()</span>
+            </div>
+            <div class="console-output" id="consoleOutput">Loading MongoDB shell...</div>
+          </div>
+
+          <form class="custom-query-form" onsubmit="handleCustomCommand(event)">
+            <input type="text" id="customInput" class="custom-input" placeholder="Type mongosh query (e.g., db.students.find({ marks: { $gt: 85 } }))">
+            <button type="submit" class="run-btn">Run Shell</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // Initial 10 Student documents as prescribed in the Student Practice Problem
+    const defaultStudents = [
+      { _id: "ObjectId('66e8f1a10001')", rollno: 101, name: "Abin Shaji", department: "CSE", year: 3, marks: 85, city: "Chennai" },
+      { _id: "ObjectId('66e8f1a10002')", rollno: 102, name: "Priya", department: "ECE", year: 3, marks: 92, city: "Bangalore" },
+      { _id: "ObjectId('66e8f1a10003')", rollno: 103, name: "Karthik", department: "CSE", year: 2, marks: 78, city: "Coimbatore" },
+      { _id: "ObjectId('66e8f1a10004')", rollno: 104, name: "Meena", department: "EEE", year: 3, marks: 88, city: "Madurai" },
+      { _id: "ObjectId('66e8f1a10005')", rollno: 105, name: "Rahul", department: "CSE", year: 4, marks: 67, city: "Salem" },
+      { _id: "ObjectId('66e8f1a10006')", rollno: 106, name: "Sneha", department: "CSE", year: 3, marks: 95, city: "Chennai" },
+      { _id: "ObjectId('66e8f1a10007')", rollno: 107, name: "Vikram", department: "IT", year: 2, marks: 72, city: "Trichy" },
+      { _id: "ObjectId('66e8f1a10008')", rollno: 108, name: "Ananya", department: "ECE", year: 4, marks: 84, city: "Bangalore" },
+      { _id: "ObjectId('66e8f1a10009')", rollno: 109, name: "Rohit", department: "CSE", year: 1, marks: 89, city: "Coimbatore" },
+      { _id: "ObjectId('66e8f1a10010')", rollno: 110, name: "Divya", department: "EEE", year: 2, marks: 81, city: "Chennai" }
+    ];
+
+    let students = JSON.parse(localStorage.getItem('mongo_students')) || [...defaultStudents];
+
+    function saveState() {
+      localStorage.setItem('mongo_students', JSON.stringify(students));
+      document.getElementById('docCount').textContent = students.length;
+    }
+
+    function resetDefaultData() {
+      students = JSON.parse(JSON.stringify(defaultStudents));
+      saveState();
+      renderTable(students);
+      runFindAll();
+    }
+
+    function renderTable(data) {
+      const tbody = document.getElementById('studentTableBody');
+      tbody.innerHTML = data.map(s => `
+        <tr>
+          <td><strong>${s.rollno}</strong></td>
+          <td>${s.name}</td>
+          <td><span class="tag-dept">${s.department}</span></td>
+          <td>Year ${s.year}</td>
+          <td><span class="marks-badge">${s.marks}</span></td>
+          <td>${s.city}</td>
+          <td>
+            <div class="action-cell">
+              <button class="tbl-btn inc" onclick="incMarks(${s.rollno})" title="Increment 5 marks ($inc)">+5</button>
+              <button class="tbl-btn" onclick="updateMarksPrompt(${s.rollno})" title="Update marks ($set)">✏️</button>
+              <button class="tbl-btn del" onclick="deleteStudent(${s.rollno})" title="Delete document (deleteOne)">🗑️</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+      document.getElementById('docCount').textContent = students.length;
+    }
+
+    function logShell(cmd, output) {
+      document.getElementById('currentCommand').textContent = cmd;
+      const outEl = document.getElementById('consoleOutput');
+      
+      let formatted = typeof output === 'object' ? JSON.stringify(output, null, 2) : String(output);
+      
+      // Syntax highlight JSON output
+      formatted = formatted
+        .replace(/"([^"]+)":/g, '<span class="key">"$1"</span>:')
+        .replace(/: "([^"]+)"/g, ': <span class="str">"$1"</span>')
+        .replace(/: (\d+)/g, ': <span class="num">$1</span>');
+
+      outEl.innerHTML = formatted;
+    }
+
+    function setActiveChip(btn) {
+      if (btn) {
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+      }
+    }
+
+    /* Operations from Lab Manual */
+    function runFindAll(btn) {
+      setActiveChip(btn);
+      logShell("db.students.find()", students);
+    }
+
+    function runFilterCSE(btn) {
+      setActiveChip(btn);
+      const res = students.filter(s => s.department === "CSE");
+      logShell('db.students.find({ department: "CSE" })', res);
+    }
+
+    function runMarksGt80(btn) {
+      setActiveChip(btn);
+      const res = students.filter(s => s.marks > 80);
+      logShell('db.students.find({ marks: { $gt: 80 } })', res);
+    }
+
+    function runProjection(btn) {
+      setActiveChip(btn);
+      const res = students.map(s => ({ name: s.name, marks: s.marks }));
+      logShell('db.students.find({}, { name: 1, marks: 1, _id: 0 })', res);
+    }
+
+    function runCseAndYear3(btn) {
+      setActiveChip(btn);
+      const res = students.filter(s => s.department === "CSE" && s.year === 3);
+      logShell('db.students.find({ department: "CSE", year: 3 })', res);
+    }
+
+    function runEceOrMarks85(btn) {
+      setActiveChip(btn);
+      const res = students.filter(s => s.department === "ECE" || s.marks > 85);
+      logShell('db.students.find({ $or: [{ department: "ECE" }, { marks: { $gt: 85 } }] })', res);
+    }
+
+    function runSortMarksDesc(btn) {
+      setActiveChip(btn);
+      const sorted = [...students].sort((a, b) => b.marks - a.marks);
+      logShell('db.students.find().sort({ marks: -1 })', sorted);
+    }
+
+    function runTop3(btn) {
+      setActiveChip(btn);
+      const top3 = [...students].sort((a, b) => b.marks - a.marks).slice(0, 3);
+      logShell('db.students.find().sort({ marks: -1 }).limit(3)', top3);
+    }
+
+    function runCountCSE(btn) {
+      setActiveChip(btn);
+      const count = students.filter(s => s.department === "CSE").length;
+      logShell('db.students.countDocuments({ department: "CSE" })', count);
+    }
+
+    function runAvgMarksDept(btn) {
+      setActiveChip(btn);
+      const depts = {};
+      students.forEach(s => {
+        if (!depts[s.department]) depts[s.department] = { sum: 0, count: 0 };
+        depts[s.department].sum += s.marks;
+        depts[s.department].count += 1;
+      });
+      const agg = Object.keys(depts).map(d => ({
+        _id: d,
+        averageMarks: Number((depts[d].sum / depts[d].count).toFixed(2))
+      }));
+      logShell('db.students.aggregate([\n  { $group: { _id: "$department", averageMarks: { $avg: "$marks" } } }\n])', agg);
+    }
+
+    function runCountDept(btn) {
+      setActiveChip(btn);
+      const depts = {};
+      students.forEach(s => {
+        depts[s.department] = (depts[s.department] || 0) + 1;
+      });
+      const agg = Object.keys(depts).map(d => ({
+        _id: d,
+        totalStudents: depts[d]
+      }));
+      logShell('db.students.aggregate([\n  { $group: { _id: "$department", totalStudents: { $sum: 1 } } }\n])', agg);
+    }
+
+    /* CRUD Operations */
+    function handleInsert(e) {
+      e.preventDefault();
+      const rollno = parseInt(document.getElementById('inRoll').value);
+      const name = document.getElementById('inName').value.trim();
+      const dept = document.getElementById('inDept').value;
+      const year = parseInt(document.getElementById('inYear').value);
+      const marks = parseInt(document.getElementById('inMarks').value);
+      const city = document.getElementById('inCity').value.trim();
+
+      if (students.some(s => s.rollno === rollno)) {
+        alert("Roll number " + rollno + " already exists in collection!");
+        return;
+      }
+
+      const newDoc = {
+        _id: "ObjectId('" + Math.random().toString(16).substring(2, 10) + "')",
+        rollno,
+        name,
+        department: dept,
+        year,
+        marks,
+        city
+      };
+
+      students.push(newDoc);
+      saveState();
+      renderTable(students);
+
+      logShell(`db.students.insertOne(${JSON.stringify(newDoc, null, 2)})`, {
+        acknowledged: true,
+        insertedId: newDoc._id
+      });
+
+      e.target.reset();
+    }
+
+    function incMarks(rollno) {
+      const student = students.find(s => s.rollno === rollno);
+      if (student) {
+        student.marks = Math.min(100, student.marks + 5);
+        saveState();
+        renderTable(students);
+        logShell(`db.students.updateOne({ rollno: ${rollno} }, { $inc: { marks: 5 } })`, {
+          acknowledged: true,
+          matchedCount: 1,
+          modifiedCount: 1
+        });
+      }
+    }
+
+    function updateMarksPrompt(rollno) {
+      const student = students.find(s => s.rollno === rollno);
+      if (student) {
+        const val = prompt(`Update marks for ${student.name} (Roll: ${rollno}):`, student.marks);
+        if (val !== null && !isNaN(val)) {
+          student.marks = parseInt(val);
+          saveState();
+          renderTable(students);
+          logShell(`db.students.updateOne({ rollno: ${rollno} }, { $set: { marks: ${student.marks} } })`, {
+            acknowledged: true,
+            matchedCount: 1,
+            modifiedCount: 1
+          });
+        }
+      }
+    }
+
+    function deleteStudent(rollno) {
+      if (confirm(`Execute db.students.deleteOne({ rollno: ${rollno} })?`)) {
+        students = students.filter(s => s.rollno !== rollno);
+        saveState();
+        renderTable(students);
+        logShell(`db.students.deleteOne({ rollno: ${rollno} })`, {
+          acknowledged: true,
+          deletedCount: 1
+        });
+      }
+    }
+
+    function handleCustomCommand(e) {
+      e.preventDefault();
+      const raw = document.getElementById('customInput').value.trim();
+      if (!raw) return;
+
+      if (raw.includes("find")) {
+        if (raw.includes("CSE")) runFilterCSE();
+        else if (raw.includes("gt")) runMarksGt80();
+        else runFindAll();
+      } else if (raw.includes("count")) {
+        runCountCSE();
+      } else if (raw.includes("aggregate")) {
+        runAvgMarksDept();
+      } else {
+        logShell(raw, students);
+      }
+      document.getElementById('customInput').value = '';
+    }
+
+    // Initial load
+    renderTable(students);
+    runFindAll();
+  </script>
+</body>
+</html>
